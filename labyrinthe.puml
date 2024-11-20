@@ -9,14 +9,18 @@ package model
     {
         - tour : Integer
 
+        + <<create>> Partie()
         + lancerPartie()
         - tourDeJeu()
+        + tourneTuile()
+        + placementTuile(dir : Direction, ligne : Integer)
+        + deplacementJoueur(dir : Direction)
     }
+    Partie ..> Direction : <<uses>>
 
     class Plateau
     {
         + <<create>> Plateau()
-
         + placementTuile(tuile : Tuile, dir : Direction, ligne : Integer) : Tuile
         + getJoueurSuivant(joueur : Joueur) : Joueur
         + finTour(joueur : Joueur)
@@ -40,6 +44,7 @@ package model
 
         # <<create>> Tuile(ouvertures : Direction[])
         + deplacementEstValide(dest : Tuile, dir : Direction) : Boolean
+        + rotation()
         - estOuvert(dir : Directions) : Boolean
         + {abstract} action(joueur : Joueur)
     }
@@ -81,6 +86,7 @@ package model
         - m_y : Integer
         - m_aFini : boolean
 
+        + <<create>> Joueur()
         + getPosition() : Integer[2]
         + getObjectif() : Tresor
         + deplacement(dir : Direction)
