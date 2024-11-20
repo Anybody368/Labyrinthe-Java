@@ -7,12 +7,28 @@ package model
 {
     class Partie
     {
+        - tour : Integer
 
+        + lancerPartie()
+        - tourDeJeu()
     }
 
     class Plateau
     {
+        + <<create>> Plateau()
 
+        + placementTuile(tuile : Tuile, dir : Direction, ligne : Integer) : Tuile
+        + getJoueurSuivant(joueur : Joueur) : Joueur
+        + finTour(joueur : Joueur)
+    }
+    Plateau ..> Direction : <<uses>>
+
+    enum Direction
+    {
+        NORD
+        EST
+        SUD
+        OUEST
     }
 
     abstract class Tuile
@@ -22,41 +38,88 @@ package model
         - m_sud : Boolean
         - m_ouest : Boolean
 
+        # <<create>> Tuile(ouvertures : Direction[])
+        + deplacementEstValide(dest : Tuile, dir : Direction) : Boolean
         - estOuvert(dir : Directions) : Boolean
-        + deplacementEstValide(dest : Tuile, dir : Directions) : Boolean
+        + {abstract} action(joueur : Joueur)
     }
-
-    enum Directions
-    {
-
-    }
+    Tuile ..> Direction : <<uses>>
+    Tuile ..> Joueur : <<uses>>
 
     class TuileDefault
     {
-
+        + <<create>> TuileDefault(ouvertures : Direction[])
+        + action(joueur : Joueur)
     }
+    /'
+    TuileDefault ..> Direction : <<uses>>
+    TuileDefault ..> Joueur : <<uses>>'/
 
     class TuileDepart
     {
-
+        + <<create>> TuileDepart(ouvertures : Direction[], joueur : Joueur)
+        + action(joueur : Joueur)
     }
+    /'
+    TuileDepart ..> Direction : <<uses>>
+    TuileDepart ..> Joueur : <<uses>> '/
 
     class TuileTresor
     {
-
+        + <<create>> TuileTresor(ouvertures : Direction[], tresor : Tresor)
+        + action(joueur : Joueur)
     }
+    /'
+    TuileTresor ..> Direction : <<uses>>
+    TuileTresor ..> Joueur : <<uses>>
+    TuileTresor ..> Tresor : <<uses>>'/
 
     class Joueur
     {
+        - m_nom : String
         - m_x : Integer
         - m_y : Integer
+        - m_aFini : boolean
 
-        + getPosition() :
+        + getPosition() : Integer[2]
+        + getObjectif() : Tresor
+        + deplacement(dir : Direction)
+        + validerObjectif(tresor : Tresor)
+        + caseDepart()
     }
+    Joueur ..> Direction : <<uses>>
+    'Joueur ..> Tresor : <<uses>>
 
     enum Tresor
     {
+        COFFRE
+        CHOUETTE
+        FANTOME
+        BAGUE
+        CHANDELIER
+        LEZARD
+        EPEE
+        CAUVE_SOURIS
+        RAT
+        CARTE
+        PRINCESSE
+        DRAGON
+        CRANE
+        CLES
+        GNOME
+        COURONNE
+        SCARABE
+        SAC
+        LIVRE
+        COLLIER
+        ARRAIGNEE
+        DIAMANT
+        ARMURE
+        PAPILLON
 
+        - <<create>> Tresor(nom : String)
+        - m_nom
+        + getNom() : String
     }
 }
 
@@ -75,7 +138,8 @@ TuileTresor .u..|> Tuile
 TuileDepart .u..|> Tuile
 
 Partie "1" *---> "1\n - m_plateau" Plateau : possède
-Partie "1" *---> "50\n - m_tuiles" Tuile : utilise
+Partie "1" *---> "1\n - m_tuileRab" Tuile : a en réserve
+Partie "1" o---> "1\n - m_joueurEnCours" Joueur : au tour de
 
 Plateau "1" o---> "49\n - m_tuiles" Tuile : est composé de
 Plateau "1" *---> "4\n - m_joueurs" Joueur : est parcouru par
