@@ -1,0 +1,88 @@
+@startuml
+'https://plantuml.com/class-diagram
+
+class Main
+
+package model
+{
+    class Partie
+    {
+
+    }
+
+    class Plateau
+    {
+
+    }
+
+    abstract class Tuile
+    {
+        - m_nord : Boolean
+        - m_est : Boolean
+        - m_sud : Boolean
+        - m_ouest : Boolean
+
+        - estOuvert(dir : Directions) : Boolean
+        + deplacementEstValide(dest : Tuile, dir : Directions) : Boolean
+    }
+
+    enum Directions
+    {
+
+    }
+
+    class TuileDefault
+    {
+
+    }
+
+    class TuileDepart
+    {
+
+    }
+
+    class TuileTresor
+    {
+
+    }
+
+    class Joueur
+    {
+        - m_x : Integer
+        - m_y : Integer
+
+        + getPosition() :
+    }
+
+    enum Tresor
+    {
+
+    }
+}
+
+package view
+{
+
+}
+
+package controller
+{
+
+}
+
+TuileDefault .u..|> Tuile
+TuileTresor .u..|> Tuile
+TuileDepart .u..|> Tuile
+
+Partie "1" *---> "1\n - m_plateau" Plateau : possède
+Partie "1" *---> "50\n - m_tuiles" Tuile : utilise
+
+Plateau "1" o---> "49\n - m_tuiles" Tuile : est composé de
+Plateau "1" *---> "4\n - m_joueurs" Joueur : est parcouru par
+
+TuileTresor "1" *---> "1\n - m_tresor" Tresor : possede
+TuileDepart "1" o-l--> "1\n - m_joueur" Joueur : Spawn sur
+
+Joueur "1" *---> "6\n - m_objectif" Tresor : doit atteindre
+
+@enduml

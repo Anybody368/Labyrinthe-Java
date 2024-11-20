@@ -108,7 +108,7 @@ L'écran principal doit afficher :
 - Pousser une ligne ou colonne avec la tuile supplémentaire
 - Se déplacer de case en case sur les tuiles voisines où le déplacement est possible.
 
-Vous avez à votre disposition le fichier [`ImageHelper.java`](helpers/ImageHelper.java) pour manipuler les images, notamment :
+Vous avez à votre disposition le fichier [`ImageHelper.java`](src/helpers/ImageHelper.java) pour manipuler les images, notamment :
 
 - combiner plusieurs images en une seule
 - appliquer une rotation de 90 degrés à une image
