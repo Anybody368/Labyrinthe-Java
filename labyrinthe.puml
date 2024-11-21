@@ -2,10 +2,16 @@
 'https://plantuml.com/class-diagram
 
 class Main
+{
+    + main(String[] args)
+}
+Main ..> Partie : <<uses>>
+Main ..> Controller : <<uses>>
+Main ..> AffichagePartie : <<uses>>
 
 package model
 {
-    class Partie
+    class Partie implements ObserverJoueur
     {
         - tour : Integer
 
@@ -25,12 +31,14 @@ package model
         + <<create>> Plateau()
         + placementTuile(tuile : Tuile, dir : Direction, ligne : Integer) : Tuile
         + getJoueurSuivant(joueur : Joueur) : Joueur
+        + getPositionsJoueurs() : Integer[]
         + finTour(joueur : Joueur)
 
         - notifyDisposition()
         - notifyRecupTresor()
     }
     Plateau ..> Direction : <<uses>>
+    Plateau ..> TuileFactory : <<uses>>
 
     enum Direction
     {
@@ -67,7 +75,7 @@ package model
     Tuile ..> Direction : <<uses>>
     Tuile ..> Joueur : <<uses>>
 
-    class TuileDefault
+    class TuileDefault extends Tuile
     {
         + <<create>> TuileDefault(ouvertures : Direction[])
         + action(joueur : Joueur)
@@ -76,7 +84,7 @@ package model
     TuileDefault ..> Direction : <<uses>>
     TuileDefault ..> Joueur : <<uses>>'/
 
-    class TuileDepart
+    class TuileDepart extends Tuile
     {
         + <<create>> TuileDepart(ouvertures : Direction[], joueur : Joueur)
         + action(joueur : Joueur)
@@ -85,7 +93,7 @@ package model
     TuileDepart ..> Direction : <<uses>>
     TuileDepart ..> Joueur : <<uses>> '/
 
-    class TuileTresor
+    class TuileTresor extends Tuile
     {
         + <<create>> TuileTresor(ouvertures : Direction[], tresor : Tresor)
         + action(joueur : Joueur)
@@ -165,22 +173,25 @@ package model
     interface ObserverPartie
     {
         + {abstract} updateRotation()
+        + {abstract} updatePositions()
     }
 }
 
 package view
 {
+    class AffichagePartie implements ObserverPartie, ObserverPlateau
+    {
 
+    }
 }
 
 package controller
 {
+    class Controller
+    {
 
+    }
 }
-
-TuileDefault .u..|> Tuile
-TuileTresor .u..|> Tuile
-TuileDepart .u..|> Tuile
 
 Partie "1" *---> "1\n - m_plateau" Plateau : possède
 Partie "1" *---> "1\n - m_tuileRab" Tuile : a en réserve
@@ -194,7 +205,7 @@ Plateau "1" o---> "*\n - m_observeurs" ObserverPlateau : est observé par
 TuileTresor "1" *---> "1\n - m_tresor" Tresor : possede
 TuileDepart "1" o---> "1\n - m_joueur" Joueur : Spawn sur
 
-Joueur "1" *---> "6\n - m_objectif" Tresor : doit atteindre
+Joueur "1" *---> "0..6\n - m_objectif" Tresor : doit atteindre
 Joueur "1" o---> "*\n - m_observeurs" ObserverJoueur : est observé par
 
 @enduml
