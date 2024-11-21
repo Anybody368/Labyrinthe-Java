@@ -15,6 +15,8 @@ package model
         + tourneTuile()
         + placementTuile(dir : Direction, ligne : Integer)
         + deplacementJoueur(dir : Direction)
+
+        - notifyRotation()
     }
     Partie ..> Direction : <<uses>>
 
@@ -24,6 +26,9 @@ package model
         + placementTuile(tuile : Tuile, dir : Direction, ligne : Integer) : Tuile
         + getJoueurSuivant(joueur : Joueur) : Joueur
         + finTour(joueur : Joueur)
+
+        - notifyDisposition()
+        - notifyRecupTresor()
     }
     Plateau ..> Direction : <<uses>>
 
@@ -34,6 +39,17 @@ package model
         SUD
         OUEST
     }
+
+    class TuileFactory
+    {
+        + {static} makeTuileDefault(dirs : Direction[]) : TuileDefault
+        + {static} makeTuileTresor(dirs : Direction[], tresor : Tresor) : TuileTresor
+        + {static} makeTuileBase(dirs : Direction[], joueur : Joueur) : TuileBase
+    }
+    TuileFactory ..> TuileDefault : <<uses>>
+    TuileFactory ..> TuileTresor : <<uses>>
+    TuileFactory ..> TuileDepart : <<uses>>
+    TuileFactory ..> Direction : <<uses>>
 
     abstract class Tuile
     {
@@ -82,16 +98,21 @@ package model
     class Joueur
     {
         - m_nom : String
+        - m_couleur : Color
         - m_x : Integer
         - m_y : Integer
         - m_aFini : boolean
 
         + <<create>> Joueur()
-        + getPosition() : Integer[2]
+        + getPosition() : Integer[]
         + getObjectif() : Tresor
         + deplacement(dir : Direction)
         + validerObjectif(tresor : Tresor)
         + caseDepart()
+
+        - notifyPosition()
+        - notifyTresorSuivant()
+        - notifyVictoire()
     }
     Joueur ..> Direction : <<uses>>
     'Joueur ..> Tresor : <<uses>>
@@ -127,6 +148,24 @@ package model
         - m_nom
         + getNom() : String
     }
+
+    interface ObserverJoueur
+    {
+        + {abstract} updatePosition(x : Integer, y : Integer)
+        + {abstract} updateTresorSuivant(tresor : Tresor, tRestans : Integer)
+        + {abstract} updateVictoire(nom : String)
+    }
+
+    interface ObserverPlateau
+    {
+        + {abstract} updateDisposition(tuiles : Tuile[])
+        + {abstract} updateRecupTresor(x : Integer, y : Integer)
+    }
+
+    interface ObserverPartie
+    {
+        + {abstract} updateRotation()
+    }
 }
 
 package view
@@ -146,13 +185,16 @@ TuileDepart .u..|> Tuile
 Partie "1" *---> "1\n - m_plateau" Plateau : possède
 Partie "1" *---> "1\n - m_tuileRab" Tuile : a en réserve
 Partie "1" o---> "1\n - m_joueurEnCours" Joueur : au tour de
+Partie "1" o---> "*\n - m_observeurs" ObserverPartie : est observé par
 
 Plateau "1" o---> "49\n - m_tuiles" Tuile : est composé de
 Plateau "1" *---> "4\n - m_joueurs" Joueur : est parcouru par
+Plateau "1" o---> "*\n - m_observeurs" ObserverPlateau : est observé par
 
 TuileTresor "1" *---> "1\n - m_tresor" Tresor : possede
-TuileDepart "1" o-l--> "1\n - m_joueur" Joueur : Spawn sur
+TuileDepart "1" o---> "1\n - m_joueur" Joueur : Spawn sur
 
 Joueur "1" *---> "6\n - m_objectif" Tresor : doit atteindre
+Joueur "1" o---> "*\n - m_observeurs" ObserverJoueur : est observé par
 
 @enduml
