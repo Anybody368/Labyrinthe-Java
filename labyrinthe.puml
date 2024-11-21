@@ -5,9 +5,6 @@ class Main
 {
     + main(String[] args)
 }
-Main ..> Partie : <<uses>>
-Main ..> Controller : <<uses>>
-Main ..> AffichagePartie : <<uses>>
 
 package model
 {
@@ -24,7 +21,6 @@ package model
 
         - notifyRotation()
     }
-    Partie ..> Direction : <<uses>>
 
     class Plateau
     {
@@ -37,8 +33,6 @@ package model
         - notifyDisposition()
         - notifyRecupTresor()
     }
-    Plateau ..> Direction : <<uses>>
-    Plateau ..> TuileFactory : <<uses>>
 
     enum Direction
     {
@@ -54,10 +48,6 @@ package model
         + {static} makeTuileTresor(dirs : Direction[], tresor : Tresor) : TuileTresor
         + {static} makeTuileBase(dirs : Direction[], joueur : Joueur) : TuileBase
     }
-    TuileFactory ..> TuileDefault : <<uses>>
-    TuileFactory ..> TuileTresor : <<uses>>
-    TuileFactory ..> TuileDepart : <<uses>>
-    TuileFactory ..> Direction : <<uses>>
 
     abstract class Tuile
     {
@@ -72,8 +62,6 @@ package model
         - estOuvert(dir : Directions) : Boolean
         + {abstract} action(joueur : Joueur)
     }
-    Tuile ..> Direction : <<uses>>
-    Tuile ..> Joueur : <<uses>>
 
     class TuileDefault extends Tuile
     {
@@ -122,8 +110,6 @@ package model
         - notifyTresorSuivant()
         - notifyVictoire()
     }
-    Joueur ..> Direction : <<uses>>
-    'Joueur ..> Tresor : <<uses>>
 
     enum Tresor
     {
@@ -192,6 +178,21 @@ package controller
 
     }
 }
+
+Main ..> Partie : <<uses>>
+Main ..> Controller : <<uses>>
+Main ..> AffichagePartie : <<uses>>
+Joueur ..> Direction : <<uses>>
+'Joueur ..> Tresor : <<uses>>
+Tuile ..> Direction : <<uses>>
+Tuile ..> Joueur : <<uses>>
+TuileFactory ..> TuileDefault : <<uses>>
+TuileFactory ..> TuileTresor : <<uses>>
+TuileFactory ..> TuileDepart : <<uses>>
+TuileFactory ..> Direction : <<uses>>
+Plateau ..> Direction : <<uses>>
+Plateau ..> TuileFactory : <<uses>>
+Partie ..> Direction : <<uses>>
 
 Partie "1" *---> "1\n - m_plateau" Plateau : possède
 Partie "1" *---> "1\n - m_tuileRab" Tuile : a en réserve
