@@ -13,24 +13,29 @@ package model
         - tour : Integer
 
         + <<create>> Partie()
+        + addObserver(observeur : ObserverPartie)
         + lancerPartie()
         - tourDeJeu()
         + tourneTuile()
-        + placementTuile(dir : Direction, ligne : Integer)
         + deplacementJoueur(dir : Direction)
 
         - notifyRotation()
+        - notifyPositions()
     }
 
     class Plateau
     {
         + <<create>> Plateau()
+        + addObserver(observeur : ObserverPlateau)
         + placementTuile(tuile : Tuile, dir : Direction, ligne : Integer) : Tuile
         + getJoueurSuivant(joueur : Joueur) : Joueur
         + getPositionsJoueurs() : Integer[]
         + finTour(joueur : Joueur)
+        + updatePosition(x : Integer, y : Integer)
+        + updateTresorSuivant(tresor : Tresor, tRestans : Integer)
+        + updateVictoire(nom : String)
 
-        - notifyDisposition()
+        - notifyDisposition(dir : Direction, ligne : Integer)
         - notifyRecupTresor()
     }
 
@@ -49,47 +54,50 @@ package model
         + {static} makeTuileBase(dirs : Direction[], joueur : Joueur) : TuileBase
     }
 
-    abstract class Tuile
+    package tuiles
     {
-        - m_nord : Boolean
-        - m_est : Boolean
-        - m_sud : Boolean
-        - m_ouest : Boolean
+        abstract class Tuile
+        {
+            - m_nord : Boolean
+            - m_est : Boolean
+            - m_sud : Boolean
+            - m_ouest : Boolean
 
-        # <<create>> Tuile(ouvertures : Direction[])
-        + deplacementEstValide(dest : Tuile, dir : Direction) : Boolean
-        + rotation()
-        - estOuvert(dir : Directions) : Boolean
-        + {abstract} action(joueur : Joueur)
-    }
+            # <<create>> Tuile(ouvertures : Direction[])
+            + deplacementEstValide(dest : Tuile, dir : Direction) : Boolean
+            + rotation()
+            - estOuvert(dir : Directions) : Boolean
+            + {abstract} action(joueur : Joueur)
+        }
 
-    class TuileDefault extends Tuile
-    {
-        + <<create>> TuileDefault(ouvertures : Direction[])
-        + action(joueur : Joueur)
-    }
-    /'
-    TuileDefault ..> Direction : <<uses>>
-    TuileDefault ..> Joueur : <<uses>>'/
+        class TuileDefault extends Tuile
+        {
+            + <<create>> TuileDefault(ouvertures : Direction[])
+            + action(joueur : Joueur)
+        }
+        /'
+        TuileDefault ..> Direction : <<uses>>
+        TuileDefault ..> Joueur : <<uses>>'/
 
-    class TuileDepart extends Tuile
-    {
-        + <<create>> TuileDepart(ouvertures : Direction[], joueur : Joueur)
-        + action(joueur : Joueur)
-    }
-    /'
-    TuileDepart ..> Direction : <<uses>>
-    TuileDepart ..> Joueur : <<uses>> '/
+        class TuileDepart extends Tuile
+        {
+            + <<create>> TuileDepart(ouvertures : Direction[], joueur : Joueur)
+            + action(joueur : Joueur)
+        }
+        /'
+        TuileDepart ..> Direction : <<uses>>
+        TuileDepart ..> Joueur : <<uses>> '/
 
-    class TuileTresor extends Tuile
-    {
-        + <<create>> TuileTresor(ouvertures : Direction[], tresor : Tresor)
-        + action(joueur : Joueur)
+        class TuileTresor extends Tuile
+        {
+            + <<create>> TuileTresor(ouvertures : Direction[], tresor : Tresor)
+            + action(joueur : Joueur)
+        }
+        /'
+        TuileTresor ..> Direction : <<uses>>
+        TuileTresor ..> Joueur : <<uses>>
+        TuileTresor ..> Tresor : <<uses>>'/
     }
-    /'
-    TuileTresor ..> Direction : <<uses>>
-    TuileTresor ..> Joueur : <<uses>>
-    TuileTresor ..> Tresor : <<uses>>'/
 
     class Joueur
     {
@@ -97,14 +105,16 @@ package model
         - m_couleur : Color
         - m_x : Integer
         - m_y : Integer
-        - m_aFini : boolean
+        - m_avancementObj : Integer
 
-        + <<create>> Joueur()
+        + <<create>> Joueur(nom : String, couleur : Color, x : Integer, y : Integer, objectifs : Tresor[])
+        + addObserver(observeur : ObserverJoueur)
         + getPosition() : Integer[]
         + getObjectif() : Tresor
         + deplacement(dir : Direction)
         + validerObjectif(tresor : Tresor)
         + caseDepart()
+        - aFini() : Boolean
 
         - notifyPosition()
         - notifyTresorSuivant()
@@ -143,23 +153,26 @@ package model
         + getNom() : String
     }
 
-    interface ObserverJoueur
+    package observers
     {
-        + {abstract} updatePosition(x : Integer, y : Integer)
-        + {abstract} updateTresorSuivant(tresor : Tresor, tRestans : Integer)
-        + {abstract} updateVictoire(nom : String)
-    }
+        interface ObserverJoueur
+        {
+            + {abstract} updatePosition(x : Integer, y : Integer)
+            + {abstract} updateTresorSuivant(tresor : Tresor, tRestans : Integer)
+            + {abstract} updateVictoire(nom : String)
+        }
 
-    interface ObserverPlateau
-    {
-        + {abstract} updateDisposition(tuiles : Tuile[])
-        + {abstract} updateRecupTresor(x : Integer, y : Integer)
-    }
+        interface ObserverPlateau
+        {
+            + {abstract} updateDisposition(tuiles : Tuile[])
+            + {abstract} updateRecupTresor(x : Integer, y : Integer)
+        }
 
-    interface ObserverPartie
-    {
-        + {abstract} updateRotation()
-        + {abstract} updatePositions()
+        interface ObserverPartie
+        {
+            + {abstract} updateRotation()
+            + {abstract} updatePositions()
+        }
     }
 }
 
@@ -206,7 +219,7 @@ Plateau "1" o---> "*\n - m_observeurs" ObserverPlateau : est observé par
 TuileTresor "1" *---> "1\n - m_tresor" Tresor : possede
 TuileDepart "1" o---> "1\n - m_joueur" Joueur : Spawn sur
 
-Joueur "1" *---> "0..6\n - m_objectif" Tresor : doit atteindre
+Joueur "1" *---> "0..6\n - m_objectifs" Tresor : doit atteindre
 Joueur "1" o---> "*\n - m_observeurs" ObserverJoueur : est observé par
 
 @enduml

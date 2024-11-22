@@ -1,4 +1,6 @@
-package Model;
+package model.tuiles;
+
+import model.Direction;
 
 public class TuileDefault extends Tuile {
 
@@ -7,4 +9,8 @@ public class TuileDefault extends Tuile {
         super(dirs);
     }
 
+    @Override
+    public void action() {
+
+    }
 }

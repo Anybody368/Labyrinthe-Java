@@ -1,4 +1,4 @@
-package Model;
+package model.observers;
 
 public interface ObserverPlateau {
 }
