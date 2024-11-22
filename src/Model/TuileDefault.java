@@ -1,4 +1,10 @@
 package Model;
 
-public class TuileDefault {
+public class TuileDefault extends Tuile {
+
+    public TuileDefault(Direction[] dirs) {
+
+        super(dirs);
+    }
+
 }
