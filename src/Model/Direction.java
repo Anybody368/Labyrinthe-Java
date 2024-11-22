@@ -2,6 +2,6 @@ package Model;
 
 public enum Direction {
 
-    NORTH, EAST, SOUTH, WEST;
+    NORD, EST, SUD, OUEST   ;
 
 }
