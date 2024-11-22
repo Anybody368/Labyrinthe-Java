@@ -9,7 +9,7 @@ public enum Tresor {
     CHANDELIER,
     LEZARD,
     EPEE,
-    CAUVE_SOURIS,
+    CHAUVE_SOURIS,
     RAT,
     CARTE,
     PRINCESSE,
