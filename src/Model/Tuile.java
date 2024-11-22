@@ -2,20 +2,23 @@ package Model;
 
 public abstract class Tuile {
 
-private boolean m_nord;
-private boolean m_sud;
-private boolean m_east;
-private boolean m_ouest;
+private boolean m_nord = false;
+private boolean m_sud = false;
+private boolean m_est = false;
+private boolean m_ouest = false;
 
-    private boolean[] directions;
+    public Tuile(Direction[] dirs) {
 
-    public Tuile() {
-
-        directions = new boolean[Direction.values().length];
-        directions[Direction.NORD.ordinal()] = nord;
-        directions[Direction.SUD.ordinal()] = sud;
-        directions[Direction.EST.ordinal()] = est;
-        directions[Direction.OUEST.ordinal()] = ouest;
+        for(Direction dir : dirs)
+        {
+            switch (dir)
+            {
+                case EST -> m_est = true;
+                case NORD -> m_nord = true;
+                case SUD -> m_sud = true;
+                case OUEST -> m_ouest = true;
+            }
+        }
     }
 
 
