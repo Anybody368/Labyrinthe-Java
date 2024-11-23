@@ -6,6 +6,12 @@ class Main
     + main(String[] args)
 }
 
+class Utilitaire
+{
+    + {static} getRandomDirections(n : Integer) : Direction[]
+    + {static} getRandomTreasureList() : ArrayList<Tresor>
+}
+
 package model
 {
     class Partie implements ObserverJoueur
@@ -31,7 +37,9 @@ package model
         + <<create>> Plateau()
         + addObserver(observeur : ObserverPlateau)
         + placementTuile(tuile : Tuile, dir : Direction, ligne : Integer) : Tuile
+        + deplacementPossible(x : Integer, y : Integer, dir : Direction) : Boolean
         + finTour(joueur : Joueur)
+        + getAllJoueurs() : Joueur[]
         + getJoueurSuivant(precedent : Joueur) : Joueur
         + getPositionsJoueurs() : Integer[][]
         - creationJoueurs()
@@ -208,6 +216,7 @@ TuileFactory ..> Direction : <<uses>>
 Plateau ..> Direction : <<uses>>
 Plateau ..> TuileFactory : <<uses>>
 Partie ..> Direction : <<uses>>
+Partie ..> Utilitaire : <<uses>>
 
 Partie "1" *---> "1\n - m_plateau" Plateau : possède
 Partie "1" *---> "1\n - m_tuileRab" Tuile : a en réserve

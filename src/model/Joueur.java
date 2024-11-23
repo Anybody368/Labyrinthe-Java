@@ -70,6 +70,7 @@ private ArrayList<ObserverJoueur> m_observeurs = new ArrayList<>();
      */
     public void deplacement(Direction dir){
 
+        //Peut être simplifié si tout se passe comme prévu avant
         switch (dir)
         {
             case NORD -> m_y = (m_y+TAILLE_PLATEAU-1)%TAILLE_PLATEAU;

@@ -85,6 +85,46 @@ public class Plateau {
     }
 
     /**
+     * Vérifie si un déplacement est possible entre deux cases du plateau à partir des coordonnées initiales et de la direction
+     * @param x : Colonne de départ
+     * @param y : Ligne de départ
+     * @param dir : Direction du déplacement voulu
+     * @return false si déplacement en dehors des limites du tableau ou si bloqué, true sinon
+     */
+    public boolean deplacementPossible(int x, int y, Direction dir)
+    {
+        Tuile destination = null;
+        switch (dir) {
+            case NORD:
+                if (x > 0) {
+                    destination = m_tuiles[x][y - 1];
+                }
+                break;
+            case EST:
+                if (y < TAILLE_PLATEAU - 1) {
+                    destination = m_tuiles[x + 1][y];
+                }
+                break;
+            case SUD:
+                if (x < TAILLE_PLATEAU - 1) {
+                    destination = m_tuiles[x][y + 1];
+                }
+                break;
+            case OUEST:
+                if (y > 0) {
+                    destination = m_tuiles[x - 1][y];
+                }
+                break;
+        }
+
+        if(destination == null)
+        {
+            return false;
+        }
+        return m_tuiles[x][y].deplacementEstvalide(destination, dir);
+    }
+
+    /**
      * Méthode à appeler quand le joueur courant termine son tour, afin de vérifier si la case sur laquelle il se trouve produit un effet spécial
      * @param joueur : Joueur dont le tour est fini
      */
