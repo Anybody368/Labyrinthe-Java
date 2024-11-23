@@ -18,6 +18,9 @@ package model
         - tourDeJeu()
         + tourneTuile()
         + deplacementJoueur(dir : Direction)
+        + updatePosition(x : Integer, y : Integer)
+        + updateTresorSuivant(tresor : Tresor, tRestans : Integer)
+        + updateVictoire(nom : String)
 
         - notifyRotation()
         - notifyPositions()
@@ -28,12 +31,11 @@ package model
         + <<create>> Plateau()
         + addObserver(observeur : ObserverPlateau)
         + placementTuile(tuile : Tuile, dir : Direction, ligne : Integer) : Tuile
-        + getJoueurSuivant(joueur : Joueur) : Joueur
-        + getPositionsJoueurs() : Integer[]
         + finTour(joueur : Joueur)
-        + updatePosition(x : Integer, y : Integer)
-        + updateTresorSuivant(tresor : Tresor, tRestans : Integer)
-        + updateVictoire(nom : String)
+        + getJoueurSuivant(precedent : Joueur) : Joueur
+        + getPositionsJoueurs() : Integer[][]
+        - creationJoueurs()
+        - repatitionTresors(tresors : Tresor[], numJ : Integer) : Tresor[]
 
         - notifyDisposition(dir : Direction, ligne : Integer)
         - notifyRecupTresor()
