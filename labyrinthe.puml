@@ -6,12 +6,6 @@ class Main
     + main(String[] args)
 }
 
-class Utilitaire
-{
-    + {static} getRandomDirections(n : Integer) : Direction[]
-    + {static} getRandomTreasureList() : ArrayList<Tresor>
-}
-
 package model
 {
     class Partie implements ObserverJoueur
@@ -27,9 +21,23 @@ package model
         + updatePosition(x : Integer, y : Integer)
         + updateTresorSuivant(tresor : Tresor, tRestans : Integer)
         + updateVictoire(nom : String)
+        + toString() : String
 
         - notifyRotation()
         - notifyPositions()
+    }
+
+    class FacadeGeneration
+    {
+        - {static} m_tuileRabStockee
+        + {static} creationJoueurs() : Joueur[]
+        + {static} genererTuiles(joueurs : Joueur[]) : Tuile[][]
+        - {static} genererTuilesFixes(joueurs : Joueur[], tresors : ArrayList<Tresor>) : ArrayList:Tuile
+        - {static} genererTuilesAmovibles(tresors : ArrayList<Tresor>) : ArrayList:Tuile
+        - {static} genererTableauTuiles(fixes : ArrayList<Tuile>, amovibles : ArrayList<Tuile>) : Tuile[][]
+        - {static} colonneAmovible(amovibles : ArrayList<Tresor) : Tuile[]
+        - {static} colonneFixe(fixes : ArrayList<Tresor>) : Tuile[]
+        + {static} getTuileRab() : Tuile
     }
 
     class Plateau
@@ -44,6 +52,7 @@ package model
         + getPositionsJoueurs() : Integer[][]
         - creationJoueurs()
         - repatitionTresors(tresors : Tresor[], numJ : Integer) : Tresor[]
+        + toString() : String
 
         - notifyDisposition(dir : Direction, ligne : Integer)
         - notifyRecupTresor()
@@ -59,9 +68,10 @@ package model
 
     class TuileFactory
     {
-        + {static} makeTuileDefault(dirs : Direction[]) : TuileDefault
-        + {static} makeTuileTresor(dirs : Direction[], tresor : Tresor) : TuileTresor
-        + {static} makeTuileBase(dirs : Direction[], joueur : Joueur) : TuileBase
+        + {static} makeTuileDefault(dir : Direction, mode : Integer) : TuileDefault
+        + {static} makeTuileTresor(dir : Direction, mode : Integer, tresor : Tresor) : TuileTresor
+        + {static} makeTuileBase(dir : Direction, mode : Integer, joueur : Joueur) : TuileBase
+        - {static} getDirections(dir : Direction, mode : Integet) : Direction[]
     }
 
     package tuiles
@@ -78,12 +88,14 @@ package model
             + rotation()
             - estOuvert(dir : Directions) : Boolean
             + {abstract} action(joueur : Joueur)
+            + toString() : String
         }
 
         class TuileDefault extends Tuile
         {
             + <<create>> TuileDefault(ouvertures : Direction[])
             + action(joueur : Joueur)
+            + toString() : String
         }
         /'
         TuileDefault ..> Direction : <<uses>>
@@ -93,6 +105,7 @@ package model
         {
             + <<create>> TuileDepart(ouvertures : Direction[], joueur : Joueur)
             + action(joueur : Joueur)
+            + toString() : String
         }
         /'
         TuileDepart ..> Direction : <<uses>>
@@ -102,6 +115,7 @@ package model
         {
             + <<create>> TuileTresor(ouvertures : Direction[], tresor : Tresor)
             + action(joueur : Joueur)
+            + toString() : String
         }
         /'
         TuileTresor ..> Direction : <<uses>>
@@ -125,6 +139,7 @@ package model
         + validerObjectif(tresor : Tresor)
         + caseDepart()
         - aFini() : Boolean
+        + toString() : String
 
         - notifyPosition()
         - notifyTresorSuivant()
@@ -161,6 +176,7 @@ package model
         - <<create>> Tresor(nom : String)
         - m_nom
         + getNom() : String
+        + getRandomTreasureList() : ArrayList<Tresor>
     }
 
     package observers
@@ -216,12 +232,14 @@ TuileFactory ..> Direction : <<uses>>
 Plateau ..> Direction : <<uses>>
 Plateau ..> TuileFactory : <<uses>>
 Partie ..> Direction : <<uses>>
-Partie ..> Utilitaire : <<uses>>
+Partie ..> FacadeGeneration : <<uses>>
 
 Partie "1" *---> "1\n - m_plateau" Plateau : possède
 Partie "1" *---> "1\n - m_tuileRab" Tuile : a en réserve
 Partie "1" o---> "1\n - m_joueurEnCours" Joueur : au tour de
 Partie "1" o---> "*\n - m_observeurs" ObserverPartie : est observé par
+
+FacadeGeneration "1" o---> "1\n - {static} m_tuileRabStockee" Tuile : Garde de côté
 
 Plateau "1" o---> "49\n - m_tuiles" Tuile : est composé de
 Plateau "1" *---> "4\n - m_joueurs" Joueur : est parcouru par
