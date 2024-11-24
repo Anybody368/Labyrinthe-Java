@@ -17,4 +17,9 @@ public class TuileTresor extends Tuile {
     public void action() {
 
     }
+
+    @Override
+    public String toString() {
+        return "Trésor : " + m_tresor.getNom() + ", " + super.toString();
+    }
 }

@@ -41,6 +41,7 @@ public class Partie implements ObserverJoueur {
 
         Tuile[][] tuiles = FacadeGeneration.genererTuiles(joueurs);
         m_plateau = new Plateau(tuiles, joueurs);
+        m_tuileRab = FacadeGeneration.getTuileRab();
         m_joueurEnCours = m_plateau.getJoueurSuivant(null);
     }
 
@@ -113,5 +114,15 @@ public class Partie implements ObserverJoueur {
         {
             observeurs.updatePositions(xs, ys);
         }
+    }
+
+    @Override
+    public String toString() {
+
+        return "Tour " + m_tour + "\n" +
+                "Tour de " + m_joueurEnCours.getNom() + "\n" +
+                "Tuile en rab : " + m_tuileRab.toString() + "\n\n" +
+                m_plateau.toString() + "\n\n" +
+                "Gagant : " + m_gagnant;
     }
 }

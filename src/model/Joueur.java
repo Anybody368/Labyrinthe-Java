@@ -64,6 +64,15 @@ private ArrayList<ObserverJoueur> m_observeurs = new ArrayList<>();
     }
 
     /**
+     * Getter du nom du joueur
+     * @return String contenant le nom
+     */
+    public String getNom()
+    {
+        return m_nom;
+    }
+
+    /**
      * Permet de modifier les coordonnées du joueur de 1 dans la dir donnée, en bouclant pour ne pas sortir des limites du tableau
      * @param dir : Direction dans laquelle le joueur se déplace
      */
@@ -142,5 +151,11 @@ private ArrayList<ObserverJoueur> m_observeurs = new ArrayList<>();
         {
             obs.updateVictoire(m_nom);
         }
+    }
+
+    @Override
+    public String toString() {
+        return ("Joueur " + m_nom + " en " + m_couleur.toString() + ", tuile [" + m_x + ", " + m_y +
+                "]\nObjectif actuel : " + getObjectif().getNom() + "\nNombre de trésors restants : " + m_objectif.size());
     }
 }

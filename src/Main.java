@@ -6,6 +6,6 @@ public class Main {
 
     Partie jeu = new Partie();
     jeu.lancerPartie();
-
+    System.out.println(jeu);
     }
 }

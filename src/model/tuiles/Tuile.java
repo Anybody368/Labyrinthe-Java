@@ -77,4 +77,14 @@ public abstract class Tuile {
      */
     public abstract void action();
 
+    @Override
+    public String toString() {
+        StringBuilder string = new StringBuilder("Ouvertures : ");
+        if(m_nord) string.append("Nord ");
+        if(m_est) string.append("Est ");
+        if(m_sud) string.append("Sud ");
+        if(m_ouest) string.append("Ouest ");
+
+        return string.toString();
+    }
 }

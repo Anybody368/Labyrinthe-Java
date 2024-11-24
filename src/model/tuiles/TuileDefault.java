@@ -13,4 +13,9 @@ public class TuileDefault extends Tuile {
     public void action() {
 
     }
+
+    @Override
+    public String toString() {
+        return super.toString();
+    }
 }

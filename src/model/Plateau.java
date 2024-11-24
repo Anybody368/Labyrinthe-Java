@@ -202,4 +202,22 @@ public class Plateau {
     {
 
     }
+
+    @Override
+    public String toString() {
+        StringBuilder string = new StringBuilder("État du plateau :");
+        for (int i = 0; i < TAILLE_PLATEAU; i++) {
+            for (int j = 0; j < TAILLE_PLATEAU; j++) {
+                string.append("\nTuile [").append(i).append(", ").append(j).append("]").append(" : ").append(m_tuiles[i][j].toString());
+            }
+        }
+
+        string.append("\n");
+        for (Joueur j : m_joueurs)
+        {
+            string.append("\n").append(j.toString());
+        }
+
+        return string.toString();
+    }
 }

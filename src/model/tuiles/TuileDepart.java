@@ -17,4 +17,9 @@ public class TuileDepart extends Tuile {
     public void action() {
 
     }
+
+    @Override
+    public String toString() {
+        return "Tuile de " + m_joueur.getNom() + ", " + super.toString();
+    }
 }

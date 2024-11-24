@@ -13,6 +13,8 @@ import static model.tuiles.TuileFactory.*;
 // Compilation de méthodes statiques utiles pour la génération du tableau 2D des tuiles, ainsi que les joueurs
 public class FacadeGeneration {
 
+    private static Tuile m_tuileRabStockee = null;
+
     /**
      * Initialise le tableau de joueurs avec des nouveaux joueurs avec une liste de trésors fixe
      */
@@ -37,6 +39,7 @@ public class FacadeGeneration {
         ArrayList<Tuile> tuilesFixes = genererTuilesFixes(joueurs, tresors);
         ArrayList<Tuile> tuilesAmov = genererTuilesAmovibles(tresors);
 
+        m_tuileRabStockee = tuilesAmov.removeLast();
         return genererTableauTuiles(tuilesFixes, tuilesAmov);
     }
 
@@ -149,5 +152,10 @@ public class FacadeGeneration {
         }
         colonne[TAILLE_PLATEAU-1] = fixes.removeLast();
         return colonne;
+    }
+
+    public static Tuile getTuileRab()
+    {
+        return m_tuileRabStockee;
     }
 }
