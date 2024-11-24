@@ -7,33 +7,46 @@ import model.Tresor;
 public class TuileFactory {
     /**
      * Méthode pour créer une Tuile basique
-     * @param dirs : Tableau de directions représentant les côtés ouverts de la tuile
+     * @param dir : Première ouverture (sens horaire)
+     * @param mode : Format de la tuile : 1 = I, 2 = L, 3 = T
      * @return une nouvelle Tuile
      */
-    public static TuileDefault makeTuileDefaut(Direction[] dirs)
+    public static TuileDefault makeTuileDefaut(Direction dir, int mode)
     {
-        return new TuileDefault(dirs);
+        return new TuileDefault(getDirections(dir, mode));
     }
 
     /**
      * Méthode pour créer une Tuile ou commence un joueur
-     * @param dirs : Tableau de directions représentant les côtés ouverts de la tuile
-     * @param j : le Joueur qui va commencer sur cette case
+     * @param dir : Première ouverture (sens horaire)
+     * @param mode : Format de la tuile : 1 = I, 2 = L, 3 = T
      * @return une nouvelle Tuile de joueur
      */
-    public static TuileDepart makeTuileDepart(Direction[] dirs, Joueur j)
+    public static TuileDepart makeTuileDepart(Direction dir, int mode, Joueur j)
     {
-        return new TuileDepart(dirs, j);
+        return new TuileDepart(getDirections(dir, mode), j);
     }
 
     /**
      * Méthode pour créer une Tuile ou commence un joueur
-     * @param dirs : Tableau de directions représentant les côtés ouverts de la tuile
+     * @param dir : Première ouverture (sens horaire)
+     * @param mode : Format de la tuile : 1 = I, 2 = L, 3 = T
      * @param t : le Tresor qui va se trouver sur cette case
      * @return une nouvelle tuile avec un tresor
      */
-    public static TuileTresor makeTuileTresor(Direction[] dirs, Tresor t)
+    public static TuileTresor makeTuileTresor(Direction dir, int mode, Tresor t)
     {
-        return new TuileTresor(dirs, t);
+        return new TuileTresor(getDirections(dir, mode), t);
+    }
+
+    private static Direction[] getDirections(Direction dir, int mode)
+    {
+        return switch (mode)
+        {
+            case 1 -> new Direction[]{dir, dir.getOpposite()};
+            case 2 -> new Direction[]{dir, dir.getNext()};
+            case 3 -> new Direction[]{dir, dir.getNext(), dir.getOpposite()};
+            default -> throw new IllegalArgumentException("Le mode demandé est invalide");
+        };
     }
 }

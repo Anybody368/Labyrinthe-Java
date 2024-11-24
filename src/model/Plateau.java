@@ -21,10 +21,10 @@ public class Plateau {
      * Constructeur du plateau de jeu
      * @param tuiles : Tableau en 2D représentant la disposition des tuiles
      */
-    public Plateau(Tuile[][] tuiles)
+    public Plateau(Tuile[][] tuiles, Joueur[] joueurs)
     {
         m_tuiles = tuiles;
-        creationJoueurs();
+        m_joueurs = joueurs;
     }
 
     /**
@@ -168,32 +168,6 @@ public class Plateau {
             positions[i] = m_joueurs[i].getPosition();
         }
         return positions;
-    }
-
-    /**
-     * Initialise le tableau de joueurs avec des nouveaux joueurs avec une liste de trésors fixe
-     */
-    private void creationJoueurs()
-    {
-        Tresor[] tresors = Tresor.values();
-        m_joueurs[0] = new Joueur("J1", Color.RED, 0, 0, repartitionTresors(tresors, 0));
-        m_joueurs[1] = new Joueur("J2", Color.YELLOW, 0, TAILLE_PLATEAU-1, repartitionTresors(tresors, 1));
-        m_joueurs[2] = new Joueur("J3", Color.BLUE, TAILLE_PLATEAU-1, 0, repartitionTresors(tresors, 2));
-        m_joueurs[3] = new Joueur("J4", Color.GREEN, TAILLE_PLATEAU-1, TAILLE_PLATEAU-1, repartitionTresors(tresors, 3));
-    }
-
-    /**
-     * Retourne une section de la liste des Trésors existant pour créer les joueurs
-     * @param tresors : Liste complète des trésors
-     * @param numJ : index du joueur dans le tableau
-     * @return une sous liste des trésors, de taille variable en fonction du nombre de joueurs
-     */
-    private Tresor[] repartitionTresors(Tresor[] tresors, int numJ)
-    {
-        int nbr = tresors.length/NBR_JOUEURS;
-        Tresor[] liste = new Tresor[nbr];
-        System.arraycopy(tresors, numJ * nbr, liste, 0, nbr);
-        return liste;
     }
 
 

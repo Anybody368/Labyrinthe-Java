@@ -1,13 +1,10 @@
 package model;
 
-
-import helpers.Utilitaire;
 import model.observers.ObserverJoueur;
 import model.observers.ObserverPartie;
 import model.tuiles.Tuile;
 
 import java.util.ArrayList;
-import java.util.Collections;
 
 import static model.Plateau.NBR_JOUEURS;
 
@@ -36,10 +33,15 @@ public class Partie implements ObserverJoueur {
      */
     public void lancerPartie() {
         m_tour = 0;
+        Joueur[] joueurs = FacadeGeneration.creationJoueurs();
+        for(Joueur j : joueurs)
+        {
+            j.addObserveur(this);
+        }
 
-        m_plateau = new Plateau(null);
+        Tuile[][] tuiles = FacadeGeneration.genererTuiles(joueurs);
+        m_plateau = new Plateau(tuiles, joueurs);
         m_joueurEnCours = m_plateau.getJoueurSuivant(null);
-
     }
 
     /**
@@ -67,19 +69,6 @@ public class Partie implements ObserverJoueur {
         {
             m_joueurEnCours.deplacement(dir);
         }
-    }
-
-    /**
-     * PAS FINI Créé le tableau 2D contenant toutes les tuiles du tableau, et initialise la tuile en rab en passant
-     * @return tableau 2D contenant 7*7 tuiles dans notre cas
-     */
-    private Tuile[][] genererTuiles()
-    {
-        int nbr = (TAILLE_PLATEAU*TAILLE_PLATEAU)+1;
-        Tuile[] tuiles = new Tuile[nbr];
-        ArrayList<Tresor> tresors = Utilitaire.getRandomTreasureList();
-
-        return null;
     }
 
     @Override

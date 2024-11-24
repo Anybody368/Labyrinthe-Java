@@ -13,8 +13,7 @@ private String m_nom;
 private Color m_couleur;
 private int m_x;
 private int m_y;
-private Tresor[] m_objectif;
-private int m_avancementObj = 0;
+private ArrayList<Tresor> m_objectif;
 private ArrayList<ObserverJoueur> m_observeurs = new ArrayList<>();
 
     /**
@@ -25,7 +24,7 @@ private ArrayList<ObserverJoueur> m_observeurs = new ArrayList<>();
      * @param y : Index de la ligne sur laquelle se trouve le joueur, entre 0 et TAILLE-1
      * @param objectifs : Liste des trésors que devra trouver le joueur pour gagner
      */
-    public Joueur(String nom, Color couleur, int x, int y, Tresor[] objectifs) {
+    public Joueur(String nom, Color couleur, int x, int y, ArrayList<Tresor> objectifs) {
 
         m_nom = nom;
         m_couleur = couleur;
@@ -59,7 +58,7 @@ private ArrayList<ObserverJoueur> m_observeurs = new ArrayList<>();
     public Tresor getObjectif(){
 
         if(!aFini()) {
-            return m_objectif[m_avancementObj];
+            return m_objectif.getLast();
         }
         return null;
     }
@@ -88,7 +87,7 @@ private ArrayList<ObserverJoueur> m_observeurs = new ArrayList<>();
     public void validerObjectif(Tresor tresor){
         if(tresor == getObjectif())
         {
-            m_avancementObj++;
+            m_objectif.removeLast();
             notifytresorSuivant();
         }
     }
@@ -110,7 +109,7 @@ private ArrayList<ObserverJoueur> m_observeurs = new ArrayList<>();
      */
     private boolean aFini()
     {
-        return (m_objectif.length == m_avancementObj);
+        return (m_objectif.isEmpty());
     }
 
     //Partie observeur
@@ -131,7 +130,7 @@ private ArrayList<ObserverJoueur> m_observeurs = new ArrayList<>();
     private void notifytresorSuivant(){
         for(ObserverJoueur obs : m_observeurs)
         {
-            obs.updateTresor(getObjectif(), m_objectif.length-m_avancementObj);
+            obs.updateTresor(getObjectif(), m_objectif.size());
         }
     }
 

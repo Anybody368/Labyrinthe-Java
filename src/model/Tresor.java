@@ -1,5 +1,9 @@
 package model;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+
 public enum Tresor {
 
     COFFRE("Coffre"),
@@ -37,5 +41,16 @@ public enum Tresor {
     public String getNom()
     {
         return m_nom;
+    }
+
+    /**
+     * Permet d'obtenir la liste des trésors dans un ordre aléatoire sous forme d'ArrayList afin de pouvoir supprimer des éléments au fur et à mesure
+     * @return ArrayList contenant tous les trésors shuffled
+     */
+    public static ArrayList<Tresor> getRandomTreasureList()
+    {
+        ArrayList<Tresor> tresors = new ArrayList<>(List.of(values()));
+        Collections.shuffle(tresors);
+        return tresors;
     }
 }
