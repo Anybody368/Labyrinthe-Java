@@ -64,6 +64,10 @@ package model
         EST
         SUD
         OUEST
+
+        + getOpposite() : Direction
+        + getNext() : Direction
+        + {static} getRandom() : Direction
     }
 
     class TuileFactory
