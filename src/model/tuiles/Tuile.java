@@ -35,13 +35,7 @@ public abstract class Tuile {
      */
     public boolean deplacementEstvalide(Tuile dest, Direction dir){
 
-        return switch (dir)
-        {
-            case NORD -> (estOuvert(NORD) && dest.estOuvert(SUD));
-            case EST -> (estOuvert(EST) && dest.estOuvert(OUEST));
-            case SUD -> (estOuvert(SUD) && dest.estOuvert(NORD));
-            case OUEST -> (estOuvert(OUEST) && dest.estOuvert(EST));
-        };
+        return (estOuvert(dir) && dest.estOuvert(dir.getOpposite()));
     }
 
     /**

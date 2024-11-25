@@ -8,12 +8,12 @@ class Main
 
 package model
 {
-    class Partie implements ObserverJoueur
+    class Partie implements observers.ObserverJoueur
     {
         - tour : Integer
 
         + <<create>> Partie()
-        + addObserver(observeur : ObserverPartie)
+        + addObserver(observeur : observers.ObserverPartie)
         + lancerPartie()
         - tourDeJeu()
         + tourneTuile()
@@ -70,16 +70,16 @@ package model
         + {static} getRandom() : Direction
     }
 
-    class TuileFactory
-    {
-        + {static} makeTuileDefault(dir : Direction, mode : Integer) : TuileDefault
-        + {static} makeTuileTresor(dir : Direction, mode : Integer, tresor : Tresor) : TuileTresor
-        + {static} makeTuileBase(dir : Direction, mode : Integer, joueur : Joueur) : TuileBase
-        - {static} getDirections(dir : Direction, mode : Integet) : Direction[]
-    }
-
     package tuiles
     {
+        class TuileFactory
+        {
+            + {static} makeTuileDefault(dir : Direction, mode : Integer) : TuileDefault
+            + {static} makeTuileTresor(dir : Direction, mode : Integer, tresor : Tresor) : TuileTresor
+            + {static} makeTuileBase(dir : Direction, mode : Integer, joueur : Joueur) : TuileBase
+            - {static} getDirections(dir : Direction, mode : Integet) : Direction[]
+        }
+
         abstract class Tuile
         {
             - m_nord : Boolean
@@ -208,7 +208,7 @@ package model
 
 package view
 {
-    class AffichagePartie implements ObserverPartie, ObserverPlateau
+    class AffichagePartie implements observers.ObserverPartie, observers.ObserverPlateau
     {
 
     }

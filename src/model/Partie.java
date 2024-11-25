@@ -61,6 +61,16 @@ public class Partie implements ObserverJoueur {
         notifyRotation();
     }
 
+    public void placementTuile(Direction dir, int index)
+    {
+        if(index%2 == 0)
+        {
+            return;
+        }
+
+        m_tuileRab = m_plateau.placementTuile(m_tuileRab, dir, index);
+    }
+
     /**
      * Méthode à appeler pour que le joueur en cours essaie de se déplacer dans une direction donnée
      */

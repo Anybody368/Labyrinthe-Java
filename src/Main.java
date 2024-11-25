@@ -1,3 +1,4 @@
+import model.Direction;
 import model.Partie;
 
 public class Main {
@@ -6,6 +7,9 @@ public class Main {
 
     Partie jeu = new Partie();
     jeu.lancerPartie();
+    System.out.println(jeu);
+    jeu.placementTuile(Direction.EST, 1);
+    jeu.deplacementJoueur(Direction.SUD);
     System.out.println(jeu);
     }
 }
