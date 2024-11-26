@@ -1,3 +1,4 @@
+import View.MainWindow;
 import model.Direction;
 import model.Partie;
 
@@ -11,5 +12,6 @@ public class Main {
     jeu.placementTuile(Direction.EST, 1);
     jeu.deplacementJoueur(Direction.SUD);
     System.out.println(jeu);
+    new MainWindow();
     }
 }
