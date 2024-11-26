@@ -1,16 +1,17 @@
 package model.tuiles;
 
 import model.Direction;
+import model.Player;
 
-public class TuileDefault extends Tuile {
+public class TileDefault extends Tile {
 
-    public TuileDefault(Direction[] dirs) {
+    public TileDefault(Direction[] dirs) {
 
         super(dirs);
     }
 
     @Override
-    public void action() {
+    public void action(Player player) {
 
     }
 

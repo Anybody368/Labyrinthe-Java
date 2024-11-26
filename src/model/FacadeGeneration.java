@@ -1,101 +1,101 @@
 package model;
 
-import model.tuiles.Tuile;
+import model.tuiles.Tile;
 
 import java.awt.*;
 import java.util.ArrayList;
 import java.util.Collections;
 
 import static model.Direction.*;
-import static model.Partie.TAILLE_PLATEAU;
-import static model.tuiles.TuileFactory.*;
+import static model.Game.BOARD_SIZE;
+import static model.tuiles.TileFactory.*;
 
 // Compilation de méthodes statiques utiles pour la génération du tableau 2D des tuiles, ainsi que les joueurs
 public class FacadeGeneration {
 
-    private static Tuile m_tuileRabStockee = null;
+    private static Tile m_tileRabStockee = null;
 
     /**
      * Initialise le tableau de joueurs avec des nouveaux joueurs avec une liste de trésors fixe
      */
-    public static Joueur[] creationJoueurs()
+    public static Player[] createGamePlayers()
     {
-        ArrayList<Tresor> tresors = Tresor.getRandomTreasureList();
-        Joueur[] joueurs = new Joueur[4];
-        joueurs[0] = new Joueur("J1", Color.RED, 0, 0, new ArrayList<>(tresors.subList(0, 6)));
-        joueurs[1] = new Joueur("J2", Color.YELLOW, 0, TAILLE_PLATEAU-1, new ArrayList<>(tresors.subList(6, 12)));
-        joueurs[2] = new Joueur("J3", Color.BLUE, TAILLE_PLATEAU-1, 0, new ArrayList<>(tresors.subList(12, 18)));
-        joueurs[3] = new Joueur("J4", Color.GREEN, TAILLE_PLATEAU-1, TAILLE_PLATEAU-1, new ArrayList<>(tresors.subList(18, 24)));
-        return joueurs;
+        ArrayList<Treasure> treasures = Treasure.getRandomTreasureList();
+        Player[] players = new Player[4];
+        players[0] = new Player("J1", Color.RED, 0, 0, new ArrayList<>(treasures.subList(0, 6)));
+        players[1] = new Player("J2", Color.YELLOW, 0, BOARD_SIZE -1, new ArrayList<>(treasures.subList(6, 12)));
+        players[2] = new Player("J3", Color.BLUE, BOARD_SIZE -1, 0, new ArrayList<>(treasures.subList(12, 18)));
+        players[3] = new Player("J4", Color.GREEN, BOARD_SIZE -1, BOARD_SIZE -1, new ArrayList<>(treasures.subList(18, 24)));
+        return players;
     }
 
     /**
      * Créé le tableau 2D contenant toutes les tuiles du tableau, et initialise la tuile en rab en passant
      * @return tableau 2D contenant 7*7 tuiles dans notre cas
      */
-    public static Tuile[][] genererTuiles(Joueur[] joueurs)
+    public static Tile[][] generateTiles(Player[] players)
     {
-        ArrayList<Tresor> tresors = Tresor.getRandomTreasureList();
-        ArrayList<Tuile> tuilesFixes = genererTuilesFixes(joueurs, tresors);
-        ArrayList<Tuile> tuilesAmov = genererTuilesAmovibles(tresors);
+        ArrayList<Treasure> treasures = Treasure.getRandomTreasureList();
+        ArrayList<Tile> tuilesFixes = generateFixedTiles(players, treasures);
+        ArrayList<Tile> tuilesAmov = generateMovableTiles(treasures);
 
-        m_tuileRabStockee = tuilesAmov.removeLast();
-        return genererTableauTuiles(tuilesFixes, tuilesAmov);
+        m_tileRabStockee = tuilesAmov.removeLast();
+        return generateTilesTable(tuilesFixes, tuilesAmov);
     }
 
     /**
      * Créé la liste des tuiles fixes du jeu, de bas en haut et de droite à gauche pour pouvoir lire séquentiellement par la suite
-     * @param joueurs : Tableau des joueurs de la partie pour les casses départ
-     * @param tresors : Liste des trésors de la partie (les trésors ajoutés aux cases seront supprimés de la liste pour éviter les doublons)
+     * @param players : Tableau des joueurs de la partie pour les casses départ
+     * @param treasures : Liste des trésors de la partie (les trésors ajoutés aux cases seront supprimés de la liste pour éviter les doublons)
      * @return : Liste de tuiles ordonnées pour être ajoutées au plateau avec des "removeLast" successifs
      */
-    private static ArrayList<Tuile> genererTuilesFixes(Joueur[] joueurs, ArrayList<Tresor> tresors)
+    private static ArrayList<Tile> generateFixedTiles(Player[] players, ArrayList<Treasure> treasures)
     {
-        ArrayList<Tuile> tuilesFixes = new ArrayList<>(16);
-        tuilesFixes.add(makeTuileDepart(OUEST, 2, joueurs[3]));
-        tuilesFixes.add(makeTuileTresor(SUD, 3, tresors.removeLast()));
-        tuilesFixes.add(makeTuileTresor(SUD, 3, tresors.removeLast()));
-        tuilesFixes.add(makeTuileDepart(SUD, 2, joueurs[2]));
-        tuilesFixes.add(makeTuileTresor(OUEST, 3, tresors.removeLast()));
-        tuilesFixes.add(makeTuileTresor(SUD, 3, tresors.removeLast()));
-        tuilesFixes.add(makeTuileTresor(EST, 3, tresors.removeLast()));
-        tuilesFixes.add(makeTuileTresor(EST, 3, tresors.removeLast()));
-        tuilesFixes.add(makeTuileTresor(OUEST, 3, tresors.removeLast()));
-        tuilesFixes.add(makeTuileTresor(OUEST, 3, tresors.removeLast()));
-        tuilesFixes.add(makeTuileTresor(NORD, 3, tresors.removeLast()));
-        tuilesFixes.add(makeTuileTresor(EST, 3, tresors.removeLast()));
-        tuilesFixes.add(makeTuileDepart(NORD, 2, joueurs[1]));
-        tuilesFixes.add(makeTuileTresor(NORD, 3, tresors.removeLast()));
-        tuilesFixes.add(makeTuileTresor(NORD, 3, tresors.removeLast()));
-        tuilesFixes.add(makeTuileDepart(EST, 2, joueurs[0]));
+        ArrayList<Tile> tuilesFixes = new ArrayList<>(16);
+        tuilesFixes.add(makeTileBase(WEST, 2, players[3]));
+        tuilesFixes.add(makeTileTreasure(SOUTH, 3, treasures.removeLast()));
+        tuilesFixes.add(makeTileTreasure(SOUTH, 3, treasures.removeLast()));
+        tuilesFixes.add(makeTileBase(SOUTH, 2, players[2]));
+        tuilesFixes.add(makeTileTreasure(WEST, 3, treasures.removeLast()));
+        tuilesFixes.add(makeTileTreasure(SOUTH, 3, treasures.removeLast()));
+        tuilesFixes.add(makeTileTreasure(EST, 3, treasures.removeLast()));
+        tuilesFixes.add(makeTileTreasure(EST, 3, treasures.removeLast()));
+        tuilesFixes.add(makeTileTreasure(WEST, 3, treasures.removeLast()));
+        tuilesFixes.add(makeTileTreasure(WEST, 3, treasures.removeLast()));
+        tuilesFixes.add(makeTileTreasure(NORTH, 3, treasures.removeLast()));
+        tuilesFixes.add(makeTileTreasure(EST, 3, treasures.removeLast()));
+        tuilesFixes.add(makeTileBase(NORTH, 2, players[1]));
+        tuilesFixes.add(makeTileTreasure(NORTH, 3, treasures.removeLast()));
+        tuilesFixes.add(makeTileTreasure(NORTH, 3, treasures.removeLast()));
+        tuilesFixes.add(makeTileBase(EST, 2, players[0]));
 
         return tuilesFixes;
     }
 
     /**
      * Créé la liste des tuiles amovibles du jeu de manière aléatoire (en respectant juste le nombre de cases de chaque type)
-     * @param tresors : Liste des trésors restants après avoir généré les tuiles fixes (normalement, la liste devrait être vide à la fin de la fonction)
+     * @param treasures : Liste des trésors restants après avoir généré les tuiles fixes (normalement, la liste devrait être vide à la fin de la fonction)
      * @return : Liste des tuiles amovibles dans un ordre et une orientation aléatoire
      */
-    private static ArrayList<Tuile> genererTuilesAmovibles(ArrayList<Tresor> tresors)
+    private static ArrayList<Tile> generateMovableTiles(ArrayList<Treasure> treasures)
     {
-        ArrayList<Tuile> tuilesAmov = new ArrayList<>(33);
+        ArrayList<Tile> tuilesAmov = new ArrayList<>(33);
 
         for(int i = 0; i < 6; i++)
         {
-            tuilesAmov.add(makeTuileTresor(Direction.getRandom(), 3, tresors.removeLast()));
+            tuilesAmov.add(makeTileTreasure(Direction.getRandom(), 3, treasures.removeLast()));
         }
         for(int i = 0; i < 6; i++)
         {
-            tuilesAmov.add(makeTuileTresor(Direction.getRandom(), 2, tresors.removeLast()));
+            tuilesAmov.add(makeTileTreasure(Direction.getRandom(), 2, treasures.removeLast()));
         }
         for(int i = 0; i < 10; i++)
         {
-            tuilesAmov.add(makeTuileDefaut(Direction.getRandom(), 2));
+            tuilesAmov.add(makeTileDefault(Direction.getRandom(), 2));
         }
         for(int i = 0; i < 12; i++)
         {
-            tuilesAmov.add(makeTuileDefaut(Direction.getRandom(), 1));
+            tuilesAmov.add(makeTileDefault(Direction.getRandom(), 1));
         }
 
         Collections.shuffle(tuilesAmov);
@@ -109,15 +109,15 @@ public class FacadeGeneration {
      * @param amovibles : Liste des tuiles amovibles (Reste la tuile rab à la fin de la fonction)
      * @return Tableau 2D prêt à être utilisé pour le plateau
      */
-    private static Tuile[][] genererTableauTuiles(ArrayList<Tuile> fixes, ArrayList<Tuile> amovibles)
+    private static Tile[][] generateTilesTable(ArrayList<Tile> fixes, ArrayList<Tile> amovibles)
     {
-        Tuile[][] tableau = new Tuile[TAILLE_PLATEAU][TAILLE_PLATEAU];
+        Tile[][] tableau = new Tile[BOARD_SIZE][BOARD_SIZE];
         for (int i = 0; i < 3; i++)
         {
-            tableau[2*i] = colonneFixe(fixes, amovibles);
-            tableau[(2*i)+1] = colonneAmovible(amovibles);
+            tableau[2*i] = fixedColumn(fixes, amovibles);
+            tableau[(2*i)+1] = movableColumn(amovibles);
         }
-        tableau[TAILLE_PLATEAU-1] = colonneFixe(fixes, amovibles);
+        tableau[BOARD_SIZE -1] = fixedColumn(fixes, amovibles);
         return tableau;
     }
 
@@ -126,10 +126,10 @@ public class FacadeGeneration {
      * @param amovibles : Liste des tuiles amovibles
      * @return Tableau contenant les tuiles pour une colonne du tableau 2D
      */
-    private static Tuile[] colonneAmovible(ArrayList<Tuile> amovibles)
+    private static Tile[] movableColumn(ArrayList<Tile> amovibles)
     {
-        Tuile[] colonne = new Tuile[TAILLE_PLATEAU];
-        for (int i = 0; i < TAILLE_PLATEAU; i++)
+        Tile[] colonne = new Tile[BOARD_SIZE];
+        for (int i = 0; i < BOARD_SIZE; i++)
         {
             colonne[i] = amovibles.removeLast();
         }
@@ -142,20 +142,20 @@ public class FacadeGeneration {
      * @param fixes : Liste des tuiles fixes
      * @return Tableau contenant les tuiles pour une colonne du tableau 2D
      */
-    private static Tuile[] colonneFixe(ArrayList<Tuile> fixes, ArrayList<Tuile> amovibles)
+    private static Tile[] fixedColumn(ArrayList<Tile> fixes, ArrayList<Tile> amovibles)
     {
-        Tuile[] colonne = new Tuile[TAILLE_PLATEAU];
+        Tile[] colonne = new Tile[BOARD_SIZE];
         for (int i = 0; i < 3; i++)
         {
             colonne[2*i] = fixes.removeLast();
             colonne[(2*i)+1] = amovibles.removeLast();
         }
-        colonne[TAILLE_PLATEAU-1] = fixes.removeLast();
+        colonne[BOARD_SIZE -1] = fixes.removeLast();
         return colonne;
     }
 
-    public static Tuile getTuileRab()
+    public static Tile getExtraTile()
     {
-        return m_tuileRabStockee;
+        return m_tileRabStockee;
     }
 }
