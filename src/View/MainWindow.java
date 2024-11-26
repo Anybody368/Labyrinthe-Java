@@ -1,71 +1,124 @@
 package View;
 
 import model.Direction;
-import model.observers.ObserverPlateau;
-import model.tuiles.Tuile;
+import model.observers.ObserverBoard;
+import model.tuiles.Tile;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionListener;
 import java.util.Observer;
 
-public class MainWindow extends JFrame implements ObserverPlateau {
+public class MainWindow extends JFrame implements ObserverBoard {
 
     public  MainWindow() {
         SwingUtilities.invokeLater(() -> {
             JFrame frame = new JFrame("Labyrinthe");
             frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-            frame.setSize(600, 600); // Taille ajustée
+            frame.setSize(800, 600); // Largeur augmentée pour inclure l'interface utilisateur
 
-            // Panel principal
+            // Panel principal (layout à deux colonnes)
             JPanel mainPanel = new JPanel(new BorderLayout());
 
-            // Panel pour le layout global (9x9 incluant les boutons)
-            JPanel borderedPanel = new JPanel(new GridLayout(9, 9));
+            // ==================== Partie Gauche : Plateau ====================
+            JPanel borderedPanel = new JPanel(new GridLayout(9, 9)); // Plateau avec boutons autour
 
-            // Création du plateau avec boutons autour
+            // Construction du plateau et des boutons autour
             for (int i = 0; i < 9; i++) {
                 for (int j = 0; j < 9; j++) {
                     if (i == 0 && j % 2 == 0 && j > 0 && j < 8) {
-                        // Boutons en haut (↓) sur les colonnes paires
-                        borderedPanel.add(new JButton("↓"));
+                        borderedPanel.add(new JButton("↓")); // Boutons du haut
                     } else if (i == 8 && j % 2 == 0 && j > 0 && j < 8) {
-                        // Boutons en bas (↑) sur les colonnes paires
-                        borderedPanel.add(new JButton("↑"));
+                        borderedPanel.add(new JButton("↑")); // Boutons du bas
                     } else if (j == 0 && i % 2 == 0 && i > 0 && i < 8) {
-                        // Boutons à gauche (→) sur les lignes paires
-                        borderedPanel.add(new JButton("→"));
+                        borderedPanel.add(new JButton("→")); // Boutons à gauche
                     } else if (j == 8 && i % 2 == 0 && i > 0 && i < 8) {
-                        // Boutons à droite (←) sur les lignes paires
-                        borderedPanel.add(new JButton("←"));
+                        borderedPanel.add(new JButton("←")); // Boutons à droite
                     } else if (i > 0 && i < 8 && j > 0 && j < 8) {
-                        // Plateau central 7x7
                         JButton tile = new JButton();
-                        tile.setPreferredSize(new Dimension(50, 50));
                         tile.setBackground(Color.LIGHT_GRAY);
                         tile.setBorder(BorderFactory.createLineBorder(Color.DARK_GRAY));
-                        borderedPanel.add(tile);
+                        borderedPanel.add(tile); // Cases du plateau
                     } else {
-                        // Espaces vides dans les coins
-                        borderedPanel.add(new JLabel());
+                        borderedPanel.add(new JLabel()); // Espaces vides
                     }
                 }
             }
 
-            // Ajout du layout global au panneau principal
-            mainPanel.add(borderedPanel, BorderLayout.CENTER);
+            // ==================== Partie Droite : Interface utilisateur ====================
+            JPanel rightPanel = new JPanel();
+            rightPanel.setLayout(new BoxLayout(rightPanel, BoxLayout.Y_AXIS));
+            rightPanel.setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20)); // Marges internes
+
+            // Texte "Joueur"
+            JLabel playerLabel = new JLabel("Joueur");
+            playerLabel.setFont(new Font("Arial", Font.BOLD, 20));
+            playerLabel.setAlignmentX(Component.CENTER_ALIGNMENT); // Centrer le texte
+            rightPanel.add(playerLabel);
+
+            rightPanel.add(Box.createRigidArea(new Dimension(0, 20))); // Espace vertical
+
+            // Pavé directionnel (T inversé)
+            JPanel directionPanel = new JPanel(new GridBagLayout());
+            GridBagConstraints gbc = new GridBagConstraints();
+
+            // Bouton "Haut"
+            JButton upButton = new JButton("↑");
+            gbc.gridx = 1;
+            gbc.gridy = 0;
+            directionPanel.add(upButton, gbc);
+
+            // Bouton "Gauche"
+            JButton leftButton = new JButton("←");
+            gbc.gridx = 0;
+            gbc.gridy = 1;
+            directionPanel.add(leftButton, gbc);
+
+            // Bouton "Droite"
+            JButton rightButton = new JButton("→");
+            gbc.gridx = 2;
+            gbc.gridy = 1;
+            directionPanel.add(rightButton, gbc);
+
+            // Bouton "Bas"
+            JButton downButton = new JButton("↓");
+            gbc.gridx = 1;
+            gbc.gridy = 2;
+            directionPanel.add(downButton, gbc);
+
+            rightPanel.add(directionPanel); // Ajouter le pavé directionnel
+
+            rightPanel.add(Box.createRigidArea(new Dimension(0, 20))); // Espace vertical
+
+            // Bouton "Rotate"
+            JButton rotateButton = new JButton("⟳ Rotate");
+            rotateButton.setAlignmentX(Component.CENTER_ALIGNMENT); // Centrer
+            rightPanel.add(rotateButton);
+
+            rightPanel.add(Box.createRigidArea(new Dimension(0, 10))); // Espace vertical
+
+            // Bouton "Trésors"
+            JButton treasureButton = new JButton("🏆 Trésors");
+            treasureButton.setAlignmentX(Component.CENTER_ALIGNMENT); // Centrer
+            rightPanel.add(treasureButton);
+
+            // ==================== Assemblage de l'interface ====================
+            mainPanel.add(borderedPanel, BorderLayout.CENTER); // Plateau à gauche
+            mainPanel.add(rightPanel, BorderLayout.EAST); // Interface utilisateur à droite
+
             frame.add(mainPanel);
             frame.setVisible(true);
         });
     }
 
+
     @Override
-    public void updateDisposition(Direction dir, int index, Tuile[] tuiles) {
+    public void updateTilesArrangement(Direction dir, int index, Tile[] tiles) {
 
     }
 
     @Override
-    public void updateRecupTresor(int x, int y) {
+    public void updateTreasurePicked(int x, int y) {
 
     }
 }

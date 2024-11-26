@@ -1,17 +1,17 @@
 import View.MainWindow;
 import model.Direction;
-import model.Partie;
+import model.Game;
 
 public class Main {
 
     public static void main(String[] args) {
 
-    Partie jeu = new Partie();
-    jeu.lancerPartie();
-    System.out.println(jeu);
-    jeu.placementTuile(Direction.EST, 1);
-    jeu.deplacementJoueur(Direction.SUD);
-    System.out.println(jeu);
+    Game game = new Game();
+    game.startGame();
+    System.out.println(game);
+    game.placeTile(Direction.EST, 1);
+    game.movePlayer(Direction.SOUTH);
+    System.out.println(game);
     new MainWindow();
     }
 }
