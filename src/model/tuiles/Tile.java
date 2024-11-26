@@ -1,28 +1,27 @@
 package model.tuiles;
 
 import model.Direction;
+import model.Player;
 
-import static model.Direction.*;
+public abstract class Tile {
 
-public abstract class Tuile {
-
-    private boolean m_nord = false;
-    private boolean m_sud = false;
+    private boolean m_north = false;
+    private boolean m_south = false;
     private boolean m_est = false;
-    private boolean m_ouest = false;
+    private boolean m_west = false;
 
     /**
      * Constructeur générique d'une tuile
      * @param dirs : Tableau de directions représentant les côtés ouverts de la tuile
      */
-    protected Tuile(Direction[] dirs) {
+    protected Tile(Direction[] dirs) {
 
         for (Direction dir : dirs) {
             switch (dir) {
                 case EST -> m_est = true;
-                case NORD -> m_nord = true;
-                case SUD -> m_sud = true;
-                case OUEST -> m_ouest = true;
+                case NORTH -> m_north = true;
+                case SOUTH -> m_south = true;
+                case WEST -> m_west = true;
             }
         }
     }
@@ -33,9 +32,9 @@ public abstract class Tuile {
      * @param dir : Sens dans lequel se fait le déplacement
      * @return true si le chemin est possible, false sinon
      */
-    public boolean deplacementEstvalide(Tuile dest, Direction dir){
+    public boolean moveIsValid(Tile dest, Direction dir){
 
-        return (estOuvert(dir) && dest.estOuvert(dir.getOpposite()));
+        return (isOpen(dir) && dest.isOpen(dir.getOpposite()));
     }
 
     /**
@@ -43,10 +42,10 @@ public abstract class Tuile {
      */
     public void rotation(){
 
-        boolean temp = m_nord;
-        m_nord = m_ouest;
-        m_ouest = m_sud;
-        m_sud = m_est;
+        boolean temp = m_north;
+        m_north = m_west;
+        m_west = m_south;
+        m_south = m_est;
         m_est = temp;
     }
 
@@ -55,29 +54,29 @@ public abstract class Tuile {
      * @param dir : Direction à vérifier
      * @return true si ouvert, false sinon
      */
-    private boolean estOuvert(Direction dir){
+    private boolean isOpen(Direction dir){
 
         return switch (dir)
         {
-            case NORD -> m_nord;
+            case NORTH -> m_north;
             case EST -> m_est;
-            case SUD -> m_sud;
-            case OUEST -> m_ouest;
+            case SOUTH -> m_south;
+            case WEST -> m_west;
         };
     }
 
     /**
      * Une fois qu'un joueur est arrêté sur cette case, on fait l'action associée en fonction du type de Tuile
      */
-    public abstract void action();
+    public abstract void action(Player player);
 
     @Override
     public String toString() {
         StringBuilder string = new StringBuilder("Ouvertures : ");
-        if(m_nord) string.append("Nord ");
+        if(m_north) string.append("Nord ");
         if(m_est) string.append("Est ");
-        if(m_sud) string.append("Sud ");
-        if(m_ouest) string.append("Ouest ");
+        if(m_south) string.append("Sud ");
+        if(m_west) string.append("Ouest ");
 
         return string.toString();
     }

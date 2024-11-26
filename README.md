@@ -3,7 +3,7 @@ A31 - Projet "Labyrinthe"
 
 ![](img/labyrinthe.jpg)![](img/labyrinthe2.jpg)
 
-À vous de développer une application multi-joueurs du jeu de société Labyrinthe !
+À vous de développer une application multi-players du jeu de société Labyrinthe !
 
 Consignes générales
 -------------------
@@ -30,7 +30,7 @@ Elles sont disponibles :
 - en version textuelle : [https://www.regledujeu.fr/labyrinthe/](https://www.regledujeu.fr/labyrinthe/).
 - en vidéo avec Ludochrono : [https://www.youtube.com/watch?v=pGzenrQnJ9g](https://www.youtube.com/watch?v=pGzenrQnJ9g).
 
-Côté matériel, le jeu de société comporte **50 tuiles** de 3 sortes :
+Côté matériel, le jeu de société comporte **50 tiles** de 3 sortes :
 
 - 20 angles dont 4 sont fixes et 16 sont déplaçables,
 - 12 sections droites toutes déplaçables,
@@ -38,49 +38,49 @@ Côté matériel, le jeu de société comporte **50 tuiles** de 3 sortes :
 
 Il y a également **24 objectifs**.
 
-Nous nous limiterons à un nombre fixe de **4 joueurs**.
+Nous nous limiterons à un nombre fixe de **4 players**.
 
 Les fonctionnalités
 -------------------
 
 Vous devez modéliser et implémenter les fonctionalités ci-dessous.
 
-1 - La **génératon des tuiles**
+1 - La **génératon des tiles**
 
 - Niveau 1 : avec une orientation initiale fixe
 - Niveau 2 : avec une orientation initiale aléatoire
 
-2 - Le **génération du plateau** avec les tuiles :
+2 - Le **génération du plateau** avec les tiles :
 
 - Niveau 1 : placées de façon fixe (toujours le même plateau de départ)
 - Niveau 2 : placées toutes de façon aléatoire
 - Niveau 3 : placées de façon fixe ou aléatoire comme dans le jeu de société
 
-3 - L'**ajout des objectifs** sur les tuiles :
+3 - L'**ajout des objectifs** sur les tiles :
 
 - Niveau 1 : placés de façon fixe
-- Niveau 2 : placés de façon totalement aléatoire, 1 seul maximum par tuile
-- Niveau 3 : placés de façon aléatoire mais pas sur les cases du départ des joueurs
+- Niveau 2 : placés de façon totalement aléatoire, 1 seul maximum par tile
+- Niveau 3 : placés de façon aléatoire mais pas sur les cases du départ des players
 
-4 - La **distribution des "cartes objectifs"** aux joueurs :
+4 - La **distribution des "cartes objectifs"** aux players :
 
 - Niveau 1 : de façon fixe
 - Niveau 2 : de façon aléatoire
 
 5 - Le **déplacement des pions case par case**
 
-6 - Le **déplacement d'une ligne ou colonne du plateau** par la tuile supplémentaire :
+6 - Le **déplacement d'une ligne ou colonne du plateau** par la tile supplémentaire :
 
 - Niveau 1 : Toutes les lignes et colonnes
 - Niveau 2 : Uniquement les lignes et colonnes impaires
-- Niveau 3 : En gérant le passage d'un joueur éjecté au côté opposé de la ligne/colonne actuelle
+- Niveau 3 : En gérant le passage d'un player éjecté au côté opposé de la ligne/colonne actuelle
 - Niveau 4 : En interdisant le déplacement inverse du précédent
 
-7 - La **détection d'un objectif atteint** par un joueur et le passage à l'objectif suivant
+7 - La **détection d'un objectif atteint** par un player et le passage à l'objectif suivant
 
-8 - La **détection de la fin du tour d'un joueur**
+8 - La **détection de la fin du tour d'un player**
 
-9 - La **détection de la fin de partie** lorsqu'un joueur a trouvé tous ses objectifs et est revenu à sa position de départ
+9 - La **détection de la fin de partie** lorsqu'un player a trouvé tous ses objectifs et est revenu à sa position de départ
 
 > ***Conseil** : Faites la conception UML qui tient en compte tous les niveaux mais implémentez d'abord le jeu en entier avec tous les niveaux 1 avant d'implémenter les autres niveaux.*
 
@@ -96,17 +96,17 @@ Votre application doit proposer 2 écrans :
 
 L'écran principal doit afficher :
 
-- le plateau de 7 par 7 avec les 49 tuiles, les 24 objectifs et les pions de chaque joueur
-- La tuile supplémentaire actuelle
-- Pour chaque joueur :
+- le plateau de 7 par 7 avec les 49 tiles, les 24 objectifs et les pions de chaque player
+- La tile supplémentaire actuelle
+- Pour chaque player :
   - son objectif actuel
   - le nombre d'objectifs déjà récupérés
   - le nombre d'objectifs restants
 
-À son tour, **un joueur doit pouvoir réaliser les actions suivantes** :
+À son tour, **un player doit pouvoir réaliser les actions suivantes** :
 
-- Pousser une ligne ou colonne avec la tuile supplémentaire
-- Se déplacer de case en case sur les tuiles voisines où le déplacement est possible.
+- Pousser une ligne ou colonne avec la tile supplémentaire
+- Se déplacer de case en case sur les tiles voisines où le déplacement est possible.
 
 Vous avez à votre disposition le fichier [`ImageHelper.java`](src/helpers/ImageHelper.java) pour manipuler les images, notamment :
 
@@ -115,7 +115,7 @@ Vous avez à votre disposition le fichier [`ImageHelper.java`](src/helpers/Image
 
 ***Bonus 1***
 
-À son tour, le joueur peut faire **tourner la tuile supplémentaire** par pas de 90 degrés dans le sens horaire ou anti-horaire avant de l'utiliser pour pousser une ligne ou colonne.
+À son tour, le player peut faire **tourner la tile supplémentaire** par pas de 90 degrés dans le sens horaire ou anti-horaire avant de l'utiliser pour pousser une ligne ou colonne.
 
 ### Écran de fin de partie
 

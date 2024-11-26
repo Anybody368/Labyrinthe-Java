@@ -1,19 +1,19 @@
 package model.tuiles;
 
 import model.Direction;
-import model.Joueur;
-import model.Tresor;
+import model.Player;
+import model.Treasure;
 
-public class TuileFactory {
+public class TileFactory {
     /**
      * Méthode pour créer une Tuile basique
      * @param dir : Première ouverture (sens horaire)
      * @param mode : Format de la tuile : 1 = I, 2 = L, 3 = T
      * @return une nouvelle Tuile
      */
-    public static TuileDefault makeTuileDefaut(Direction dir, int mode)
+    public static TileDefault makeTileDefault(Direction dir, int mode)
     {
-        return new TuileDefault(getDirections(dir, mode));
+        return new TileDefault(getDirections(dir, mode));
     }
 
     /**
@@ -22,9 +22,9 @@ public class TuileFactory {
      * @param mode : Format de la tuile : 1 = I, 2 = L, 3 = T
      * @return une nouvelle Tuile de joueur
      */
-    public static TuileDepart makeTuileDepart(Direction dir, int mode, Joueur j)
+    public static TileBase makeTileBase(Direction dir, int mode, Player j)
     {
-        return new TuileDepart(getDirections(dir, mode), j);
+        return new TileBase(getDirections(dir, mode), j);
     }
 
     /**
@@ -34,9 +34,9 @@ public class TuileFactory {
      * @param t : le Tresor qui va se trouver sur cette case
      * @return une nouvelle tuile avec un tresor
      */
-    public static TuileTresor makeTuileTresor(Direction dir, int mode, Tresor t)
+    public static TileTreasure makeTileTreasure(Direction dir, int mode, Treasure t)
     {
-        return new TuileTresor(getDirections(dir, mode), t);
+        return new TileTreasure(getDirections(dir, mode), t);
     }
 
     private static Direction[] getDirections(Direction dir, int mode)
@@ -46,7 +46,7 @@ public class TuileFactory {
             case 1 -> new Direction[]{dir, dir.getOpposite()};
             case 2 -> new Direction[]{dir, dir.getNext()};
             case 3 -> new Direction[]{dir, dir.getNext(), dir.getOpposite()};
-            default -> throw new IllegalArgumentException("Le mode demandé est invalide");
+            default -> throw new IllegalArgumentException("Mode should either be 1, 2, or 3");
         };
     }
 }
