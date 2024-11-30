@@ -18,7 +18,7 @@ public abstract class Tile {
 
         for (Direction dir : dirs) {
             switch (dir) {
-                case EST -> m_est = true;
+                case EAST -> m_est = true;
                 case NORTH -> m_north = true;
                 case SOUTH -> m_south = true;
                 case WEST -> m_west = true;
@@ -59,7 +59,7 @@ public abstract class Tile {
         return switch (dir)
         {
             case NORTH -> m_north;
-            case EST -> m_est;
+            case EAST -> m_est;
             case SOUTH -> m_south;
             case WEST -> m_west;
         };

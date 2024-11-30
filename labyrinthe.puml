@@ -8,139 +8,137 @@ class Main
 
 package model
 {
-    class Partie
+    class Game
     {
         - tour : Integer
 
-        + <<create>> Partie()
-        + addObserver(observeur : observers.ObserverPartie)
-        + lancerPartie()
-        - tourDeJeu()
-        + tourneTuile()
-        + deplacementJoueur(dir : Direction)
-        + updatePosition(x : Integer, y : Integer)
-        + updateTresorSuivant(tresor : Tresor, tRestans : Integer)
-        + updateVictoire(nom : String)
+        + addObserver(observer : ObserverGame)
+        + startGame()
+        + turnTile()
+        + movePLayer(dir : Direction)
+        + endTurn()
         + toString() : String
 
-        - notifyRotation()
-        - notifyPositions()
+        - notifyTile()
+        - notifyTurn()
     }
 
     class FacadeGeneration
     {
-        - {static} m_tuileRabStockee
-        + {static} creationJoueurs() : Joueur[]
-        + {static} genererTuiles(joueurs : Joueur[]) : Tuile[][]
-        - {static} genererTuilesFixes(joueurs : Joueur[], tresors : ArrayList<Tresor>) : ArrayList:Tuile
-        - {static} genererTuilesAmovibles(tresors : ArrayList<Tresor>) : ArrayList:Tuile
-        - {static} genererTableauTuiles(fixes : ArrayList<Tuile>, amovibles : ArrayList<Tuile>) : Tuile[][]
-        - {static} colonneAmovible(amovibles : ArrayList<Tresor) : Tuile[]
-        - {static} colonneFixe(fixes : ArrayList<Tresor>) : Tuile[]
-        + {static} getTuileRab() : Tuile
+        + {static} createPlayers() : Player[4]
+        + {static} generateTiles(players : Joueur[]) : Tile[49]
+        - {static} generateFixedTiles(players : Player[], tresors : Treasure[24]) : Tile[16]
+        - {static} generateMovableTiles(tresors : Tresor[12]) : Tile[34]
+        - {static} generateTilesTable(fixes : Tile[16], amovibles : Tile[34]) : Tile[7][7]
+        - {static} movableColumn(amovibles : Tile[*]) : Tile[7]
+        - {static} fixedColumn(fixes : Tile[*]) : Tile[7]
+        + {static} getExtraTile() : Tile
     }
 
-    class Plateau
+    class Board
     {
-        + <<create>> Plateau()
-        + addObserver(observeur : ObserverPlateau)
-        + placementTuile(tuile : Tuile, dir : Direction, ligne : Integer) : Tuile
-        + deplacementPossible(x : Integer, y : Integer, dir : Direction) : Boolean
-        + finTour(joueur : Joueur)
-        + getAllJoueurs() : Joueur[]
-        + getJoueurSuivant(precedent : Joueur) : Joueur
-        + getPositionsJoueurs() : Integer[][]
-        - creationJoueurs()
-        - repatitionTresors(tresors : Tresor[], numJ : Integer) : Tresor[]
+        + <<create>> Board(tiles : Tiles[7][7], players : Player[4])
+        + addObserver(observer : ObserverBoard)
+        + placeTile(tile : Tile, dir : Direction, index : Integer) : Tile
+        + moveIsPossible(x : Integer, y : Integer, dir : Direction) : Boolean
+        + endTurn(player : Player)
+        + getAllPlayers() : Player[4]
+        + getNextPlayer(previous : Player) : Player
+        + getPlayersPositions() : Integer[4][2]
         + toString() : String
 
-        - notifyDisposition(dir : Direction, ligne : Integer)
-        - notifyRecupTresor()
+        - notifyTilesArrangement(dir : Direction, ligne : Integer)
     }
 
     enum Direction
     {
-        NORD
-        EST
-        SUD
-        OUEST
+        NORTH
+        EAST
+        SOUTH
+        WEST
 
         + getOpposite() : Direction
         + getNext() : Direction
         + {static} getRandom() : Direction
     }
 
-    package tuiles
+    package tiles
     {
-        class TuileFactory
+        class TileFactory
         {
-            + {static} makeTuileDefault(dir : Direction, mode : Integer) : TuileDefault
-            + {static} makeTuileTresor(dir : Direction, mode : Integer, tresor : Tresor) : TuileTresor
-            + {static} makeTuileBase(dir : Direction, mode : Integer, joueur : Joueur) : TuileBase
-            - {static} getDirections(dir : Direction, mode : Integet) : Direction[]
+            + {static} makeTileDefault(dir : Direction, shape : Shape) : TileDefault
+            + {static} makeTileTreasure(dir : Direction, shape : Shape, treasure : Treasure) : TileTreasure
+            + {static} makeTileBase(dir : Direction, shape : Shape, player : Player) : TileBase
+            - {static} getDirections(dir : Direction, shape : Shape) : Direction[]
         }
 
-        abstract class Tuile
+        enum Shape
         {
-            - m_nord : Boolean
-            - m_est : Boolean
-            - m_sud : Boolean
-            - m_ouest : Boolean
+            I
+            L
+            T
+        }
 
-            # <<create>> Tuile(ouvertures : Direction[])
-            + deplacementEstValide(dest : Tuile, dir : Direction) : Boolean
+        abstract class Tile
+        {
+            - m_north : Boolean
+            - m_east : Boolean
+            - m_south : Boolean
+            - m_west : Boolean
+
+            # <<create>> Tile(dirs : Direction[2..3])
+            + moveIsValid(dest : Tile, dir : Direction) : Boolean
             + rotation()
-            - estOuvert(dir : Directions) : Boolean
-            + {abstract} action(joueur : Joueur)
+            - isOpen(dir : Directions) : Boolean
+            + {abstract} action(player : Player)
             + toString() : String
         }
 
-        class TuileDefault extends Tuile
+        class TileDefault extends Tile
         {
-            + <<create>> TuileDefault(ouvertures : Direction[])
-            + action(joueur : Joueur)
+            + <<create>> TileDefault(dirs : Direction[2..3])
+            + action(player : Player)
             + toString() : String
         }
 
-        class TuileDepart extends Tuile
+        class TileBase extends Tile
         {
-            + <<create>> TuileDepart(ouvertures : Direction[], joueur : Joueur)
-            + action(joueur : Joueur)
+            + <<create>> TileBase(dirs : Direction[2..3], player : Player)
+            + action(player : Player)
             + toString() : String
         }
 
-        class TuileTresor extends Tuile
+        class TileTreasure extends Tile
         {
-            + <<create>> TuileTresor(ouvertures : Direction[], tresor : Tresor)
-            + action(joueur : Joueur)
+            + <<create>> TileTreasure(dirs : Direction[2..3], treasure : Treasure)
+            + action(player : Player)
             + toString() : String
         }
     }
 
-    class Joueur
+    class Player
     {
-        - m_nom : String
-        - m_couleur : Color
+        - m_name : String
+        - m_colour : Color
         - m_x : Integer
         - m_y : Integer
-        - m_avancementObj : Integer
 
-        + <<create>> Joueur(nom : String, couleur : Color, x : Integer, y : Integer, objectifs : Tresor[])
-        + addObserver(observeur : ObserverJoueur)
-        + getPosition() : Integer[]
-        + getObjectif() : Tresor
-        + deplacement(dir : Direction)
-        + validerObjectif(tresor : Tresor)
-        + caseDepart()
-        - aFini() : Boolean
+        + <<create>> Player(name : String, colour : Color, x : Integer, y : Integer, objectives : Treasure[6])
+        + addObserver(observeur : ObserverPlayer)
+        + getPosition() : Integer[2]
+        + getObjective() : Treasure
+        + moving(dir : Direction)
+        + validateObjective(treasure : Treasure)
+        + backHome()
+        - isDone() : Boolean
         + toString() : String
 
         - notifyPosition()
-        - notifyTresorSuivant()
-        - notifyVictoire()
+        - notifyFoundTreasure()
+        - notifyVictory()
     }
 
-    enum Tresor
+    enum Treasure
     {
         COFFRE
         CHOUETTE
@@ -167,38 +165,37 @@ package model
         ARMURE
         PAPILLON
 
-        - <<create>> Tresor(nom : String)
-        - m_nom
+        - <<create>> Treasure(nom : String)
+        - m_name
         + getNom() : String
-        + getRandomTreasureList() : ArrayList<Tresor>
+        + getRandomTreasureList() : Treasure[24]
     }
 
     package observers
     {
-        interface ObserverJoueur
+        interface ObserverPlayer
         {
-            + {abstract} updatePosition(x : Integer, y : Integer)
-            + {abstract} updateTresorSuivant(tresor : Tresor, tRestans : Integer)
-            + {abstract} updateVictoire(nom : String)
+            + {abstract} updatePosition(name : String, x : Integer, y : Integer)
+            + {abstract} updateTreasure(name : String, treasure : Treasure, tRemaining : Integer)
+            + {abstract} updateVictoire(name : String)
         }
 
-        interface ObserverPlateau
+        interface ObserverBoard
         {
-            + {abstract} updateDisposition(tuiles : Tuile[])
-            + {abstract} updateRecupTresor(x : Integer, y : Integer)
+            + {abstract} updateTilesArrangement(dir : Direction, index : Integer, tiles : Tile[7])
         }
 
-        interface ObserverPartie
+        interface ObserverGame
         {
-            + {abstract} updateRotation()
-            + {abstract} updatePositions()
+            + {abstract} updateTile(tile : Tile)
+            + {abstract} updateTurn(turn : Integer)
         }
     }
 }
 
 package view
 {
-    class AffichagePartie
+    class MainWindow
     {
 
     }
@@ -212,41 +209,45 @@ package controller
     }
 }
 
-Partie ...> ObserverJoueur
-AffichagePartie ...> ObserverPartie
-AffichagePartie ...> ObserverPlateau
+MainWindow ...> ObserverGame
+MainWindow ...> ObserverBoard
+MainWindow ...> ObserverPlayer
 
-Main ..> Partie : <<uses>>
+Main ..> Game : <<uses>>
 Main ..> Controller : <<uses>>
-Main ..> AffichagePartie : <<uses>>
-Joueur ..> Direction : <<uses>>
-'Joueur ..> Tresor : <<uses>>
-Tuile ..> Direction : <<uses>>
-Tuile ..> Joueur : <<uses>>
-TuileFactory ..> TuileDefault : <<uses>>
-TuileFactory ..> TuileTresor : <<uses>>
-TuileFactory ..> TuileDepart : <<uses>>
-TuileFactory ..> Direction : <<uses>>
-Plateau ..> Direction : <<uses>>
-Plateau ..> TuileFactory : <<uses>>
-Partie ..> Direction : <<uses>>
-Partie ..> FacadeGeneration : <<uses>>
+Main ..> MainWindow : <<uses>>
+Player ..> Direction : <<uses>>
+Tile ..> Direction : <<uses>>
+Tile ..> Player : <<uses>>
+TileFactory ..> TileDefault : <<uses>>
+TileFactory ..> TileTreasure : <<uses>>
+TileFactory ..> TileBase : <<uses>>
+TileFactory ..> Direction : <<uses>>
+TileFactory ..> Shape : <<uses>>
+Board ..> Direction : <<uses>>
+Game ..> Direction : <<uses>>
+Game ..> FacadeGeneration : <<uses>>
+FacadeGeneration ..> TileFactory : <<uses>>
+FacadeGeneration ..> Shape : <<uses>>
+FacadeGeneration ..> Direction : <<uses>>
+FacadeGeneration ..> Treasure : <<uses>>
 
-Partie "1" *---> "1\n - m_plateau" Plateau : possède
-Partie "1" *---> "1\n - m_tuileRab" Tuile : a en réserve
-Partie "1" o---> "1\n - m_joueurEnCours" Joueur : au tour de
-Partie "1" o---> "*\n - m_observeurs" ObserverPartie : est observé par
+Game "1" *---> "1\n - m_board" Board : is played on
+Game "1" *---> "1\n - m_extraTile" Tile : has in stock
+Game "1" o---> "1\n - m_currentPlayer" Player : current player
+Game "1" o---> "*\n - m_observers" ObserverGame : is observed by
 
-FacadeGeneration "1" o---> "1\n - {static} m_tuileRabStockee" Tuile : Garde de côté
+FacadeGeneration "1" o---> "1\n - {static} m_extraTile" Tile : stocks temporarily
 
-Plateau "1" o---> "49\n - m_tuiles" Tuile : est composé de
-Plateau "1" *---> "4\n - m_joueurs" Joueur : est parcouru par
-Plateau "1" o---> "*\n - m_observeurs" ObserverPlateau : est observé par
+Board "1" o---> "49\n - m_tiles" Tile : is made of
+Board "1" *---> "4\n - m_players" Player : is played by
+Board "1" o---> "*\n - m_observers" ObserverBoard : is observed by
 
-TuileTresor "1" *---> "1\n - m_tresor" Tresor : possede
-TuileDepart "1" o---> "1\n - m_joueur" Joueur : Spawn sur
+TileTreasure "1" *---> "1\n - m_treasure" Treasure : has
+TileBase "1" o---> "1\n - m_player" Player : is the start point of
 
-Joueur "1" *---> "0..6\n - m_objectifs" Tresor : doit atteindre
-Joueur "1" o---> "*\n - m_observeurs" ObserverJoueur : est observé par
+Player "1" *---> "0..6\n - m_objectives" Treasure : has to reach
+Player "1" *---> "0..6\n - m_done" Treasure : has reached
+Player "1" o---> "*\n - m_observers" ObserverPlayer : is observed by
 
 @enduml
