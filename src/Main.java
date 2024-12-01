@@ -1,15 +1,15 @@
 import model.Direction;
-import model.Partie;
+import model.Game;
 
 public class Main {
 
     public static void main(String[] args) {
 
-    Partie jeu = new Partie();
-    jeu.lancerPartie();
+    Game jeu = new Game();
+    jeu.startGame();
     System.out.println(jeu);
-    jeu.placementTuile(Direction.EST, 1);
-    jeu.deplacementJoueur(Direction.SUD);
+    jeu.placeTile(Direction.EAST, 1);
+    jeu.movePlayer(Direction.SOUTH);
     System.out.println(jeu);
     }
 }
