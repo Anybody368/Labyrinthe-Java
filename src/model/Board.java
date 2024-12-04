@@ -36,7 +36,7 @@ public class Board {
     }
 
     /**
-     * Place la tuile en rab du côté dir à la ligne/colonne indew
+     * Place la tuile en rab du côté dir à la ligne/colonne index, et modifie la position des joueurs si nécessaire
      * @param tile : Tuile à ajouter au plateau
      * @param dir : Côté du plateau ou la tuile est insérée
      * @param index : index de la colonne/ligne à modifier
@@ -70,7 +70,7 @@ public class Board {
                 }
                 m_tiles[0][index] = tile;
                 break;
-            case EST:
+            case EAST:
                 temp = m_tiles[0][index];
                 for(int i = 0; i < BOARD_SIZE -1; i++)
                 {
@@ -80,6 +80,19 @@ public class Board {
                 break;
         }
         notifyTilesArrangement(dir, index);
+
+        for(Player player : m_players)
+        {
+            if((dir == EAST || dir == WEST) && player.getPosition()[0] == index)
+            {
+                player.moving(dir);
+            }
+            else if(player.getPosition()[1] == index)
+            {
+                player.moving(dir);
+            }
+        }
+
         return temp;
     }
 
@@ -99,7 +112,7 @@ public class Board {
                     destination = m_tiles[x][y - 1];
                 }
                 break;
-            case EST:
+            case EAST:
                 if (y < BOARD_SIZE - 1) {
                     destination = m_tiles[x + 1][y];
                 }
@@ -179,7 +192,7 @@ public class Board {
     {
         for(ObserverBoard observer : m_observers)
         {
-            if(dir == EST || dir == WEST) {
+            if(dir == EAST || dir == WEST) {
                 observer.updateTilesArrangement(dir, index, m_tiles[index]);
             }
             else
@@ -192,14 +205,6 @@ public class Board {
                 observer.updateTilesArrangement(dir, index, tiles);
             }
         }
-    }
-
-    /**
-     * À appeler quand un trésor est récupéré sur une tuile (optionnel, si on y arrive)
-     */
-    private void notifyRecupTresor()
-    {
-
     }
 
     @Override

@@ -4,16 +4,16 @@ import java.util.Random;
 
 public enum Direction {
 
-    NORTH, EST, SOUTH, WEST;
+    NORTH, EAST, SOUTH, WEST;
 
     public Direction getOpposite()
     {
         return switch (this)
         {
             case NORTH -> SOUTH;
-            case EST -> WEST;
+            case EAST -> WEST;
             case SOUTH -> NORTH;
-            case WEST -> EST;
+            case WEST -> EAST;
         };
     }
 
@@ -21,8 +21,8 @@ public enum Direction {
     {
         return switch (this)
         {
-            case NORTH -> EST;
-            case EST -> SOUTH;
+            case NORTH -> EAST;
+            case EAST -> SOUTH;
             case SOUTH -> WEST;
             case WEST -> NORTH;
         };
@@ -34,7 +34,7 @@ public enum Direction {
         return switch (rnd.nextInt(4))
         {
             case 0 -> NORTH;
-            case 1 -> EST;
+            case 1 -> EAST;
             case 2 -> SOUTH;
             case 3 -> WEST;
             default -> null;

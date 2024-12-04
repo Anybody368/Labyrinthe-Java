@@ -8,9 +8,15 @@ public class TileTreasure extends Tile {
 
     private Treasure m_treasure;
 
-    public TileTreasure(Direction[] dirs, Treasure treasure) {
+    /*public TileTreasure(Direction[] dirs, Treasure treasure) {
 
         super(dirs);
+        m_treasure = treasure;
+    }*/
+
+    public TileTreasure(Shape shape, Direction dir, Treasure treasure) {
+
+        super(shape, dir);
         m_treasure = treasure;
     }
 

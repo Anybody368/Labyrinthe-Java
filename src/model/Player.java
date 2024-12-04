@@ -37,11 +37,11 @@ private ArrayList<ObserverPlayer> m_observers = new ArrayList<>();
 
     /**
      * Ajout d'une instance qui pourra observer les changements du Joueur
-     * @param observeur : instance qui doit observer le Joueur
+     * @param observer : instance qui doit observer le Joueur
      */
-    public void addObserveur(ObserverPlayer observeur)
+    public void addObserver(ObserverPlayer observer)
     {
-        m_observers.add(observeur);
+        m_observers.add(observer);
     }
 
     /**
@@ -78,7 +78,7 @@ private ArrayList<ObserverPlayer> m_observers = new ArrayList<>();
      * Permet de modifier les coordonnées du joueur de 1 dans la dir donnée, en bouclant pour ne pas sortir des limites du tableau
      * @param dir : Direction dans laquelle le joueur se déplace
      */
-    public void deplacement(Direction dir){
+    public void moving(Direction dir){
 
         //Peut être simplifié si tout se passe comme prévu avant
         switch (dir)
@@ -86,7 +86,7 @@ private ArrayList<ObserverPlayer> m_observers = new ArrayList<>();
             case NORTH -> m_y = (m_y+ BOARD_SIZE -1)% BOARD_SIZE;
             case SOUTH -> m_y = (m_y+1)% BOARD_SIZE;
             case WEST -> m_x = (m_x+ BOARD_SIZE -1)% BOARD_SIZE;
-            case EST -> m_x = (m_x+1)% BOARD_SIZE;
+            case EAST -> m_x = (m_x+1)% BOARD_SIZE;
         }
         notifyPosition();
     }
@@ -99,16 +99,16 @@ private ArrayList<ObserverPlayer> m_observers = new ArrayList<>();
         if(treasure == getObjective())
         {
             m_done.add(m_objectives.removeLast());
-            notifyNextTreasure();
+            notifyFoundTreasure();
         }
     }
 
     /**
      * À appeler quand le joueur se trouve sur sa case départ, vérifie si les objectifs sont finis, et prévient si oui
      */
-    public void backHome(String name){
+    public void backHome(){
 
-        if(isDone() && m_name.equals(name))
+        if(isDone())
         {
             notifyVictory();
         }
@@ -131,17 +131,17 @@ private ArrayList<ObserverPlayer> m_observers = new ArrayList<>();
     private void notifyPosition(){
         for(ObserverPlayer obs : m_observers)
         {
-            obs.updatePosition(m_x, m_y);
+            obs.updatePosition(m_name, m_x, m_y);
         }
     }
 
     /**
      * À appeler quand le joueur trouve son trésor pour prévenir les observeurs du suivant
      */
-    private void notifyNextTreasure(){
+    private void notifyFoundTreasure(){
         for(ObserverPlayer obs : m_observers)
         {
-
+            obs.updateTreasure(m_name, getObjective(), m_objectives.size());
         }
     }
 
@@ -151,7 +151,7 @@ private ArrayList<ObserverPlayer> m_observers = new ArrayList<>();
     private void notifyVictory(){
         for(ObserverPlayer obs : m_observers)
         {
-
+            obs.updateVictory(m_name);
         }
     }
 

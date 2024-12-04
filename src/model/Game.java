@@ -5,8 +5,6 @@ import model.tuiles.Tile;
 
 import java.util.ArrayList;
 
-import static model.Board.AMOUNT_PLAYERS;
-
 public class Game {
 
     public static final int BOARD_SIZE = 7;
@@ -16,7 +14,6 @@ public class Game {
     private Player m_currentPlayer;
     private Tile m_extraTile;
     private ArrayList<ObserverGame> m_observers = new ArrayList<>();
-    //private String m_gagnant = null;
 
     /**
      * Ajout d'une instance qui pourra observer les changements de la Partie
@@ -45,7 +42,7 @@ public class Game {
      */
     public void turnTile(){
         m_extraTile.rotation();
-        notifyRotation();
+        notifyTile();
     }
 
     public void placeTile(Direction dir, int index)
@@ -56,6 +53,7 @@ public class Game {
         }
 
         m_extraTile = m_board.placeTile(m_extraTile, dir, index);
+        notifyTile();
     }
 
     /**
@@ -65,55 +63,40 @@ public class Game {
         int[] position = m_currentPlayer.getPosition();
         if(m_board.moveIsPossible(position[0], position[1], dir))
         {
-            m_currentPlayer.deplacement(dir);
+            m_currentPlayer.moving(dir);
         }
     }
 
+    /**
+     * Méthode à appeler quand le joueur finit son tour de jeu
+     */
     public void endTurn()
     {
         m_board.endTurn(m_currentPlayer);
         m_turn++;
+        notifyTurn();
         m_currentPlayer = m_board.getNextPlayer(m_currentPlayer);
     }
 
-    public void updatePosition(int x, int y) {
-        notifyPositions();
-    }
-
-    public void updateTresor(Treasure treasure, int tRestants) {
-
-    }
-
-    public void updateVictoire(String nom) {
-
-    }
-
     /**
-     * À appeler quand la tuile en rab est tournée pour prévenir les observeurs
+     * À appeler quand on passe au tour suivant pour prévenir les observers
      */
-    private void notifyRotation()
+    private void notifyTurn()
     {
-        for(ObserverGame observeurs : m_observers)
+        for(ObserverGame obs : m_observers)
         {
-            observeurs.updateRotation(m_extraTile);
+            obs.updateTurn(m_turn);
         }
     }
 
     /**
-     * À appeler quand un joueur change de position pour prévenir les observeurs
+     * À appeler quand la tuile en rab est modifiée/remplacée pour prévenir les observers
      */
-    private void notifyPositions()
+    private void notifyTile()
     {
-        int[][] positions = m_board.getPlayersPositions();
-        int[] xs = new int[AMOUNT_PLAYERS], ys = new int[AMOUNT_PLAYERS];
-        for(int i = 0; i < AMOUNT_PLAYERS; i++)
+        for(ObserverGame obs : m_observers)
         {
-            xs[i] = positions[i][0];
-            ys[i] = positions[i][1];
-        }
-        for(ObserverGame observeurs : m_observers)
-        {
-            observeurs.updatePositions(xs, ys);
+            obs.updateTile(m_extraTile);
         }
     }
 

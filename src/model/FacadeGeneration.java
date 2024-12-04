@@ -1,5 +1,6 @@
 package model;
 
+import model.tuiles.Shape;
 import model.tuiles.Tile;
 
 import java.awt.*;
@@ -52,22 +53,22 @@ public class FacadeGeneration {
     private static ArrayList<Tile> generateFixedTiles(Player[] players, ArrayList<Treasure> treasures)
     {
         ArrayList<Tile> tuilesFixes = new ArrayList<>(16);
-        tuilesFixes.add(makeTileBase(WEST, 2, players[3]));
-        tuilesFixes.add(makeTileTreasure(SOUTH, 3, treasures.removeLast()));
-        tuilesFixes.add(makeTileTreasure(SOUTH, 3, treasures.removeLast()));
-        tuilesFixes.add(makeTileBase(SOUTH, 2, players[2]));
-        tuilesFixes.add(makeTileTreasure(WEST, 3, treasures.removeLast()));
-        tuilesFixes.add(makeTileTreasure(SOUTH, 3, treasures.removeLast()));
-        tuilesFixes.add(makeTileTreasure(EST, 3, treasures.removeLast()));
-        tuilesFixes.add(makeTileTreasure(EST, 3, treasures.removeLast()));
-        tuilesFixes.add(makeTileTreasure(WEST, 3, treasures.removeLast()));
-        tuilesFixes.add(makeTileTreasure(WEST, 3, treasures.removeLast()));
-        tuilesFixes.add(makeTileTreasure(NORTH, 3, treasures.removeLast()));
-        tuilesFixes.add(makeTileTreasure(EST, 3, treasures.removeLast()));
-        tuilesFixes.add(makeTileBase(NORTH, 2, players[1]));
-        tuilesFixes.add(makeTileTreasure(NORTH, 3, treasures.removeLast()));
-        tuilesFixes.add(makeTileTreasure(NORTH, 3, treasures.removeLast()));
-        tuilesFixes.add(makeTileBase(EST, 2, players[0]));
+        tuilesFixes.add(makeTileBase(WEST, Shape.L, players[3]));
+        tuilesFixes.add(makeTileTreasure(SOUTH, Shape.T, treasures.removeLast()));
+        tuilesFixes.add(makeTileTreasure(SOUTH, Shape.T, treasures.removeLast()));
+        tuilesFixes.add(makeTileBase(SOUTH, Shape.L, players[2]));
+        tuilesFixes.add(makeTileTreasure(WEST, Shape.T, treasures.removeLast()));
+        tuilesFixes.add(makeTileTreasure(SOUTH, Shape.T, treasures.removeLast()));
+        tuilesFixes.add(makeTileTreasure(EAST, Shape.T, treasures.removeLast()));
+        tuilesFixes.add(makeTileTreasure(EAST, Shape.T, treasures.removeLast()));
+        tuilesFixes.add(makeTileTreasure(WEST, Shape.T, treasures.removeLast()));
+        tuilesFixes.add(makeTileTreasure(WEST, Shape.T, treasures.removeLast()));
+        tuilesFixes.add(makeTileTreasure(NORTH, Shape.T, treasures.removeLast()));
+        tuilesFixes.add(makeTileTreasure(EAST, Shape.T, treasures.removeLast()));
+        tuilesFixes.add(makeTileBase(NORTH, Shape.L, players[1]));
+        tuilesFixes.add(makeTileTreasure(NORTH, Shape.T, treasures.removeLast()));
+        tuilesFixes.add(makeTileTreasure(NORTH, Shape.T, treasures.removeLast()));
+        tuilesFixes.add(makeTileBase(EAST, Shape.L, players[0]));
 
         return tuilesFixes;
     }
@@ -83,19 +84,19 @@ public class FacadeGeneration {
 
         for(int i = 0; i < 6; i++)
         {
-            tuilesAmov.add(makeTileTreasure(Direction.getRandom(), 3, treasures.removeLast()));
+            tuilesAmov.add(makeTileTreasure(Direction.getRandom(), Shape.T, treasures.removeLast()));
         }
         for(int i = 0; i < 6; i++)
         {
-            tuilesAmov.add(makeTileTreasure(Direction.getRandom(), 2, treasures.removeLast()));
+            tuilesAmov.add(makeTileTreasure(Direction.getRandom(), Shape.L, treasures.removeLast()));
         }
         for(int i = 0; i < 10; i++)
         {
-            tuilesAmov.add(makeTileDefault(Direction.getRandom(), 2));
+            tuilesAmov.add(makeTileDefault(Direction.getRandom(), Shape.L));
         }
         for(int i = 0; i < 12; i++)
         {
-            tuilesAmov.add(makeTileDefault(Direction.getRandom(), 1));
+            tuilesAmov.add(makeTileDefault(Direction.getRandom(), Shape.I));
         }
 
         Collections.shuffle(tuilesAmov);
