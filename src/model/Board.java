@@ -108,22 +108,22 @@ public class Board {
         Tile destination = null;
         switch (dir) {
             case NORTH:
-                if (x > 0) {
+                if (y > 0) {
                     destination = m_tiles[x][y - 1];
                 }
                 break;
             case EAST:
-                if (y < BOARD_SIZE - 1) {
+                if (x < BOARD_SIZE - 1) {
                     destination = m_tiles[x + 1][y];
                 }
                 break;
             case SOUTH:
-                if (x < BOARD_SIZE - 1) {
+                if (y < BOARD_SIZE - 1) {
                     destination = m_tiles[x][y + 1];
                 }
                 break;
             case WEST:
-                if (y > 0) {
+                if (x > 0) {
                     destination = m_tiles[x - 1][y];
                 }
                 break;
