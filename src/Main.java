@@ -1,4 +1,4 @@
-import View.MainWindow;
+import view.MainWindow;
 import model.Direction;
 import model.Game;
 

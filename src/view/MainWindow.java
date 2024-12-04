@@ -1,4 +1,4 @@
-package View;
+package view;
 
 import model.Direction;
 import model.observers.ObserverBoard;
@@ -6,8 +6,6 @@ import model.tuiles.Tile;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionListener;
-import java.util.Observer;
 
 public class MainWindow extends JFrame implements ObserverBoard {
 
