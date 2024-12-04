@@ -5,25 +5,13 @@ import model.Player;
 
 public abstract class Tile {
 
-    private boolean m_north = false;
-    private boolean m_south = false;
-    private boolean m_est = false;
-    private boolean m_west = false;
+    private Shape m_shape;
+    private Direction m_orientation;
 
-    /**
-     * Constructeur générique d'une tuile
-     * @param dirs : Tableau de directions représentant les côtés ouverts de la tuile
-     */
-    protected Tile(Direction[] dirs) {
-
-        for (Direction dir : dirs) {
-            switch (dir) {
-                case EAST -> m_est = true;
-                case NORTH -> m_north = true;
-                case SOUTH -> m_south = true;
-                case WEST -> m_west = true;
-            }
-        }
+    protected Tile(Shape shape, Direction dir)
+    {
+        m_shape = shape;
+        m_orientation = dir;
     }
 
     /**
@@ -42,11 +30,7 @@ public abstract class Tile {
      */
     public void rotation(){
 
-        boolean temp = m_north;
-        m_north = m_west;
-        m_west = m_south;
-        m_south = m_est;
-        m_est = temp;
+        m_orientation = m_orientation.getNext();
     }
 
     /**
@@ -56,13 +40,32 @@ public abstract class Tile {
      */
     private boolean isOpen(Direction dir){
 
-        return switch (dir)
+        for(Direction opening : getOpenings())
         {
-            case NORTH -> m_north;
-            case EAST -> m_est;
-            case SOUTH -> m_south;
-            case WEST -> m_west;
+            if(dir == opening)
+            {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    private Direction[] getOpenings()
+    {
+        return switch (m_shape)
+        {
+            case I -> new Direction[]{m_orientation, m_orientation.getOpposite()};
+            case L -> new Direction[]{m_orientation, m_orientation.getNext()};
+            case T -> new Direction[]{m_orientation, m_orientation.getNext(), m_orientation.getOpposite()};
         };
+    }
+
+    public Shape getShape() {
+        return m_shape;
+    }
+
+    public Direction getOrientation() {
+        return m_orientation;
     }
 
     /**
@@ -72,11 +75,11 @@ public abstract class Tile {
 
     @Override
     public String toString() {
-        StringBuilder string = new StringBuilder("Ouvertures : ");
-        if(m_north) string.append("Nord ");
-        if(m_est) string.append("Est ");
-        if(m_south) string.append("Sud ");
-        if(m_west) string.append("Ouest ");
+        StringBuilder string = new StringBuilder("Forme : " + m_shape + ", Ouvertures : ");
+        for(Direction dir : getOpenings())
+        {
+            string.append(dir.toString()).append(" ");
+        }
 
         return string.toString();
     }

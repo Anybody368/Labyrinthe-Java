@@ -14,7 +14,7 @@ public class TileFactory {
      */
     public static TileDefault makeTileDefault(Direction dir, Shape shape)
     {
-        return new TileDefault(getDirections(dir, shape));
+        return new TileDefault(shape, dir);
     }
 
     /**
@@ -26,7 +26,7 @@ public class TileFactory {
      */
     public static TileBase makeTileBase(Direction dir, Shape shape, Player j)
     {
-        return new TileBase(getDirections(dir, shape), j);
+        return new TileBase(shape, dir, j);
     }
 
     /**
@@ -39,7 +39,7 @@ public class TileFactory {
      */
     public static TileTreasure makeTileTreasure(Direction dir, Shape shape, Treasure t)
     {
-        return new TileTreasure(getDirections(dir, shape), t);
+        return new TileTreasure(shape, dir, t);
     }
 
     private static Direction[] getDirections(Direction dir, Shape shape)

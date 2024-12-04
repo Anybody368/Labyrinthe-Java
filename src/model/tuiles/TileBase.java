@@ -7,9 +7,15 @@ public class TileBase extends Tile {
 
     private Player m_player;
 
-    public TileBase(Direction[] dirs, Player player) {
+    /*public TileBase(Direction[] dirs, Player player) {
 
         super(dirs);
+        m_player = player;
+    }*/
+
+    public TileBase(Shape shape, Direction dir, Player player) {
+
+        super(shape, dir);
         m_player = player;
     }
 
