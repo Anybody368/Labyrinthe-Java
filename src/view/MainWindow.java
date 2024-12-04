@@ -3,13 +3,14 @@ package view;
 import model.Direction;
 import model.observers.ObserverBoard;
 import model.tuiles.Tile;
+import static model.Direction.*;
 
 import javax.swing.*;
 import java.awt.*;
 
 public class MainWindow extends JFrame implements ObserverBoard {
 
-    public  MainWindow() {
+    public  MainWindow() { // mettre un controleur et une game en parametre
         SwingUtilities.invokeLater(() -> {
             JFrame frame = new JFrame("Labyrinthe");
             frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -65,24 +66,40 @@ public class MainWindow extends JFrame implements ObserverBoard {
             gbc.gridx = 1;
             gbc.gridy = 0;
             directionPanel.add(upButton, gbc);
+            upButton.addActionListener(actionEvent -> {
+                // controller.movePlayer(NORTH)
+
+            });
 
             // Bouton "Gauche"
             JButton leftButton = new JButton("←");
             gbc.gridx = 0;
             gbc.gridy = 1;
             directionPanel.add(leftButton, gbc);
+            leftButton.addActionListener(actionEvent -> {
+                // controller.movePlayer(WEST)
+
+            });
 
             // Bouton "Droite"
             JButton rightButton = new JButton("→");
             gbc.gridx = 2;
             gbc.gridy = 1;
             directionPanel.add(rightButton, gbc);
+            rightButton.addActionListener(actionEvent -> {
+                // controller.movePlayer(EAST)
+
+            });
 
             // Bouton "Bas"
             JButton downButton = new JButton("↓");
             gbc.gridx = 1;
             gbc.gridy = 2;
             directionPanel.add(downButton, gbc);
+            downButton.addActionListener(actionEvent -> {
+                // controller.movePlayer(SOUTH)
+
+            });
 
             rightPanel.add(directionPanel); // Ajouter le pavé directionnel
 

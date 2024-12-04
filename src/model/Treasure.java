@@ -6,30 +6,30 @@ import java.util.List;
 
 public enum Treasure {
 
-    CHEST("Coffre"),
+    CANNON("Cannon"),
     OWL("Chouette"),
-    GHOST("Fantôme"),
+    POTION("Potion"),
     RING("Bague"),
     CANDLESTICK("Chandelier"),
     LIZARD("Lézard"),
-    SWORD("Épée"),
+    DAGGER("Dagger"),
     BAT("Chauve-souris"),
-    RAT("Rat"),
-    MAP("Carte"),
-    PRINCESS("Princesse"),
-    DRAGON("Dragon"),
-    SKULL("Crâne"),
+    MOUSE("Mouse"),
+    TREASURE("Treasure"),
+    MERMAID("Mermaid"),
+    HOLYGRAIL("Holygrail"),
+    BOMB("Bomb"),
     KEYS("Clés"),
-    GNOME("Gnôme"),
+    COINS("Coins"),
     CROWN("Couronne"),
-    BEETLE("Scarabé"),
-    BAG("Sac"),
+    BUG("Bug"),
+    PONY("Pony"),
     BOOK("Livre"),
-    NECKLACE("Collier"),
-    SPIDER("Araignée"),
-    DIAMOND("Diamant"),
-    ARMOR("Armure"),
-    BUTTERFLY("Papillon");
+    KNIGHTHELMET("Knighthelmet"),
+    CAT("Cat"),
+    DIAMOND("Diamond"),
+    ARMOR("Armor"),
+    BUTTERFLY("Butterfly");
 
     private String m_name;
 
