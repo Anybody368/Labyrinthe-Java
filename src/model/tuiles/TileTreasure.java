@@ -6,13 +6,7 @@ import model.Treasure;
 
 public class TileTreasure extends Tile {
 
-    private Treasure m_treasure;
-
-    /*public TileTreasure(Direction[] dirs, Treasure treasure) {
-
-        super(dirs);
-        m_treasure = treasure;
-    }*/
+    private final Treasure m_treasure;
 
     public TileTreasure(Shape shape, Direction dir, Treasure treasure) {
 

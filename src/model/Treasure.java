@@ -31,7 +31,7 @@ public enum Treasure {
     ARMOR("Armor"),
     BUTTERFLY("Butterfly");
 
-    private String m_name;
+    private final String m_name;
 
     Treasure(String nom)
     {

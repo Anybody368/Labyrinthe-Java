@@ -5,7 +5,7 @@ import model.Player;
 
 public abstract class Tile {
 
-    private Shape m_shape;
+    private final Shape m_shape;
     private Direction m_orientation;
 
     protected Tile(Shape shape, Direction dir)

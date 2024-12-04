@@ -1,6 +1,7 @@
 package model;
 
 import model.observers.ObserverBoard;
+import model.observers.ObserverPlayer;
 import model.tuiles.Tile;
 
 import java.util.ArrayList;
@@ -12,9 +13,9 @@ public class Board {
 
     public static final int AMOUNT_PLAYERS = 4;
 
-    private Tile[][] m_tiles;
-    private Player[] m_players;
-    private ArrayList<ObserverBoard> m_observers = new ArrayList<>();
+    private final Tile[][] m_tiles;
+    private final Player[] m_players;
+    private final ArrayList<ObserverBoard> m_observers = new ArrayList<>();
 
     /**
      * Constructeur du plateau de jeu
@@ -33,6 +34,14 @@ public class Board {
     public void addObserver(ObserverBoard observer)
     {
         m_observers.add(observer);
+    }
+
+    public void addPlayersObserver(ObserverPlayer observer)
+    {
+        for(Player p : m_players)
+        {
+            p.addObserver(observer);
+        }
     }
 
     /**

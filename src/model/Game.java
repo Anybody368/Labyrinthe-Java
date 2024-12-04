@@ -1,6 +1,8 @@
 package model;
 
+import model.observers.ObserverBoard;
 import model.observers.ObserverGame;
+import model.observers.ObserverPlayer;
 import model.tuiles.Tile;
 
 import java.util.ArrayList;
@@ -13,7 +15,7 @@ public class Game {
     private Board m_board;
     private Player m_currentPlayer;
     private Tile m_extraTile;
-    private ArrayList<ObserverGame> m_observers = new ArrayList<>();
+    private final ArrayList<ObserverGame> m_observers = new ArrayList<>();
 
     /**
      * Ajout d'une instance qui pourra observer les changements de la Partie
@@ -22,6 +24,16 @@ public class Game {
     public void addObserver(ObserverGame observer)
     {
         m_observers.add(observer);
+    } //Appeler ces trois méthodes suivantes au début de MainWindow avec "this" comme param
+
+    public void addBoardObserver(ObserverBoard observer)
+    {
+        m_board.addObserver(observer);
+    }
+
+    public void addPlayersObserver(ObserverPlayer observer)
+    {
+        m_board.addPlayersObserver(observer);
     }
 
     /**

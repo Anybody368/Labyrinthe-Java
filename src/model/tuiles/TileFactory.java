@@ -41,14 +41,4 @@ public class TileFactory {
     {
         return new TileTreasure(shape, dir, t);
     }
-
-    private static Direction[] getDirections(Direction dir, Shape shape)
-    {
-        return switch (shape)
-        {
-            case I -> new Direction[]{dir, dir.getOpposite()};
-            case L -> new Direction[]{dir, dir.getNext()};
-            case T -> new Direction[]{dir, dir.getNext(), dir.getOpposite()};
-        };
-    }
 }

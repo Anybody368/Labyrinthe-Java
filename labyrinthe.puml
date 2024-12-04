@@ -29,7 +29,7 @@ package model
         + {static} generateTiles(players : Joueur[]) : Tile[49]
         - {static} generateFixedTiles(players : Player[], tresors : Treasure[24]) : Tile[16]
         - {static} generateMovableTiles(tresors : Tresor[12]) : Tile[34]
-        - {static} generateTilesTable(fixes : Tile[16], amovibles : Tile[34]) : Tile[7][7]
+        - {static} generateTilesTable(fixes : Tile[16], amovibles : Tile[34]) : Tile[49]
         - {static} movableColumn(amovibles : Tile[*]) : Tile[7]
         - {static} fixedColumn(fixes : Tile[*]) : Tile[7]
         + {static} getExtraTile() : Tile
@@ -37,14 +37,14 @@ package model
 
     class Board
     {
-        + <<create>> Board(tiles : Tiles[7][7], players : Player[4])
+        + <<create>> Board(tiles : Tiles[49], players : Player[4])
         + addObserver(observer : ObserverBoard)
         + placeTile(tile : Tile, dir : Direction, index : Integer) : Tile
         + moveIsPossible(x : Integer, y : Integer, dir : Direction) : Boolean
         + endTurn(player : Player)
         + getAllPlayers() : Player[4]
         + getNextPlayer(previous : Player) : Player
-        + getPlayersPositions() : Integer[4][2]
+        + getPlayersPositions() : Integer[49]
         + toString() : String
 
         - notifyTilesArrangement(dir : Direction, ligne : Integer)
@@ -69,7 +69,6 @@ package model
             + {static} makeTileDefault(dir : Direction, shape : Shape) : TileDefault
             + {static} makeTileTreasure(dir : Direction, shape : Shape, treasure : Treasure) : TileTreasure
             + {static} makeTileBase(dir : Direction, shape : Shape, player : Player) : TileBase
-            - {static} getDirections(dir : Direction, shape : Shape) : Direction[]
         }
 
         enum Shape
@@ -81,12 +80,7 @@ package model
 
         abstract class Tile
         {
-            - m_north : Boolean
-            - m_east : Boolean
-            - m_south : Boolean
-            - m_west : Boolean
-
-            # <<create>> Tile(dirs : Direction[2..3])
+            # <<create>> Tile(shape : Shape, dir : Direction)
             + moveIsValid(dest : Tile, dir : Direction) : Boolean
             + rotation()
             - isOpen(dir : Directions) : Boolean
@@ -96,21 +90,21 @@ package model
 
         class TileDefault extends Tile
         {
-            + <<create>> TileDefault(dirs : Direction[2..3])
+            + <<create>> TileDefault(shape : Shape, dir : Direction)
             + action(player : Player)
             + toString() : String
         }
 
         class TileBase extends Tile
         {
-            + <<create>> TileBase(dirs : Direction[2..3], player : Player)
+            + <<create>> TileBase(shape : Shape, dir : Direction, player : Player)
             + action(player : Player)
             + toString() : String
         }
 
         class TileTreasure extends Tile
         {
-            + <<create>> TileTreasure(dirs : Direction[2..3], treasure : Treasure)
+            + <<create>> TileTreasure(shape : Shape, dir : Direction, treasure : Treasure)
             + action(player : Player)
             + toString() : String
         }
@@ -197,15 +191,20 @@ package view
 {
     class MainWindow
     {
-
+        + <<create>> MainWindow(ctrl : MainController, game : Game)
     }
 }
 
 package controller
 {
-    class Controller
+    class MainController
     {
-
+        + <<create>> MainController(game : Game)
+        + startGame()
+        + movePLayer(dir : Direction)
+        + placeTile(dir : Direction, index : Integer)
+        + endTurn()
+        + rotateTile()
     }
 }
 

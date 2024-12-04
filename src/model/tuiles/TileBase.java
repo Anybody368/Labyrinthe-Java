@@ -5,13 +5,7 @@ import model.Player;
 
 public class TileBase extends Tile {
 
-    private Player m_player;
-
-    /*public TileBase(Direction[] dirs, Player player) {
-
-        super(dirs);
-        m_player = player;
-    }*/
+    private final Player m_player;
 
     public TileBase(Shape shape, Direction dir, Player player) {
 

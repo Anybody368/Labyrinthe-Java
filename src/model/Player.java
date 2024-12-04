@@ -9,13 +9,13 @@ import static model.Game.BOARD_SIZE;
 
 public class Player {
 
-private String m_name;
-private Color m_colour;
+private final String m_name;
+private final Color m_colour;
 private int m_x;
 private int m_y;
-private ArrayList<Treasure> m_objectives;
-private ArrayList<Treasure> m_done;
-private ArrayList<ObserverPlayer> m_observers = new ArrayList<>();
+private final ArrayList<Treasure> m_objectives;
+private final ArrayList<Treasure> m_done;
+private final ArrayList<ObserverPlayer> m_observers = new ArrayList<>();
 
     /**
      * Constructeur d'un joueur
