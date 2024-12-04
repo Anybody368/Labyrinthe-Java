@@ -117,8 +117,4 @@ public class MainWindow extends JFrame implements ObserverBoard {
 
     }
 
-    @Override
-    public void updateTreasurePicked(int x, int y) {
-
-    }
 }
