@@ -3,6 +3,8 @@ package view;
 import controller.MainController;
 import model.Direction;
 import model.observers.ObserverBoard;
+import model.observers.ObserverGame;
+import model.observers.ObserverPlayer;
 import model.tuiles.Tile;
 import static model.Direction.*;
 import model.Game;
@@ -10,10 +12,11 @@ import model.Game;
 import javax.swing.*;
 import java.awt.*;
 
-public class MainWindow extends JFrame implements ObserverBoard {
+public class MainWindow extends JFrame implements ObserverBoard, ObserverGame, ObserverPlayer {
 
     public  MainWindow(MainController ctrl, Game game) { // mettre un controleur et une game en parametre
         SwingUtilities.invokeLater(() -> {
+            
             JFrame frame = new JFrame("Labyrinthe");
             frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
             frame.setSize(800, 600); // Largeur augmentée pour inclure l'interface utilisateur
