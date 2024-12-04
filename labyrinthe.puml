@@ -12,7 +12,9 @@ package model
     {
         - tour : Integer
 
-        + addObserver(observer : ObserverGame)
+        + addObserver(observer : GameObserver)
+        + addBoardObserver(observer : BoardObserver)
+        + addPlayersObserver(observer : PlayerObserver)
         + startGame()
         + turnTile()
         + movePLayer(dir : Direction)
@@ -38,7 +40,8 @@ package model
     class Board
     {
         + <<create>> Board(tiles : Tiles[49], players : Player[4])
-        + addObserver(observer : ObserverBoard)
+        + addObserver(observer : BoardObserver)
+        + addPlayersObserver(observer : PlayerObserver)
         + placeTile(tile : Tile, dir : Direction, index : Integer) : Tile
         + moveIsPossible(x : Integer, y : Integer, dir : Direction) : Boolean
         + endTurn(player : Player)
@@ -118,7 +121,7 @@ package model
         - m_y : Integer
 
         + <<create>> Player(name : String, colour : Color, x : Integer, y : Integer, objectives : Treasure[6])
-        + addObserver(observeur : ObserverPlayer)
+        + addObserver(observeur : PlayerObserver)
         + getPosition() : Integer[2]
         + getObjective() : Treasure
         + moving(dir : Direction)
@@ -167,19 +170,19 @@ package model
 
     package observers
     {
-        interface ObserverPlayer
+        interface PlayerObserver
         {
             + {abstract} updatePosition(name : String, x : Integer, y : Integer)
             + {abstract} updateTreasure(name : String, treasure : Treasure, tRemaining : Integer)
             + {abstract} updateVictoire(name : String)
         }
 
-        interface ObserverBoard
+        interface BoardObserver
         {
             + {abstract} updateTilesArrangement(dir : Direction, index : Integer, tiles : Tile[7])
         }
 
-        interface ObserverGame
+        interface GameObserver
         {
             + {abstract} updateTile(tile : Tile)
             + {abstract} updateTurn(turn : Integer)
@@ -208,12 +211,12 @@ package controller
     }
 }
 
-MainWindow ...> ObserverGame
-MainWindow ...> ObserverBoard
-MainWindow ...> ObserverPlayer
+MainWindow ...> GameObserver
+MainWindow ...> BoardObserver
+MainWindow ...> PlayerObserver
 
 Main ..> Game : <<uses>>
-Main ..> Controller : <<uses>>
+Main ..> MainController : <<uses>>
 Main ..> MainWindow : <<uses>>
 Player ..> Direction : <<uses>>
 Tile ..> Direction : <<uses>>
@@ -230,23 +233,27 @@ FacadeGeneration ..> TileFactory : <<uses>>
 FacadeGeneration ..> Shape : <<uses>>
 FacadeGeneration ..> Direction : <<uses>>
 FacadeGeneration ..> Treasure : <<uses>>
+MainWindow ..> MainController : <<uses>>
+MainWindow ..> Game : <<uses>>
 
 Game "1" *---> "1\n - m_board" Board : is played on
 Game "1" *---> "1\n - m_extraTile" Tile : has in stock
 Game "1" o---> "1\n - m_currentPlayer" Player : current player
-Game "1" o---> "*\n - m_observers" ObserverGame : is observed by
+Game "1" o---> "*\n - m_observers" GameObserver : is observed by
 
 FacadeGeneration "1" o---> "1\n - {static} m_extraTile" Tile : stocks temporarily
 
 Board "1" o---> "49\n - m_tiles" Tile : is made of
 Board "1" *---> "4\n - m_players" Player : is played by
-Board "1" o---> "*\n - m_observers" ObserverBoard : is observed by
+Board "1" o---> "*\n - m_observers" BoardObserver : is observed by
 
 TileTreasure "1" *---> "1\n - m_treasure" Treasure : has
 TileBase "1" o---> "1\n - m_player" Player : is the start point of
 
 Player "1" *---> "0..6\n - m_objectives" Treasure : has to reach
 Player "1" *---> "0..6\n - m_done" Treasure : has reached
-Player "1" o---> "*\n - m_observers" ObserverPlayer : is observed by
+Player "1" o---> "*\n - m_observers" PlayerObserver : is observed by
+
+MainController "1" o---> "1\n - m_game" Game : is controlling
 
 @enduml
