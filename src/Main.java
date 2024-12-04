@@ -14,6 +14,6 @@ public class Main {
     game.placeTile(Direction.EAST, 1);
     game.movePlayer(Direction.SOUTH);
     System.out.println(game);
-    new MainWindow();
+    new MainWindow(controller, game);
     }
 }

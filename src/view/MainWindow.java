@@ -1,16 +1,18 @@
 package view;
 
+import controller.MainController;
 import model.Direction;
 import model.observers.ObserverBoard;
 import model.tuiles.Tile;
 import static model.Direction.*;
+import model.Game;
 
 import javax.swing.*;
 import java.awt.*;
 
 public class MainWindow extends JFrame implements ObserverBoard {
 
-    public  MainWindow() { // mettre un controleur et une game en parametre
+    public  MainWindow(MainController ctrl, Game game) { // mettre un controleur et une game en parametre
         SwingUtilities.invokeLater(() -> {
             JFrame frame = new JFrame("Labyrinthe");
             frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -67,7 +69,7 @@ public class MainWindow extends JFrame implements ObserverBoard {
             gbc.gridy = 0;
             directionPanel.add(upButton, gbc);
             upButton.addActionListener(actionEvent -> {
-                // controller.movePlayer(NORTH)
+                ctrl.movePlayer(NORTH);
 
             });
 
@@ -77,7 +79,7 @@ public class MainWindow extends JFrame implements ObserverBoard {
             gbc.gridy = 1;
             directionPanel.add(leftButton, gbc);
             leftButton.addActionListener(actionEvent -> {
-                // controller.movePlayer(WEST)
+                ctrl.movePlayer(WEST);
 
             });
 
@@ -87,7 +89,7 @@ public class MainWindow extends JFrame implements ObserverBoard {
             gbc.gridy = 1;
             directionPanel.add(rightButton, gbc);
             rightButton.addActionListener(actionEvent -> {
-                // controller.movePlayer(EAST)
+                ctrl.movePlayer(EAST);
 
             });
 
@@ -97,7 +99,7 @@ public class MainWindow extends JFrame implements ObserverBoard {
             gbc.gridy = 2;
             directionPanel.add(downButton, gbc);
             downButton.addActionListener(actionEvent -> {
-                // controller.movePlayer(SOUTH)
+                ctrl.movePlayer(SOUTH);
 
             });
 
