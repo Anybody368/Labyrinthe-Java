@@ -3,6 +3,8 @@ package view;
 import controller.MainController;
 import model.Direction;
 import model.observers.ObserverBoard;
+import model.observers.ObserverGame;
+import model.observers.ObserverPlayer;
 import model.tuiles.Tile;
 import static model.Direction.*;
 import model.Game;
@@ -14,6 +16,7 @@ public class MainWindow extends JFrame implements ObserverBoard {
 
     public  MainWindow(MainController ctrl, Game game) { // mettre un controleur et une game en parametre
         SwingUtilities.invokeLater(() -> {
+
             JFrame frame = new JFrame("Labyrinthe");
             frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
             frame.setSize(800, 600); // Largeur augmentée pour inclure l'interface utilisateur
@@ -28,14 +31,25 @@ public class MainWindow extends JFrame implements ObserverBoard {
             for (int i = 0; i < 9; i++) {
                 for (int j = 0; j < 9; j++) {
                     if (i == 0 && j % 2 == 0 && j > 0 && j < 8) {
+
                         borderedPanel.add(new JButton("↓")); // Boutons du haut
                     } else if (i == 8 && j % 2 == 0 && j > 0 && j < 8) {
-                        borderedPanel.add(new JButton("↑")); // Boutons du bas
+
+                        JButton bouton = new JButton("↑");
+                        bouton.addActionListener(actionEvent -> {
+
+                        });
+                        borderedPanel.add(bouton);// Boutons du bas
+
+
                     } else if (j == 0 && i % 2 == 0 && i > 0 && i < 8) {
+
                         borderedPanel.add(new JButton("→")); // Boutons à gauche
                     } else if (j == 8 && i % 2 == 0 && i > 0 && i < 8) {
+
                         borderedPanel.add(new JButton("←")); // Boutons à droite
                     } else if (i > 0 && i < 8 && j > 0 && j < 8) {
+
                         JButton tile = new JButton();
                         tile.setBackground(Color.LIGHT_GRAY);
                         tile.setBorder(BorderFactory.createLineBorder(Color.DARK_GRAY));
