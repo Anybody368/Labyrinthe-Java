@@ -11,6 +11,11 @@ public class TileDefault extends Tile {
     }
 
     @Override
+    public String getNameExtra() {
+        return "";
+    }
+
+    @Override
     public void action(Player player) {
 
     }

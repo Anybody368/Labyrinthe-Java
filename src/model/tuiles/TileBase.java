@@ -14,6 +14,11 @@ public class TileBase extends Tile {
     }
 
     @Override
+    public String getNameExtra() {
+        return m_player.getName();
+    }
+
+    @Override
     public void action(Player player) {
         if(player == m_player)
         {

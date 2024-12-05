@@ -1,7 +1,7 @@
 package model;
 
-import model.observers.ObserverBoard;
-import model.observers.ObserverPlayer;
+import model.observers.BoardObserver;
+import model.observers.PlayerObserver;
 import model.tuiles.Tile;
 
 import java.util.ArrayList;
@@ -13,35 +13,46 @@ public class Board {
 
     public static final int AMOUNT_PLAYERS = 4;
 
-    private final Tile[][] m_tiles;
+    private Tile[][] m_tiles;
     private final Player[] m_players;
-    private final ArrayList<ObserverBoard> m_observers = new ArrayList<>();
+    private final ArrayList<BoardObserver> m_observers = new ArrayList<>();
 
     /**
      * Constructeur du plateau de jeu
-     * @param tiles : Tableau en 2D représentant la disposition des tuiles
+     * @param players : Liste des joueurs de la partie
      */
-    public Board(Tile[][] tiles, Player[] players)
+    public Board(Player[] players)
     {
-        m_tiles = tiles;
         m_players = players;
+
     }
+
+
 
     /**
      * Ajout d'une instance qui pourra observer les changements sur le PLateau
      * @param observer : instance qui doit observer le Plateau
      */
-    public void addObserver(ObserverBoard observer)
+    public void addObserver(BoardObserver observer)
     {
         m_observers.add(observer);
     }
 
-    public void addPlayersObserver(ObserverPlayer observer)
+    public void addPlayersObserver(PlayerObserver observer)
     {
         for(Player p : m_players)
         {
             p.addObserver(observer);
         }
+    }
+
+    public Tile generateTilesAndBoard()
+    {
+        ArrayList<Treasure> treasures = Treasure.getRandomTreasureList();
+        ArrayList<Tile> fixed = TilesGenerationHelper.generateFixedTiles(m_players, treasures);
+        ArrayList<Tile> movable = TilesGenerationHelper.generateMovableTiles(treasures);
+        m_tiles = TilesGenerationHelper.generateTilesTable(fixed, movable);
+        return movable.removeLast();
     }
 
     /**
@@ -199,7 +210,7 @@ public class Board {
      */
     private void notifyTilesArrangement(Direction dir, int index)
     {
-        for(ObserverBoard observer : m_observers)
+        for(BoardObserver observer : m_observers)
         {
             if(dir == EAST || dir == WEST) {
                 observer.updateTilesArrangement(dir, index, m_tiles[index]);

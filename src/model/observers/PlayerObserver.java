@@ -2,7 +2,7 @@ package model.observers;
 
 import model.Treasure;
 
-public interface ObserverPlayer {
+public interface PlayerObserver {
     /**
      * Est appelé quand le joueur change de position
      * @param name : Nom du joueur

@@ -25,16 +25,13 @@ package model
         - notifyTurn()
     }
 
-    class FacadeGeneration
+    class TilesGenerationHelper
     {
-        + {static} createPlayers() : Player[4]
-        + {static} generateTiles(players : Joueur[]) : Tile[49]
-        - {static} generateFixedTiles(players : Player[], tresors : Treasure[24]) : Tile[16]
-        - {static} generateMovableTiles(tresors : Tresor[12]) : Tile[34]
-        - {static} generateTilesTable(fixes : Tile[16], amovibles : Tile[34]) : Tile[49]
+        + {static} generateFixedTiles(players : Player[], tresors : Treasure[24]) : Tile[16]
+        + {static} generateMovableTiles(tresors : Tresor[12]) : Tile[34]
+        + {static} generateTilesTable(fixes : Tile[16], amovibles : Tile[34]) : Tile[49]
         - {static} movableColumn(amovibles : Tile[*]) : Tile[7]
         - {static} fixedColumn(fixes : Tile[*]) : Tile[7]
-        + {static} getExtraTile() : Tile
     }
 
     class Board
@@ -228,11 +225,11 @@ TileFactory ..> Direction : <<uses>>
 TileFactory ..> Shape : <<uses>>
 Board ..> Direction : <<uses>>
 Game ..> Direction : <<uses>>
-Game ..> FacadeGeneration : <<uses>>
-FacadeGeneration ..> TileFactory : <<uses>>
-FacadeGeneration ..> Shape : <<uses>>
-FacadeGeneration ..> Direction : <<uses>>
-FacadeGeneration ..> Treasure : <<uses>>
+Board ..> TilesGenerationHelper : <<uses>>
+TilesGenerationHelper ..> TileFactory : <<uses>>
+TilesGenerationHelper ..> Shape : <<uses>>
+TilesGenerationHelper ..> Direction : <<uses>>
+TilesGenerationHelper ..> Treasure : <<uses>>
 MainWindow ..> MainController : <<uses>>
 MainWindow ..> Game : <<uses>>
 
@@ -240,8 +237,6 @@ Game "1" *---> "1\n - m_board" Board : is played on
 Game "1" *---> "1\n - m_extraTile" Tile : has in stock
 Game "1" o---> "1\n - m_currentPlayer" Player : current player
 Game "1" o---> "*\n - m_observers" GameObserver : is observed by
-
-FacadeGeneration "1" o---> "1\n - {static} m_extraTile" Tile : stocks temporarily
 
 Board "1" o---> "49\n - m_tiles" Tile : is made of
 Board "1" *---> "4\n - m_players" Player : is played by

@@ -1,8 +1,8 @@
 package model;
 
-import model.observers.ObserverBoard;
-import model.observers.ObserverGame;
-import model.observers.ObserverPlayer;
+import model.observers.BoardObserver;
+import model.observers.GameObserver;
+import model.observers.PlayerObserver;
 import model.tuiles.Tile;
 
 import java.util.ArrayList;
@@ -15,23 +15,23 @@ public class Game {
     private Board m_board;
     private Player m_currentPlayer;
     private Tile m_extraTile;
-    private final ArrayList<ObserverGame> m_observers = new ArrayList<>();
+    private final ArrayList<GameObserver> m_observers = new ArrayList<>();
 
     /**
      * Ajout d'une instance qui pourra observer les changements de la Partie
      * @param observer : instance qui doit observer la Partie
      */
-    public void addObserver(ObserverGame observer)
+    public void addObserver(GameObserver observer)
     {
         m_observers.add(observer);
-    } //Appeler ces trois méthodes suivantes au début de MainWindow avec "this" comme param
+    }
 
-    public void addBoardObserver(ObserverBoard observer)
+    public void addBoardObserver(BoardObserver observer)
     {
         m_board.addObserver(observer);
     }
 
-    public void addPlayersObserver(ObserverPlayer observer)
+    public void addPlayersObserver(PlayerObserver observer)
     {
         m_board.addPlayersObserver(observer);
     }
@@ -41,12 +41,22 @@ public class Game {
      */
     public void startGame() {
         m_turn = 0;
-        Player[] players = FacadeGeneration.createGamePlayers();
+        Player[] players = createGamePlayers();
 
-        Tile[][] tiles = FacadeGeneration.generateTiles(players);
-        m_board = new Board(tiles, players);
-        m_extraTile = FacadeGeneration.getExtraTile();
+        m_board = new Board(players);
+        m_extraTile = m_board.generateTilesAndBoard();
         m_currentPlayer = m_board.getNextPlayer(null);
+    }
+
+    private Player[] createGamePlayers()
+    {
+        ArrayList<Treasure> treasures = Treasure.getRandomTreasureList();
+        Player[] players = new Player[4];
+        players[0] = new Player("J1", 0, 0, new ArrayList<>(treasures.subList(0, 6)));
+        players[1] = new Player("J2", 0, BOARD_SIZE -1, new ArrayList<>(treasures.subList(6, 12)));
+        players[2] = new Player("J3", BOARD_SIZE -1, 0, new ArrayList<>(treasures.subList(12, 18)));
+        players[3] = new Player("J4", BOARD_SIZE -1, BOARD_SIZE -1, new ArrayList<>(treasures.subList(18, 24)));
+        return players;
     }
 
     /**
@@ -95,7 +105,7 @@ public class Game {
      */
     private void notifyTurn()
     {
-        for(ObserverGame obs : m_observers)
+        for(GameObserver obs : m_observers)
         {
             obs.updateTurn(m_turn);
         }
@@ -106,7 +116,7 @@ public class Game {
      */
     private void notifyTile()
     {
-        for(ObserverGame obs : m_observers)
+        for(GameObserver obs : m_observers)
         {
             obs.updateTile(m_extraTile);
         }

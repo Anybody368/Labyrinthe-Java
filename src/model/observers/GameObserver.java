@@ -2,7 +2,7 @@ package model.observers;
 
 import model.tuiles.Tile;
 
-public interface ObserverGame {
+public interface GameObserver {
     /**
      * Est appelé quand on passe au tour suivant
      * @param turn : numéro de tour

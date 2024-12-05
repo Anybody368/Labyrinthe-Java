@@ -15,6 +15,11 @@ public class TileTreasure extends Tile {
     }
 
     @Override
+    public String getNameExtra() {
+        return m_treasure.getName();
+    }
+
+    @Override
     public void action(Player player) {
         player.validateObjective(m_treasure);
     }
