@@ -94,11 +94,11 @@ public class Board {
         {
             if((dir == EAST || dir == WEST) && player.getPosition()[0] == index)
             {
-                player.moving(dir);
+                player.move(dir);
             }
             else if(player.getPosition()[1] == index)
             {
-                player.moving(dir);
+                player.move(dir);
             }
         }
 
@@ -112,7 +112,7 @@ public class Board {
      * @param dir : Direction du déplacement voulu
      * @return false si déplacement en dehors des limites du tableau ou si bloqué, true sinon
      */
-    public boolean moveIsPossible(int x, int y, Direction dir)
+    public boolean isPlayerMovePossible(int x, int y, Direction dir)
     {
         Tile destination = null;
         switch (dir) {

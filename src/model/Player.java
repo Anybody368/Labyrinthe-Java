@@ -78,7 +78,7 @@ private final ArrayList<ObserverPlayer> m_observers = new ArrayList<>();
      * Permet de modifier les coordonnées du joueur de 1 dans la dir donnée, en bouclant pour ne pas sortir des limites du tableau
      * @param dir : Direction dans laquelle le joueur se déplace
      */
-    public void moving(Direction dir){
+    public void move(Direction dir){
 
         //Peut être simplifié si tout se passe comme prévu avant
         switch (dir)

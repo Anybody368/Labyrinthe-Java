@@ -73,9 +73,9 @@ public class Game {
      */
     public void movePlayer(Direction dir){
         int[] position = m_currentPlayer.getPosition();
-        if(m_board.moveIsPossible(position[0], position[1], dir))
+        if(m_board.isPlayerMovePossible(position[0], position[1], dir))
         {
-            m_currentPlayer.moving(dir);
+            m_currentPlayer.move(dir);
         }
     }
 

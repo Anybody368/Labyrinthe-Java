@@ -15,9 +15,9 @@ public interface ObserverPlayer {
      * Est appelé quand un joueur trouve son trésor
      * @param name : Nom du joueur
      * @param treasure : Nouveau trésor cherché (null si plus aucun)
-     * @param tRemaining : Nombre de trésors restants
+     * @param nbTreasureRemaining : Nombre de trésors restants
      */
-    void updateTreasure(String name, Treasure treasure, int tRemaining);
+    void updateTreasure(String name, Treasure treasure, int nbTreasureRemaining);
 
     /**
      * Est appelé quand le joueur gagne la partie

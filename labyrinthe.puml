@@ -84,7 +84,7 @@ package model
         abstract class Tile
         {
             # <<create>> Tile(shape : Shape, dir : Direction)
-            + moveIsValid(dest : Tile, dir : Direction) : Boolean
+            + IsPlayerMoveValid(dest : Tile, dir : Direction) : Boolean
             + rotation()
             - isOpen(dir : Directions) : Boolean
             + {abstract} action(player : Player)
@@ -124,7 +124,7 @@ package model
         + addObserver(observeur : PlayerObserver)
         + getPosition() : Integer[2]
         + getObjective() : Treasure
-        + moving(dir : Direction)
+        + move(dir : Direction)
         + validateObjective(treasure : Treasure)
         + backHome()
         - isDone() : Boolean
@@ -173,7 +173,7 @@ package model
         interface PlayerObserver
         {
             + {abstract} updatePosition(name : String, x : Integer, y : Integer)
-            + {abstract} updateTreasure(name : String, treasure : Treasure, tRemaining : Integer)
+            + {abstract} updateTreasure(name : String, treasure : Treasure, nbTreasureRemaining : Integer)
             + {abstract} updateVictoire(name : String)
         }
 
