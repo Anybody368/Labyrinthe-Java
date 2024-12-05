@@ -2,6 +2,7 @@ package view;
 
 import controller.MainController;
 import model.Direction;
+import model.Treasure;
 import model.observers.ObserverBoard;
 import model.observers.ObserverGame;
 import model.observers.ObserverPlayer;
@@ -12,10 +13,14 @@ import model.Game;
 import javax.swing.*;
 import java.awt.*;
 
-public class MainWindow extends JFrame implements ObserverBoard {
+public class MainWindow extends JFrame implements ObserverBoard, ObserverPlayer, ObserverGame {
 
     public  MainWindow(MainController ctrl, Game game) { // mettre un controleur et une game en parametre
         SwingUtilities.invokeLater(() -> {
+
+            game.addObserver(this);
+            game.addPlayersObserver(this);
+            game.addBoardObserver(this);
 
             JFrame frame = new JFrame("Labyrinthe");
             frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -72,6 +77,15 @@ public class MainWindow extends JFrame implements ObserverBoard {
             rightPanel.add(playerLabel);
 
             rightPanel.add(Box.createRigidArea(new Dimension(0, 20))); // Espace vertical
+
+            // Placeholder pour la tuile en rab
+            JPanel spareTilePanel = new JPanel();
+            spareTilePanel.setPreferredSize(new Dimension(100, 100)); // Taille de la case
+            spareTilePanel.setBackground(Color.LIGHT_GRAY);
+            spareTilePanel.setBorder(BorderFactory.createLineBorder(Color.DARK_GRAY));
+            rightPanel.add(spareTilePanel);
+
+            rightPanel.add(Box.createRigidArea(new Dimension(0, 10))); // Espace vertical
 
             // Pavé directionnel (T inversé)
             JPanel directionPanel = new JPanel(new GridBagLayout());
@@ -148,4 +162,28 @@ public class MainWindow extends JFrame implements ObserverBoard {
 
     }
 
+    @Override
+    public void updateTurn(int turn) {
+
+    }
+
+    @Override
+    public void updateTile(Tile tile) {
+
+    }
+
+    @Override
+    public void updatePosition(String name, int x, int y) {
+
+    }
+
+    @Override
+    public void updateTreasure(String name, Treasure treasure, int tRemaining) {
+
+    }
+
+    @Override
+    public void updateVictory(String name) {
+
+    }
 }
