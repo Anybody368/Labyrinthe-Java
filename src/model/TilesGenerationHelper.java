@@ -1,11 +1,13 @@
 package model;
 
+import helpers.ImageHelper;
 import model.tuiles.Shape;
 import model.tuiles.Tile;
 
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
 import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 
@@ -125,30 +127,5 @@ public class TilesGenerationHelper {
         }
         colonne[BOARD_SIZE -1] = fixes.removeLast();
         return colonne;
-    }
-
-    private BufferedImage getTileImage(Tile tile)
-    {
-        //BufferedImage image; = ImageIO.read(new File("../img/exempleTuiles/tuile_angle.png"));
-        String TilePath = switch (tile.getShape())
-        {
-            case L -> "../img/exempleTuiles/tuile_angle.png";
-            case T -> "../img/exempleTuiles/tuile_T.png";
-            case I -> "../img/exempleTuiles/tuile_line.png";
-        };
-
-        int nbRotations = switch (tile.getOrientation())
-        {
-            case NORTH -> 0;
-            case EAST -> 1;
-            case SOUTH -> 2;
-            case WEST -> 3;
-        };
-
-        String bonusPath = tile.getNameExtra();
-
-
-
-        return null;
     }
 }

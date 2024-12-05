@@ -52,10 +52,10 @@ public class Game {
     {
         ArrayList<Treasure> treasures = Treasure.getRandomTreasureList();
         Player[] players = new Player[4];
-        players[0] = new Player("J1", 0, 0, new ArrayList<>(treasures.subList(0, 6)));
-        players[1] = new Player("J2", 0, BOARD_SIZE -1, new ArrayList<>(treasures.subList(6, 12)));
-        players[2] = new Player("J3", BOARD_SIZE -1, 0, new ArrayList<>(treasures.subList(12, 18)));
-        players[3] = new Player("J4", BOARD_SIZE -1, BOARD_SIZE -1, new ArrayList<>(treasures.subList(18, 24)));
+        players[0] = new Player("bleu", 0, 0, new ArrayList<>(treasures.subList(0, 6)));
+        players[1] = new Player("jaune", 0, BOARD_SIZE -1, new ArrayList<>(treasures.subList(6, 12)));
+        players[2] = new Player("rouge", BOARD_SIZE -1, 0, new ArrayList<>(treasures.subList(12, 18)));
+        players[3] = new Player("vert", BOARD_SIZE -1, BOARD_SIZE -1, new ArrayList<>(treasures.subList(18, 24)));
         return players;
     }
 

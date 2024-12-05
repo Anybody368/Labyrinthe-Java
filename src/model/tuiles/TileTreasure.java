@@ -4,6 +4,8 @@ import model.Direction;
 import model.Player;
 import model.Treasure;
 
+import java.io.File;
+
 public class TileTreasure extends Tile {
 
     private final Treasure m_treasure;
@@ -15,8 +17,9 @@ public class TileTreasure extends Tile {
     }
 
     @Override
-    public String getNameExtra() {
-        return m_treasure.getName();
+    public String getPathExtra() {
+        String sep = File.separator;
+        return "img"+sep+"IconeTresors"+sep+m_treasure.getName()+".png";
     }
 
     @Override

@@ -11,7 +11,7 @@ public class TileDefault extends Tile {
     }
 
     @Override
-    public String getNameExtra() {
+    public String getPathExtra() {
         return "";
     }
 
