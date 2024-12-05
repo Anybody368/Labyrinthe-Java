@@ -9,11 +9,16 @@ import model.observers.ObserverPlayer;
 import model.tuiles.Tile;
 import static model.Direction.*;
 import model.Game;
+import static helpers.ImageHelper.*;
 
+import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
 
-public class MainWindow extends JFrame implements ObserverBoard, ObserverPlayer, ObserverGame {
+public class    MainWindow extends JFrame implements ObserverBoard, ObserverPlayer, ObserverGame {
 
     public  MainWindow(MainController ctrl, Game game) { // mettre un controleur et une game en parametre
         SwingUtilities.invokeLater(() -> {
@@ -78,14 +83,45 @@ public class MainWindow extends JFrame implements ObserverBoard, ObserverPlayer,
 
             rightPanel.add(Box.createRigidArea(new Dimension(0, 20))); // Espace vertical
 
-            // Placeholder pour la tuile en rab
-            JPanel spareTilePanel = new JPanel();
-            spareTilePanel.setPreferredSize(new Dimension(100, 100)); // Taille de la case
-            spareTilePanel.setBackground(Color.LIGHT_GRAY);
-            spareTilePanel.setBorder(BorderFactory.createLineBorder(Color.DARK_GRAY));
+// Placeholder pour la tuile en rab avec BufferedImage
+            class ImagePanel extends JPanel {
+                private BufferedImage image;
+
+                public void setImage(BufferedImage img) {
+                    this.image = img;
+                    repaint(); // Repeindre le panneau lorsque l'image change
+                }
+
+                @Override
+                protected void paintComponent(Graphics g) {
+                    super.paintComponent(g);
+                    if (image != null) {
+                        g.drawImage(image, 0, 0, getWidth(), getHeight(), this);
+                    }
+                }
+            }
+
+        // Création du panneau d'image
+            ImagePanel spareTilePanel = new ImagePanel();
+            spareTilePanel.setPreferredSize(new Dimension(100, 100));
+            spareTilePanel.setBorder(BorderFactory.createLineBorder(Color.DARK_GRAY)); // Bordure
+
+        // Chargement de l'image
+
+            BufferedImage tileImage = null; // Remplacez par votre chemin
+            try {
+                tileImage = ImageIO.read(new File("C:\\Users\\natha\\Labyrinthe\\a31-labyrinthe\\img\\exempleTuiles\\tuile_angle.png"));
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+
+            spareTilePanel.setImage(tileImage);
+
+
             rightPanel.add(spareTilePanel);
 
-            rightPanel.add(Box.createRigidArea(new Dimension(0, 10))); // Espace vertical
+            rightPanel.add(Box.createRigidArea(new Dimension(0, 20))); // Espace vertical
+
 
             // Pavé directionnel (T inversé)
             JPanel directionPanel = new JPanel(new GridBagLayout());
@@ -139,6 +175,11 @@ public class MainWindow extends JFrame implements ObserverBoard, ObserverPlayer,
             JButton rotateButton = new JButton("⟳ Rotate");
             rotateButton.setAlignmentX(Component.CENTER_ALIGNMENT); // Centrer
             rightPanel.add(rotateButton);
+            rotateButton.addActionListener(actionEvent -> {
+                ctrl.rotateTile();
+                BufferedImage img = spareTilePanel.image;
+                spareTilePanel.setImage(rotateClockwise(img));
+            });
 
             rightPanel.add(Box.createRigidArea(new Dimension(0, 10))); // Espace vertical
 
@@ -146,6 +187,9 @@ public class MainWindow extends JFrame implements ObserverBoard, ObserverPlayer,
             JButton treasureButton = new JButton("🏆 Trésors");
             treasureButton.setAlignmentX(Component.CENTER_ALIGNMENT); // Centrer
             rightPanel.add(treasureButton);
+            treasureButton.addActionListener(actionEvent -> {
+
+            });
 
             // ==================== Assemblage de l'interface ====================
             mainPanel.add(borderedPanel, BorderLayout.CENTER); // Plateau à gauche
