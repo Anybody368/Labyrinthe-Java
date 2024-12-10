@@ -122,6 +122,11 @@ public class Game {
         }
     }
 
+    public Tile getExtraTile()
+    {
+        return m_extraTile;
+    }
+
     @Override
     public String toString() {
 
