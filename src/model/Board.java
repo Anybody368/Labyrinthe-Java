@@ -188,18 +188,9 @@ public class Board {
         return m_players[0];
     }
 
-    /**
-     * Permet de récupérer les positions de l'ensemble des joueurs de la partie
-     * @return un tableau 2D contenant toutes les coordonnées x et y
-     */
-    public int[][] getPlayersPositions()
+    public Tile getTile(int x, int y)
     {
-        int[][] positions = new int[AMOUNT_PLAYERS][2];
-        for (int i = 0; i < AMOUNT_PLAYERS; i++)
-        {
-            positions[i] = m_players[i].getPosition();
-        }
-        return positions;
+        return m_tiles[x][y];
     }
 
 
