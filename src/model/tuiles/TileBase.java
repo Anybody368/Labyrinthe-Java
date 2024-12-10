@@ -18,7 +18,8 @@ public class TileBase extends Tile {
     @Override
     public String getPathExtra() {
         String sep = File.separator;
-        return "img"+sep+"ImgPion"+sep+m_player.getName()+".png";
+        //return "img"+sep+"ImgPion"+sep+m_player.getName()+".png";
+        return "";
     }
 
     @Override

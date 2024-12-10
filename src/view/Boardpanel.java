@@ -1,11 +1,15 @@
 package view;
 
+import helpers.ImageHelper;
+import model.Game;
+
 import javax.swing.*;
 import java.awt.*;
+import java.awt.image.BufferedImage;
 
 public class Boardpanel extends JPanel {
 
-    public Boardpanel() {
+    public Boardpanel(Game game) {
         // Création du panneau bordé
         JPanel borderedPanel = new JPanel(new GridLayout(9, 9)); // Plateau avec boutons autour
 
@@ -15,6 +19,7 @@ public class Boardpanel extends JPanel {
             for (int j = 0; j < 9; j++) {
 
                 if (i == 0 && j % 2 == 0 && j > 0 && j < 8) {
+
                     borderedPanel.add(new JButton("↓")); // Boutons du haut
 
                 } else if (i == 8 && j % 2 == 0 && j > 0 && j < 8) {
@@ -28,10 +33,11 @@ public class Boardpanel extends JPanel {
                     borderedPanel.add(new JButton("←")); // Boutons à droite
 
                 } else if (i > 0 && i < 8 && j > 0 && j < 8) {
-                    JButton tile = new JButton();
-                    tile.setBackground(Color.LIGHT_GRAY);
-                    tile.setBorder(BorderFactory.createLineBorder(Color.DARK_GRAY));
-                    borderedPanel.add(tile); // Cases du plateau
+                    ImagePanel imgPanel = new ImagePanel();
+                    BufferedImage tileImage = ImageHelper.getTileImage(game.getBoardTile(i-1,j-1));
+                    //tile.setBorder(BorderFactory.createLineBorder(Color.DARK_GRAY));
+                    imgPanel.setImage(tileImage);
+                    borderedPanel.add(imgPanel); // Cases du plateau
 
                 } else {
                     borderedPanel.add(new JLabel()); // Espaces vides
