@@ -34,7 +34,7 @@ public class Boardpanel extends JPanel {
 
                 } else if (i > 0 && i < 8 && j > 0 && j < 8) {
                     ImagePanel imgPanel = new ImagePanel();
-                    BufferedImage tileImage = ImageHelper.getTileImage(game.getBoardTile(i-1,j-1));
+                    BufferedImage tileImage = ImageHelper.getTileImage(game.getBoardTile(j-1,i-1));
                     //tile.setBorder(BorderFactory.createLineBorder(Color.DARK_GRAY));
                     imgPanel.setImage(tileImage);
                     borderedPanel.add(imgPanel); // Cases du plateau

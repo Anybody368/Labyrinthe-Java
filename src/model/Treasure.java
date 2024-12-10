@@ -10,7 +10,7 @@ public enum Treasure {
     OWL("Owl"),
     POTION("Potion"),
     RING("Ring"),
-    CANDLESTICK("Candelstick"),
+    CANDLESTICK("Candlestick"),
     LIZARD("Lizard"),
     DAGGER("Dagger"),
     BAT("Bat"),
