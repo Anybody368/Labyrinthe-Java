@@ -1,7 +1,7 @@
 A31 - Projet "Labyrinthe"
 =========================
 
-![](img/labyrinthe.jpg)![](img/labyrinthe2.jpg)
+![](Img/labyrinthe.jpg)![](Img/labyrinthe2.jpg)
 
 À vous de développer une application multi-players du jeu de société Labyrinthe !
 
