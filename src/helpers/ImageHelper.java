@@ -1,5 +1,7 @@
 package helpers;
 
+import model.tuiles.Tile;
+
 import javax.imageio.ImageIO;
 import java.awt.Graphics2D;
 import java.awt.AlphaComposite;
@@ -71,5 +73,50 @@ public class ImageHelper {
 	 */
 	public static BufferedImage rotateCounterClockwise( final BufferedImage original ) throws IllegalArgumentException {
 		return rotate( original, 1.5*Math.PI );
+	}
+
+	//TU PEUX DEPLACER CETTE FONCTION OU TU VEUX ET ENLEVER LE STATIC
+	/**
+	 * Méthode fournissant l'image d'une tuile passée en paramètre en fonction de sa forme, son orientation, et son contenu (sauf joueur)
+	 * @param tile : Tuile que l'on souhaite représenter
+	 * @return BufferedImage contenant l'image complète de la tuile
+	 */
+	public static BufferedImage getTileImage(Tile tile)
+	{
+		String sep = File.separator;
+		String tilePath = switch (tile.getShape())
+		{
+			case L -> "img"+sep+"ExempleTuiles"+sep+"tuile_angle.png";
+			case T -> "img"+sep+"ExempleTuiles"+sep+"tuile_T.png";
+			case I -> "img"+sep+"ExempleTuiles"+sep+"tuile_line.png";
+		};
+
+		int nbRotations = switch (tile.getOrientation())
+		{
+			case NORTH -> 0;
+			case EAST -> 1;
+			case SOUTH -> 2;
+			case WEST -> 3;
+		};
+
+		String bonusPath = tile.getPathExtra();
+
+		BufferedImage image;
+		try {
+			if (bonusPath.isEmpty()) {
+				image = ImageIO.read(new File(tilePath));
+			} else {
+				image = ImageHelper.merge(tilePath, bonusPath);
+			}
+		} catch (IOException e) {
+			System.out.println(e.getMessage());
+			image = null;
+		}
+
+		for (int i = 0; i < nbRotations; i++) {
+			image = ImageHelper.rotateClockwise(image);
+		}
+
+		return image;
 	}
 }

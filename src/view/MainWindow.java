@@ -3,9 +3,9 @@ package view;
 import controller.MainController;
 import model.Direction;
 import model.Treasure;
-import model.observers.ObserverBoard;
-import model.observers.ObserverGame;
-import model.observers.ObserverPlayer;
+import model.observers.BoardObserver;
+import model.observers.GameObserver;
+import model.observers.PlayerObserver;
 import model.tuiles.Tile;
 import static model.Direction.*;
 import model.Game;
@@ -18,7 +18,7 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 
-public class MainWindow extends JFrame implements ObserverBoard, ObserverPlayer, ObserverGame {
+public class MainWindow extends JFrame implements BoardObserver, PlayerObserver, GameObserver {
 
     public  MainWindow(MainController ctrl, Game game) { // mettre un controleur et une game en parametre
         SwingUtilities.invokeLater(() -> {
@@ -60,7 +60,7 @@ public class MainWindow extends JFrame implements ObserverBoard, ObserverPlayer,
 
             BufferedImage tileImage = null; // Remplacez par votre chemin
             try {
-                tileImage = ImageIO.read(new File("..\\img\\exempleTuiles\\tuile_angle.png"));
+                tileImage = ImageIO.read(new File("C:\\Users\\natha\\Labyrinthe\\a31-labyrinthe\\img\\ExempleTuiles\\tuile_angle.png"));
             } catch (IOException e) {
                 throw new RuntimeException(e);
             }

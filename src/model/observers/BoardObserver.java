@@ -3,7 +3,7 @@ package model.observers;
 import model.Direction;
 import model.tuiles.Tile;
 
-public interface ObserverBoard {
+public interface BoardObserver {
     /**
      * Est appelé quand une ligne ou rangée de tuile est modifiée
      * @param dir : Direction du changement (EST/OUEST pour ligne, NORD/SUD pour colonne)

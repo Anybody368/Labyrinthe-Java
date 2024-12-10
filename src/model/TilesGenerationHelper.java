@@ -1,9 +1,13 @@
 package model;
 
+import helpers.ImageHelper;
 import model.tuiles.Shape;
 import model.tuiles.Tile;
 
-import java.awt.*;
+import javax.imageio.ImageIO;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 
@@ -12,37 +16,7 @@ import static model.Game.BOARD_SIZE;
 import static model.tuiles.TileFactory.*;
 
 // Compilation de méthodes statiques utiles pour la génération du tableau 2D des tuiles, ainsi que les joueurs
-public class FacadeGeneration {
-
-    private static Tile m_tileRabStockee = null;
-
-    /**
-     * Initialise le tableau de joueurs avec des nouveaux joueurs avec une liste de trésors fixe
-     */
-    public static Player[] createGamePlayers()
-    {
-        ArrayList<Treasure> treasures = Treasure.getRandomTreasureList();
-        Player[] players = new Player[4];
-        players[0] = new Player("J1", Color.RED, 0, 0, new ArrayList<>(treasures.subList(0, 6)));
-        players[1] = new Player("J2", Color.YELLOW, 0, BOARD_SIZE -1, new ArrayList<>(treasures.subList(6, 12)));
-        players[2] = new Player("J3", Color.BLUE, BOARD_SIZE -1, 0, new ArrayList<>(treasures.subList(12, 18)));
-        players[3] = new Player("J4", Color.GREEN, BOARD_SIZE -1, BOARD_SIZE -1, new ArrayList<>(treasures.subList(18, 24)));
-        return players;
-    }
-
-    /**
-     * Créé le tableau 2D contenant toutes les tuiles du tableau, et initialise la tuile en rab en passant
-     * @return tableau 2D contenant 7*7 tuiles dans notre cas
-     */
-    public static Tile[][] generateTiles(Player[] players)
-    {
-        ArrayList<Treasure> treasures = Treasure.getRandomTreasureList();
-        ArrayList<Tile> tuilesFixes = generateFixedTiles(players, treasures);
-        ArrayList<Tile> tuilesAmov = generateMovableTiles(treasures);
-
-        m_tileRabStockee = tuilesAmov.removeLast();
-        return generateTilesTable(tuilesFixes, tuilesAmov);
-    }
+public class TilesGenerationHelper {
 
     /**
      * Créé la liste des tuiles fixes du jeu, de bas en haut et de droite à gauche pour pouvoir lire séquentiellement par la suite
@@ -50,7 +24,7 @@ public class FacadeGeneration {
      * @param treasures : Liste des trésors de la partie (les trésors ajoutés aux cases seront supprimés de la liste pour éviter les doublons)
      * @return : Liste de tuiles ordonnées pour être ajoutées au plateau avec des "removeLast" successifs
      */
-    private static ArrayList<Tile> generateFixedTiles(Player[] players, ArrayList<Treasure> treasures)
+    public static ArrayList<Tile> generateFixedTiles(Player[] players, ArrayList<Treasure> treasures)
     {
         ArrayList<Tile> tuilesFixes = new ArrayList<>(16);
         tuilesFixes.add(makeTileBase(WEST, Shape.L, players[3]));
@@ -78,7 +52,7 @@ public class FacadeGeneration {
      * @param treasures : Liste des trésors restants après avoir généré les tuiles fixes (normalement, la liste devrait être vide à la fin de la fonction)
      * @return : Liste des tuiles amovibles dans un ordre et une orientation aléatoire
      */
-    private static ArrayList<Tile> generateMovableTiles(ArrayList<Treasure> treasures)
+    public static ArrayList<Tile> generateMovableTiles(ArrayList<Treasure> treasures)
     {
         ArrayList<Tile> tuilesAmov = new ArrayList<>(33);
 
@@ -110,7 +84,7 @@ public class FacadeGeneration {
      * @param amovibles : Liste des tuiles amovibles (Reste la tuile rab à la fin de la fonction)
      * @return Tableau 2D prêt à être utilisé pour le plateau
      */
-    private static Tile[][] generateTilesTable(ArrayList<Tile> fixes, ArrayList<Tile> amovibles)
+    public static Tile[][] generateTilesTable(ArrayList<Tile> fixes, ArrayList<Tile> amovibles)
     {
         Tile[][] tableau = new Tile[BOARD_SIZE][BOARD_SIZE];
         for (int i = 0; i < 3; i++)
@@ -153,10 +127,5 @@ public class FacadeGeneration {
         }
         colonne[BOARD_SIZE -1] = fixes.removeLast();
         return colonne;
-    }
-
-    public static Tile getExtraTile()
-    {
-        return m_tileRabStockee;
     }
 }

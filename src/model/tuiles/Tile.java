@@ -68,6 +68,8 @@ public abstract class Tile {
         return m_orientation;
     }
 
+    public abstract String getPathExtra();
+
     /**
      * Une fois qu'un joueur est arrêté sur cette case, on fait l'action associée en fonction du type de Tuile
      */

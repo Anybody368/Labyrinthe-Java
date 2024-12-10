@@ -1,6 +1,6 @@
 package model;
 
-import model.observers.ObserverPlayer;
+import model.observers.PlayerObserver;
 
 import java.awt.*;
 import java.util.ArrayList;
@@ -10,25 +10,22 @@ import static model.Game.BOARD_SIZE;
 public class Player {
 
 private final String m_name;
-private final Color m_colour;
 private int m_x;
 private int m_y;
 private final ArrayList<Treasure> m_objectives;
 private final ArrayList<Treasure> m_done;
-private final ArrayList<ObserverPlayer> m_observers = new ArrayList<>();
+private final ArrayList<PlayerObserver> m_observers = new ArrayList<>();
 
     /**
      * Constructeur d'un joueur
      * @param nom : Nom du joueur
-     * @param couleur : Couleur du joueur (pour affichage)
      * @param x : Index de la colonne sur laquelle se trouve le joueur, entre 0 et TAILLE-1
      * @param y : Index de la ligne sur laquelle se trouve le joueur, entre 0 et TAILLE-1
      * @param objectifs : Liste des trésors que devra trouver le joueur pour gagner
      */
-    public Player(String nom, Color couleur, int x, int y, ArrayList<Treasure> objectifs) {
+    public Player(String nom, int x, int y, ArrayList<Treasure> objectifs) {
 
         m_name = nom;
-        m_colour = couleur;
         m_x = x;
         m_y = y;
         m_objectives = objectifs;
@@ -39,7 +36,7 @@ private final ArrayList<ObserverPlayer> m_observers = new ArrayList<>();
      * Ajout d'une instance qui pourra observer les changements du Joueur
      * @param observer : instance qui doit observer le Joueur
      */
-    public void addObserver(ObserverPlayer observer)
+    public void addObserver(PlayerObserver observer)
     {
         m_observers.add(observer);
     }
@@ -78,7 +75,7 @@ private final ArrayList<ObserverPlayer> m_observers = new ArrayList<>();
      * Permet de modifier les coordonnées du joueur de 1 dans la dir donnée, en bouclant pour ne pas sortir des limites du tableau
      * @param dir : Direction dans laquelle le joueur se déplace
      */
-    public void moving(Direction dir){
+    public void move(Direction dir){
 
         //Peut être simplifié si tout se passe comme prévu avant
         switch (dir)
@@ -129,7 +126,7 @@ private final ArrayList<ObserverPlayer> m_observers = new ArrayList<>();
      * À appeler quand la position du joueur change pour prévenir les observeurs
      */
     private void notifyPosition(){
-        for(ObserverPlayer obs : m_observers)
+        for(PlayerObserver obs : m_observers)
         {
             obs.updatePosition(m_name, m_x, m_y);
         }
@@ -139,7 +136,7 @@ private final ArrayList<ObserverPlayer> m_observers = new ArrayList<>();
      * À appeler quand le joueur trouve son trésor pour prévenir les observeurs du suivant
      */
     private void notifyFoundTreasure(){
-        for(ObserverPlayer obs : m_observers)
+        for(PlayerObserver obs : m_observers)
         {
             obs.updateTreasure(m_name, getObjective(), m_objectives.size());
         }
@@ -149,7 +146,7 @@ private final ArrayList<ObserverPlayer> m_observers = new ArrayList<>();
      * À appeler quand le joueur gagne pour prévenir les observeurs
      */
     private void notifyVictory(){
-        for(ObserverPlayer obs : m_observers)
+        for(PlayerObserver obs : m_observers)
         {
             obs.updateVictory(m_name);
         }
@@ -157,7 +154,7 @@ private final ArrayList<ObserverPlayer> m_observers = new ArrayList<>();
 
     @Override
     public String toString() {
-        return ("Joueur " + m_name + " en " + m_colour.toString() + ", tuile [" + m_x + ", " + m_y +
+        return ("Joueur " + m_name + ", tuile [" + m_x + ", " + m_y +
                 "]\nObjectif actuel : " + getObjective().getName() + "\nNombre de trésors restants : " + m_objectives.size());
     }
 }
