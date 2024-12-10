@@ -86,9 +86,9 @@ public class ImageHelper {
 		String sep = File.separator;
 		String tilePath = switch (tile.getShape())
 		{
-			case L -> "img"+sep+"ExempleTuiles"+sep+"tuile_angle.png";
-			case T -> "img"+sep+"ExempleTuiles"+sep+"tuile_T.png";
-			case I -> "img"+sep+"ExempleTuiles"+sep+"tuile_line.png";
+			case L -> "Img"+sep+"ExempleTuiles"+sep+"tuile_angle.png";
+			case T -> "Img"+sep+"ExempleTuiles"+sep+"tuile_T.png";
+			case I -> "Img"+sep+"ExempleTuiles"+sep+"tuile_line.png";
 		};
 
 		int nbRotations = switch (tile.getOrientation())

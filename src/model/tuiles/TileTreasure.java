@@ -19,7 +19,7 @@ public class TileTreasure extends Tile {
     @Override
     public String getPathExtra() {
         String sep = File.separator;
-        return "img"+sep+"IconeTresors"+sep+m_treasure.getName()+".png";
+        return "Img"+sep+"IconeTresors"+sep+m_treasure.getName()+".png";
     }
 
     @Override
