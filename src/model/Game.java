@@ -127,6 +127,16 @@ public class Game {
         return m_extraTile;
     }
 
+    public Tile getBoardTile(int x, int y)
+    {
+        return m_board.getTile(x, y);
+    }
+
+    public Player[] getAllPlayers()
+    {
+        return m_board.getAllPlayers();
+    }
+
     @Override
     public String toString() {
 
