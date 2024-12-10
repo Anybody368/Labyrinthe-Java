@@ -1,6 +1,7 @@
 package view;
 
 import controller.MainController;
+import helpers.ImageHelper;
 import model.Direction;
 import model.Treasure;
 import model.observers.BoardObserver;
@@ -58,12 +59,7 @@ public class MainWindow extends JFrame implements BoardObserver, PlayerObserver,
 
         // Chargement de l'image
 
-            BufferedImage tileImage = null; // Remplacez par votre chemin
-            try {
-                tileImage = ImageIO.read(new File("C:\\Users\\natha\\Labyrinthe\\a31-labyrinthe\\img\\ExempleTuiles\\tuile_angle.png"));
-            } catch (IOException e) {
-                throw new RuntimeException(e);
-            }
+            BufferedImage tileImage = ImageHelper.getTileImage(game.getExtraTile());
             spareTilePanel.setImage(tileImage);
             rightPanel.add(spareTilePanel);
             rightPanel.add(Box.createRigidArea(new Dimension(0, 20))); // Espace vertical
