@@ -60,7 +60,7 @@ public class MainWindow extends JFrame implements ObserverBoard, ObserverPlayer,
 
             BufferedImage tileImage = null; // Remplacez par votre chemin
             try {
-                tileImage = ImageIO.read(new File("C:\\Users\\natha\\Labyrinthe\\a31-labyrinthe\\img\\exempleTuiles\\tuile_angle.png"));
+                tileImage = ImageIO.read(new File("..\\img\\exempleTuiles\\tuile_angle.png"));
             } catch (IOException e) {
                 throw new RuntimeException(e);
             }

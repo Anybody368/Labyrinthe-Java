@@ -18,7 +18,6 @@ public class Boardpanel extends JPanel {
 
                     JButton bouton = new JButton("↑");
                     bouton.addActionListener(actionEvent -> {
-
                     });
                     borderedPanel.add(bouton);// Boutons du bas
 
