@@ -1,32 +1,15 @@
 package view;
 
 import controller.MainController;
-import helpers.ImageHelper;
-import model.Direction;
-import model.Treasure;
-import model.observers.BoardObserver;
-import model.observers.GameObserver;
-import model.observers.PlayerObserver;
-import model.tuiles.Tile;
-import static model.Direction.*;
 import model.Game;
-import static helpers.ImageHelper.*;
 
-import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
-import java.awt.image.BufferedImage;
-import java.io.File;
-import java.io.IOException;
 
-public class MainWindow extends JFrame implements BoardObserver, PlayerObserver, GameObserver {
+public class MainWindow extends JFrame{
 
     public  MainWindow(MainController ctrl, Game game) { // mettre un controleur et une game en parametre
         SwingUtilities.invokeLater(() -> {
-            // ajout des observers
-            game.addObserver(this);
-            game.addPlayersObserver(this);
-            game.addBoardObserver(this);
             //La Frame parent
             JFrame frame = new JFrame("Labyrinthe");
             frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -50,36 +33,5 @@ public class MainWindow extends JFrame implements BoardObserver, PlayerObserver,
             frame.add(mainPanel);
             frame.setVisible(true);
         });
-    }
-
-
-    @Override
-    public void updateTilesArrangement(Direction dir, int index, Tile[] tiles) {
-
-    }
-
-    @Override
-    public void updateTurn(int turn) {
-
-    }
-
-    @Override
-    public void updateTile(Tile tile) {
-
-    }
-
-    @Override
-    public void updatePosition(String name, int x, int y) {
-
-    }
-
-    @Override
-    public void updateTreasure(String name, Treasure treasure, int tRemaining) {
-
-    }
-
-    @Override
-    public void updateVictory(String name) {
-
     }
 }
