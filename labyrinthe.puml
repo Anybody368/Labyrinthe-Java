@@ -134,30 +134,30 @@ package model
 
     enum Treasure
     {
-        COFFRE
-        CHOUETTE
-        FANTOME
-        BAGUE
-        CHANDELIER
-        LEZARD
-        EPEE
-        CAUVE_SOURIS
-        RAT
-        CARTE
-        PRINCESSE
-        DRAGON
-        CRANE
-        CLES
-        GNOME
-        COURONNE
-        SCARABE
-        SAC
-        LIVRE
-        COLLIER
-        ARRAIGNEE
-        DIAMANT
-        ARMURE
-        PAPILLON
+        CANNON
+        OWL
+        POTION
+        RING
+        CANDLESTICK
+        LIZARD
+        DAGGER
+        BAT
+        MOUSE
+        TREASURE
+        MERMAID
+        HOLYGRAIL
+        BOMB
+        KEYS
+        COINS
+        CROWN
+        BUG
+        PONY
+        BOOK
+        KNIGHTHELMET
+        CAT
+        DIAMOND
+        ARMOR
+        BUTTERFLY
 
         - <<create>> Treasure(nom : String)
         - m_name
