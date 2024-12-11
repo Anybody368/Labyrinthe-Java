@@ -79,6 +79,14 @@ public class Boardpanel extends JPanel implements BoardObserver {
         this.add(borderedPanel, BorderLayout.CENTER);
     }
 
+    protected void activateButtons(boolean bool)
+    {
+        for(JButton button : buttons)
+        {
+            button.setEnabled(bool);
+        }
+    }
+
     /**
      * @param dir   : Direction du changement (EST/OUEST pour ligne, NORD/SUD pour colonne)
      * @param index : Index de la ligne/colonne
@@ -97,6 +105,9 @@ public class Boardpanel extends JPanel implements BoardObserver {
                     imgPanels.get(index * 7 + i).setImage(ImageHelper.getTileImage(tiles[i]));
                 }
             }
+
+            // à remettre à la fin quand tout marche
+            //activateButtons(false);
         });
     }
 }

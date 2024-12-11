@@ -3,6 +3,8 @@ package view;
 import controller.MainController;
 import helpers.ImageHelper;
 import model.Game;
+import model.observers.GameObserver;
+import model.tuiles.Tile;
 
 import javax.swing.*;
 import java.awt.*;
@@ -11,9 +13,12 @@ import java.awt.image.BufferedImage;
 import static helpers.ImageHelper.rotateClockwise;
 import static model.Direction.*;
 
-public class ControlPanel extends JPanel {
+public class ControlPanel extends JPanel implements GameObserver {
+    private final ImagePanel extraTile;
 
     public ControlPanel(MainController ctrl, Game game) {
+        game.addObserver(this);
+
         // Configuration du panneau principal
         this.setLayout(new BorderLayout());
 
@@ -31,6 +36,7 @@ public class ControlPanel extends JPanel {
 
         // Création du panneau d'image
         ImagePanel spareTilePanel = new ImagePanel();
+        extraTile = spareTilePanel;
         spareTilePanel.setPreferredSize(new Dimension(100, 100));
         spareTilePanel.setBorder(BorderFactory.createLineBorder(Color.DARK_GRAY)); // Bordure
 
@@ -81,8 +87,6 @@ public class ControlPanel extends JPanel {
         rightPanel.add(rotateButton);
         rotateButton.addActionListener(actionEvent -> {
             ctrl.rotateTile();
-            BufferedImage img = spareTilePanel.image;
-            spareTilePanel.setImage(rotateClockwise(img));
         });
 
         rightPanel.add(Box.createRigidArea(new Dimension(0, 10))); // Espace vertical
@@ -94,5 +98,21 @@ public class ControlPanel extends JPanel {
 
         // Ajout de `rightPanel` au panneau principal
         this.add(rightPanel, BorderLayout.CENTER);
+    }
+
+    /**
+     * @param turn : numéro de tour
+     */
+    @Override
+    public void updateTurn(int turn) {
+
+    }
+
+    /**
+     * @param tile : Nouvelle tuile en rab
+     */
+    @Override
+    public void updateTile(Tile tile) {
+        SwingUtilities.invokeLater(() -> extraTile.setImage(ImageHelper.getTileImage(tile)));
     }
 }
