@@ -37,7 +37,7 @@ public class MainWindow extends JFrame implements BoardObserver, PlayerObserver,
 
             // ==================== Partie Gauche : Plateau ====================
 
-            Boardpanel boardpanel = new Boardpanel(game);
+            Boardpanel boardpanel = new Boardpanel(game, ctrl);
 
             // ==================== Partie Droite : Interface utilisateur ====================
 

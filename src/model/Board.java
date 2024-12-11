@@ -203,7 +203,7 @@ public class Board {
     {
         for(BoardObserver observer : m_observers)
         {
-            if(dir == EAST || dir == WEST) {
+            if(dir == NORTH || dir == SOUTH) {
                 observer.updateTilesArrangement(dir, index, m_tiles[index]);
             }
             else
