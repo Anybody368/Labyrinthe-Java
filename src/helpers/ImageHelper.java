@@ -122,7 +122,6 @@ public class ImageHelper {
 
 	public static BufferedImage getTileImage(Tile tile, String playerName)
 	{
-		System.out.println("Méthode appelée");
 		String sep = File.separator;
 		String tilePath = switch (tile.getShape())
 		{

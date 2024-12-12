@@ -5,11 +5,14 @@ import model.Treasure;
 public interface PlayerObserver {
     /**
      * Est appelé quand le joueur change de position
-     * @param name : Nom du joueur
-     * @param x : Colonne du joueur
-     * @param y : Ligne du joueur
+     *
+     * @param name  : Nom du joueur
+     * @param x     : Colonne du joueur
+     * @param y     : Ligne du joueur
+     * @param old_x
+     * @param old_y
      */
-    void updatePosition(String name, int x, int y);
+    void updatePosition(String name, int x, int y, int old_x, int old_y);
 
     /**
      * Est appelé quand un joueur trouve son trésor

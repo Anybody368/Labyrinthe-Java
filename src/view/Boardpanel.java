@@ -140,13 +140,16 @@ public class Boardpanel extends JPanel implements BoardObserver, GameObserver, P
     }
 
     /**
-     * @param name : Nom du joueur
-     * @param x    : Colonne du joueur
-     * @param y    : Ligne du joueur
+     * @param name  : Nom du joueur
+     * @param x     : Colonne du joueur
+     * @param y     : Ligne du joueur
+     * @param old_x
+     * @param old_y
      */
     @Override
-    public void updatePosition(String name, int x, int y) {
+    public void updatePosition(String name, int x, int y, int old_x, int old_y) {
         getTilePanel(x, y).setImage(ImageHelper.getTileImage(m_game.getBoardTile(x, y), name));
+        getTilePanel(old_x, old_y).setImage(ImageHelper.getTileImage(m_game.getBoardTile(old_x, old_y)));
     }
 
     /**

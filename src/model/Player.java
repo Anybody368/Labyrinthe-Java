@@ -2,7 +2,6 @@ package model;
 
 import model.observers.PlayerObserver;
 
-import java.awt.*;
 import java.util.ArrayList;
 
 import static model.Game.BOARD_SIZE;
@@ -77,7 +76,8 @@ private final ArrayList<PlayerObserver> m_observers = new ArrayList<>();
      */
     public void move(Direction dir){
 
-        //Peut être simplifié si tout se passe comme prévu avant
+        int old_x = m_x;
+        int old_y = m_y;
         switch (dir)
         {
             case NORTH -> m_y = (m_y+ BOARD_SIZE -1)% BOARD_SIZE;
@@ -85,7 +85,7 @@ private final ArrayList<PlayerObserver> m_observers = new ArrayList<>();
             case WEST -> m_x = (m_x+ BOARD_SIZE -1)% BOARD_SIZE;
             case EAST -> m_x = (m_x+1)% BOARD_SIZE;
         }
-        notifyPosition();
+        notifyPosition(old_x, old_y);
     }
 
     /**
@@ -125,10 +125,11 @@ private final ArrayList<PlayerObserver> m_observers = new ArrayList<>();
     /**
      * À appeler quand la position du joueur change pour prévenir les observeurs
      */
-    private void notifyPosition(){
+    private void notifyPosition(int old_x, int old_y){
         for(PlayerObserver obs : m_observers)
         {
-            obs.updatePosition(m_name, m_x, m_y);
+            System.out.println(m_x + " " + m_y);
+            obs.updatePosition(m_name, m_x, m_y, old_x, old_y);
         }
     }
 
