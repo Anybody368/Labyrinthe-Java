@@ -16,6 +16,7 @@ public class Game {
     private Player m_currentPlayer;
     private Tile m_extraTile;
     private final ArrayList<GameObserver> m_observers = new ArrayList<>();
+    private boolean m_playerCanMove;
 
     /**
      * Ajout d'une instance qui pourra observer les changements de la Partie
@@ -46,6 +47,7 @@ public class Game {
         m_board = new Board(players);
         m_extraTile = m_board.generateTilesAndBoard();
         m_currentPlayer = m_board.getNextPlayer(null);
+        m_playerCanMove = false;
     }
 
     private Player[] createGamePlayers()
@@ -69,19 +71,26 @@ public class Game {
 
     public void placeTile(Direction dir, int index)
     {
-        if(index%2 == 0)
+        if(index%2 == 0 || m_playerCanMove)
         {
             return;
         }
 
         m_extraTile = m_board.placeTile(m_extraTile, dir, index);
+        m_playerCanMove = true;
         notifyTile();
+        notifyCanPlayerMove();
     }
 
     /**
      * Méthode à appeler pour que le joueur en cours essaie de se déplacer dans une direction donnée
      */
     public void movePlayer(Direction dir){
+        if(!m_playerCanMove)
+        {
+            return;
+        }
+
         int[] position = m_currentPlayer.getPosition();
         if(m_board.isPlayerMovePossible(position[0], position[1], dir))
         {
@@ -97,6 +106,8 @@ public class Game {
         m_board.endTurn(m_currentPlayer);
         m_turn++;
         notifyTurn();
+        m_playerCanMove = false;
+        notifyCanPlayerMove();
         m_currentPlayer = m_board.getNextPlayer(m_currentPlayer);
     }
 
@@ -119,6 +130,14 @@ public class Game {
         for(GameObserver obs : m_observers)
         {
             obs.updateTile(m_extraTile);
+        }
+    }
+
+    public void notifyCanPlayerMove()
+    {
+        for(GameObserver obs : m_observers)
+        {
+            obs.updateCanPlayerMove(m_playerCanMove);
         }
     }
 
