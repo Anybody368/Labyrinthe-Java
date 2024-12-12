@@ -5,6 +5,7 @@ import helpers.ImageHelper;
 import model.Direction;
 import model.Game;
 import model.observers.BoardObserver;
+import model.observers.GameObserver;
 import model.tuiles.Tile;
 
 import javax.swing.*;
@@ -14,13 +15,15 @@ import java.util.ArrayList;
 
 import static helpers.ImageHelper.rotateClockwise;
 
-public class Boardpanel extends JPanel implements BoardObserver {
+public class Boardpanel extends JPanel implements BoardObserver, GameObserver {
     private final ArrayList<JButton> buttons = new ArrayList<>();
     private final ArrayList<ImagePanel> imgPanels = new ArrayList<>();
 
     public Boardpanel(Game game, MainController ctrl) {
 
         game.addBoardObserver(this);
+        game.addObserver(this);
+
         // Création du panneau bordé
         JPanel borderedPanel = new JPanel(new GridLayout(9, 9)); // Plateau avec boutons autour
 
@@ -79,14 +82,6 @@ public class Boardpanel extends JPanel implements BoardObserver {
         this.add(borderedPanel, BorderLayout.CENTER);
     }
 
-    protected void activateButtons(boolean bool)
-    {
-        for(JButton button : buttons)
-        {
-            button.setEnabled(bool);
-        }
-    }
-
     /**
      * @param dir   : Direction du changement (EST/OUEST pour ligne, NORD/SUD pour colonne)
      * @param index : Index de la ligne/colonne
@@ -109,5 +104,32 @@ public class Boardpanel extends JPanel implements BoardObserver {
             // à remettre à la fin quand tout marche
             //activateButtons(false);
         });
+    }
+
+    /**
+     * @param turn : numéro de tour
+     */
+    @Override
+    public void updateTurn(int turn) {
+        //on s'en fout
+    }
+
+    /**
+     * @param tile : Nouvelle tuile en rab
+     */
+    @Override
+    public void updateTile(Tile tile) {
+        //on s'en fout
+    }
+
+    /**
+     * @param bool
+     */
+    @Override
+    public void updateCanPlayerMove(boolean bool) {
+        for(JButton button : buttons)
+        {
+            button.setEnabled(!bool);
+        }
     }
 }
