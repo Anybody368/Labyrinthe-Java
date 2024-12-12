@@ -45,7 +45,15 @@ public class ControlPanel extends JPanel implements GameObserver {
         BufferedImage tileImage = ImageHelper.getTileImage(game.getExtraTile());
         spareTilePanel.setImage(tileImage);
         rightPanel.add(spareTilePanel);
+
         rightPanel.add(Box.createRigidArea(new Dimension(0, 20))); // Espace vertical
+
+        // Bouton "Rotate"
+        JButton rotateButton = new JButton("⟳ Rotation");
+        rotateButton.setAlignmentX(Component.CENTER_ALIGNMENT);
+        allButtons.add(rotateButton);// Centrer
+        rightPanel.add(rotateButton);
+        rotateButton.addActionListener(actionEvent -> ctrl.rotateTile());
 
         // Pavé directionnel (T inversé)
         JPanel directionPanel = new JPanel(new GridBagLayout());
@@ -90,21 +98,14 @@ public class ControlPanel extends JPanel implements GameObserver {
         rightPanel.add(directionPanel); // Ajouter le pavé directionnel
         rightPanel.add(Box.createRigidArea(new Dimension(0, 20))); // Espace vertical
 
-        // Bouton "Rotate"
-        JButton rotateButton = new JButton("⟳ Rotate");
-        rotateButton.setAlignmentX(Component.CENTER_ALIGNMENT);
-        allButtons.add(rotateButton);// Centrer
-        rightPanel.add(rotateButton);
-        rotateButton.addActionListener(actionEvent -> {
-            ctrl.rotateTile();
-        });
-
         rightPanel.add(Box.createRigidArea(new Dimension(0, 10))); // Espace vertical
 
-        // Bouton "Trésors"
-        JButton treasureButton = new JButton("🏆 Trésors");
-        treasureButton.setAlignmentX(Component.CENTER_ALIGNMENT); // Centrer
-        rightPanel.add(treasureButton);
+        // Bouton "Fin de tour"
+        JButton endTurnButton = new JButton("Fin du tour");
+        endTurnButton.setAlignmentX(Component.CENTER_ALIGNMENT);
+        endTurnButton.addActionListener(actionEvent -> ctrl.endTurn());
+        allButtons.add(endTurnButton);
+        rightPanel.add(endTurnButton);
 
         // Ajout de `rightPanel` au panneau principal
         this.add(rightPanel, BorderLayout.CENTER);
@@ -131,9 +132,9 @@ public class ControlPanel extends JPanel implements GameObserver {
      */
     @Override
     public void updateCanPlayerMove(boolean bool) {
-        for(int i = 0; i < 4; i++)
+        for(JButton button : allButtons)
         {
-            allButtons.get(i).setEnabled(bool);
+            button.setEnabled(bool);
         }
     }
 }
