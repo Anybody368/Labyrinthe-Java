@@ -122,6 +122,7 @@ public class ImageHelper {
 
 	public static BufferedImage getTileImage(Tile tile, String playerName)
 	{
+		System.out.println("Méthode appelée");
 		String sep = File.separator;
 		String tilePath = switch (tile.getShape())
 		{
@@ -145,9 +146,9 @@ public class ImageHelper {
 		BufferedImage image;
 		try {
 			if (bonusPath.isEmpty()) {
-				image = ImageIO.read(new File(tilePath));
+				image = ImageHelper.merge(tilePath, playerPath);
 			} else {
-				image = ImageHelper.merge(tilePath, bonusPath, playerPath);
+				image = ImageHelper.merge(tilePath, playerPath, bonusPath);
 			}
 		} catch (IOException e) {
 			System.out.println(e.getMessage());

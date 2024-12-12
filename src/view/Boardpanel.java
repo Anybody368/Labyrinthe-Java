@@ -4,8 +4,10 @@ import controller.MainController;
 import helpers.ImageHelper;
 import model.Direction;
 import model.Game;
+import model.Treasure;
 import model.observers.BoardObserver;
 import model.observers.GameObserver;
+import model.observers.PlayerObserver;
 import model.tuiles.Tile;
 
 import javax.swing.*;
@@ -13,16 +15,17 @@ import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 
-import static helpers.ImageHelper.rotateClockwise;
-
-public class Boardpanel extends JPanel implements BoardObserver, GameObserver {
+public class Boardpanel extends JPanel implements BoardObserver, GameObserver, PlayerObserver {
     private final ArrayList<JButton> buttons = new ArrayList<>();
     private final ArrayList<ImagePanel> imgPanels = new ArrayList<>();
+    private final Game m_game;
 
     public Boardpanel(Game game, MainController ctrl) {
 
-        game.addBoardObserver(this);
-        game.addObserver(this);
+        m_game = game;
+        m_game.addBoardObserver(this);
+        m_game.addObserver(this);
+        m_game.addPlayersObserver(this);
 
         // Création du panneau bordé
         JPanel borderedPanel = new JPanel(new GridLayout(9, 9)); // Plateau avec boutons autour
@@ -82,6 +85,11 @@ public class Boardpanel extends JPanel implements BoardObserver, GameObserver {
         this.add(borderedPanel, BorderLayout.CENTER);
     }
 
+    private ImagePanel getTilePanel(int x, int y)
+    {
+        return imgPanels.get(x + 7*y);
+    }
+
     /**
      * @param dir   : Direction du changement (EST/OUEST pour ligne, NORD/SUD pour colonne)
      * @param index : Index de la ligne/colonne
@@ -93,24 +101,22 @@ public class Boardpanel extends JPanel implements BoardObserver, GameObserver {
         SwingUtilities.invokeLater(() -> {
             if (dir == Direction.NORTH || dir == Direction.SOUTH) {
                 for (int i = 0; i < 7; i++) {
-                    imgPanels.get(index + i * 7).setImage(ImageHelper.getTileImage(tiles[i]));
+                    getTilePanel(index, i).setImage(ImageHelper.getTileImage(tiles[i]));
                 }
             } else {
                 for (int i = 0; i < 7; i++) {
-                    imgPanels.get(index * 7 + i).setImage(ImageHelper.getTileImage(tiles[i]));
+                    getTilePanel(i, index).setImage(ImageHelper.getTileImage(tiles[i]));
                 }
             }
-
-            // à remettre à la fin quand tout marche
-            //activateButtons(false);
         });
     }
 
     /**
      * @param turn : numéro de tour
+     * @param playerName
      */
     @Override
-    public void updateTurn(int turn) {
+    public void updateTurn(int turn, String playerName) {
         //on s'en fout
     }
 
@@ -131,5 +137,33 @@ public class Boardpanel extends JPanel implements BoardObserver, GameObserver {
         {
             button.setEnabled(!bool);
         }
+    }
+
+    /**
+     * @param name : Nom du joueur
+     * @param x    : Colonne du joueur
+     * @param y    : Ligne du joueur
+     */
+    @Override
+    public void updatePosition(String name, int x, int y) {
+        getTilePanel(x, y).setImage(ImageHelper.getTileImage(m_game.getBoardTile(x, y), name));
+    }
+
+    /**
+     * @param name                : Nom du joueur
+     * @param treasure            : Nouveau trésor cherché (null si plus aucun)
+     * @param nbTreasureRemaining : Nombre de trésors restants
+     */
+    @Override
+    public void updateTreasure(String name, Treasure treasure, int nbTreasureRemaining) {
+
+    }
+
+    /**
+     * @param name : Nom du joueur
+     */
+    @Override
+    public void updateVictory(String name) {
+
     }
 }

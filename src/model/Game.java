@@ -118,7 +118,7 @@ public class Game {
     {
         for(GameObserver obs : m_observers)
         {
-            obs.updateTurn(m_turn);
+            obs.updateTurn(m_turn, m_currentPlayer.getName());
         }
     }
 

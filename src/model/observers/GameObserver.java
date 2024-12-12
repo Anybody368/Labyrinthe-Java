@@ -5,9 +5,11 @@ import model.tuiles.Tile;
 public interface GameObserver {
     /**
      * Est appelé quand on passe au tour suivant
+     *
      * @param turn : numéro de tour
+     * @param playerName : Nom du joueur à qui c'est le tour
      */
-    void updateTurn(int turn);
+    void updateTurn(int turn, String playerName);
 
     /**
      * Est appelé quand la tuile en rab est modifiée ou échangée

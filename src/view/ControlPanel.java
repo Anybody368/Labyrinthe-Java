@@ -113,10 +113,11 @@ public class ControlPanel extends JPanel implements GameObserver {
     }
 
     /**
-     * @param turn : numéro de tour
+     * @param turn       : numéro de tour
+     * @param playerName
      */
     @Override
-    public void updateTurn(int turn) {
+    public void updateTurn(int turn, String playerName) {
 
     }
 
