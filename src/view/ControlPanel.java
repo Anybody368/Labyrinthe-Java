@@ -48,7 +48,7 @@ public class ControlPanel extends JPanel implements GameObserver {
 
         rightPanel.add(Box.createRigidArea(new Dimension(0, 20))); // Espace vertical
 
-        // Bouton "Rotate"
+        // Bouton "Rotation"
         JButton rotateButton = new JButton("⟳ Rotation");
         rotateButton.setAlignmentX(Component.CENTER_ALIGNMENT);
         allButtons.add(rotateButton);// Centrer
@@ -103,6 +103,7 @@ public class ControlPanel extends JPanel implements GameObserver {
         // Bouton "Fin de tour"
         JButton endTurnButton = new JButton("Fin du tour");
         endTurnButton.setAlignmentX(Component.CENTER_ALIGNMENT);
+        endTurnButton.setEnabled(false);
         endTurnButton.addActionListener(actionEvent -> ctrl.endTurn());
         allButtons.add(endTurnButton);
         rightPanel.add(endTurnButton);
@@ -128,13 +129,15 @@ public class ControlPanel extends JPanel implements GameObserver {
     }
 
     /**
-     * @param bool
+     * @param bool : Le joueur est-il dans sa phase de déplacement ?
      */
     @Override
     public void updateCanPlayerMove(boolean bool) {
-        for(JButton button : allButtons)
+
+        allButtons.getFirst().setEnabled(!bool);
+        for(int i = 1; i < allButtons.size(); i++)
         {
-            button.setEnabled(bool);
+            allButtons.get(i).setEnabled(bool);
         }
     }
 }

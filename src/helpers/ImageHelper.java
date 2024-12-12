@@ -119,4 +119,45 @@ public class ImageHelper {
 
 		return image;
 	}
+
+	public static BufferedImage getTileImage(Tile tile, String playerName)
+	{
+		String sep = File.separator;
+		String tilePath = switch (tile.getShape())
+		{
+			case L -> "Img"+sep+"ExempleTuiles"+sep+"tuile_angle.png";
+			case T -> "Img"+sep+"ExempleTuiles"+sep+"tuile_T.png";
+			case I -> "Img"+sep+"ExempleTuiles"+sep+"tuile_line.png";
+		};
+
+		String playerPath = "Img"+sep+"ImgPion"+sep+playerName+".png";
+
+		int nbRotations = switch (tile.getOrientation())
+		{
+			case NORTH -> 0;
+			case EAST -> 1;
+			case SOUTH -> 2;
+			case WEST -> 3;
+		};
+
+		String bonusPath = tile.getPathExtra();
+
+		BufferedImage image;
+		try {
+			if (bonusPath.isEmpty()) {
+				image = ImageIO.read(new File(tilePath));
+			} else {
+				image = ImageHelper.merge(tilePath, bonusPath, playerPath);
+			}
+		} catch (IOException e) {
+			System.out.println(e.getMessage());
+			image = null;
+		}
+
+		for (int i = 0; i < nbRotations; i++) {
+			image = ImageHelper.rotateClockwise(image);
+		}
+
+		return image;
+	}
 }

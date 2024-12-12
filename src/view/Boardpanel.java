@@ -123,7 +123,7 @@ public class Boardpanel extends JPanel implements BoardObserver, GameObserver {
     }
 
     /**
-     * @param bool
+     * @param bool : Le joueur est-il dans sa phase de déplacement ?
      */
     @Override
     public void updateCanPlayerMove(boolean bool) {

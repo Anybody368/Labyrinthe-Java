@@ -17,7 +17,7 @@ public interface GameObserver {
 
     /**
      * Est appelé quand on change de phase de jeu (placement de tuile, ou déplacement) pour indiquer si le joueur peut se déplacer ou non
-     * @param bool
+     * @param bool : Le joueur est-il dans sa phase de déplacement ?
      */
     void updateCanPlayerMove(boolean bool);
 }
