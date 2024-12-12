@@ -103,13 +103,13 @@ public class Board {
 
         for(Player player : m_players)
         {
-            if((dir == EAST || dir == WEST) && player.getPosition()[0] == index)
+            if((dir == EAST || dir == WEST) && player.getPosition()[1] == index)
             {
-                player.move(dir);
+                player.move(dir.getOpposite());
             }
-            else if(player.getPosition()[1] == index)
+            else if(player.getPosition()[0] == index)
             {
-                player.move(dir);
+                player.move(dir.getOpposite());
             }
         }
 

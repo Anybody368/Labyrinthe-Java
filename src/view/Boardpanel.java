@@ -133,10 +133,11 @@ public class Boardpanel extends JPanel implements BoardObserver, GameObserver, P
      */
     @Override
     public void updateCanPlayerMove(boolean bool) {
-        for(JButton button : buttons)
-        {
-            button.setEnabled(!bool);
-        }
+        SwingUtilities.invokeLater(() -> {
+            for (JButton button : buttons) {
+                button.setEnabled(!bool);
+            }
+        });
     }
 
     /**
@@ -148,8 +149,10 @@ public class Boardpanel extends JPanel implements BoardObserver, GameObserver, P
      */
     @Override
     public void updatePosition(String name, int x, int y, int old_x, int old_y) {
-        getTilePanel(x, y).setImage(ImageHelper.getTileImage(m_game.getBoardTile(x, y), name));
-        getTilePanel(old_x, old_y).setImage(ImageHelper.getTileImage(m_game.getBoardTile(old_x, old_y)));
+        SwingUtilities.invokeLater(() -> {
+            getTilePanel(x, y).setImage(ImageHelper.getTileImage(m_game.getBoardTile(x, y), name));
+            getTilePanel(old_x, old_y).setImage(ImageHelper.getTileImage(m_game.getBoardTile(old_x, old_y)));
+        });
     }
 
     /**
