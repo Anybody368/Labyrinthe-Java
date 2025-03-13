@@ -1,163 +1,36 @@
-A31 - Projet "Labyrinthe"
-=========================
+# Projet "Labyrinthe"
 
 ![](Img/labyrinthe.jpg)![](Img/labyrinthe2.jpg)
 
-À vous de développer une application multi-players du jeu de société Labyrinthe !
+Application multi-joueur permettant de jouer au jeu de société du Labyrinthe, programmé en Java
 
-Consignes générales
--------------------
+## Technologies
 
-### Pour démarrer avec le dépôt Git
+- Java avec OpenJDK 23
+- Java Swing pour l'interface graphique
+- PUML pour un diagramme de classes de l'application
 
-1. **Créez un groupe `nom1-nom2`** où nom1 et nom2 sont les noms de famille des deux membres du binôme.
-1. **Forkez** le dépôt <https://git.unistra.fr/a313/a31-labyrinthe> dans le groupe créé ci-dessus.
-1. Ajoutez le responsable du module ET votre ou vos enseignant de TD/TP comme **Reporter** de votre dépôt
+## Installation
+### Pré-requis
+- Avoir OpenJDK 21 ou 23 (17 pourrait peut-être marcher aussi)
 
-### Pour toute la durée du projet
+### Téléchargement et compilation
+``` Bash
+# Copie du répertoire dans votre espace courant
+git clone git@gitlab.unistra.fr:chanal-bowman/a31-labyrinthe
+cd a31-labyrinthe
+# Compilation
+javac -d out -sourcepath src src/Main.java src/**/*.java
+```
 
-- Ce projet est à réaliser **en binôme**.
-- Vous devez concevoir avec UML et implémenter en Java le jeu de société Labyrinthe, en respectant une **architecture MVC** et en proposant une **interface graphique en Swing**.
-- Vous devez respecter les **principes de conception** et mettre en œuvre les **patrons de conception** vus en cours, **lorsque cela est pertinent**. Attention, il ne s'agit pas d'essayer d'utiliser tous les patrons de conception vus en cours !
-- Il est possible que vous soyez amenés à **renoncer à une partie du développement par manque de temps**. Dans ce cas, le rapport final est l’endroit où le signaler ("il aurait fallu faire *ceci* mais nous n’avions pas assez de temps et avons préféré nous concentrer sur *cela* parce que ...").
-- Votre dépôt devra être **mis à jour au minimum une fois par semaine** de façon à ce que nous puissions évaluer votre progression sur toute la durée du projet.
+## Utilisation
+### Lancement de l'application
+``` Bash
+# Lancement du programme (dans le même répertoire que la compilation)
+java -cp out Main
+```
 
-Les règles du jeu
------------------
+### Déroulement de la partie
+Vous devez commencer par placer la tuile en haut à droite de l'interface sur le plateau à la position de votre choix. Vous pouvez ensuite vous déplacer librement sur le plateau pour essayer de vous rapprocher de votre objectif, avant de finir votre tour.
 
-Elles sont disponibles :
-
-- en version textuelle : [https://www.regledujeu.fr/labyrinthe/](https://www.regledujeu.fr/labyrinthe/).
-- en vidéo avec Ludochrono : [https://www.youtube.com/watch?v=pGzenrQnJ9g](https://www.youtube.com/watch?v=pGzenrQnJ9g).
-
-Côté matériel, le jeu de société comporte **50 tiles** de 3 sortes :
-
-- 20 angles dont 4 sont fixes et 16 sont déplaçables,
-- 12 sections droites toutes déplaçables,
-- 18 en forme de "T" dont 12 sont fixes et 6 sont déplaçables.
-
-Il y a également **24 objectifs**.
-
-Nous nous limiterons à un nombre fixe de **4 players**.
-
-Les fonctionnalités
--------------------
-
-Vous devez modéliser et implémenter les fonctionalités ci-dessous.
-
-1 - La **génératon des tiles**
-
-- Niveau 1 : avec une orientation initiale fixe
-- Niveau 2 : avec une orientation initiale aléatoire
-
-2 - Le **génération du plateau** avec les tiles :
-
-- Niveau 1 : placées de façon fixe (toujours le même plateau de départ)
-- Niveau 2 : placées toutes de façon aléatoire
-- Niveau 3 : placées de façon fixe ou aléatoire comme dans le jeu de société
-
-3 - L'**ajout des objectifs** sur les tiles :
-
-- Niveau 1 : placés de façon fixe
-- Niveau 2 : placés de façon totalement aléatoire, 1 seul maximum par tile
-- Niveau 3 : placés de façon aléatoire mais pas sur les cases du départ des players
-
-4 - La **distribution des "cartes objectifs"** aux players :
-
-- Niveau 1 : de façon fixe
-- Niveau 2 : de façon aléatoire
-
-5 - Le **déplacement des pions case par case**
-
-6 - Le **déplacement d'une ligne ou colonne du plateau** par la tile supplémentaire :
-
-- Niveau 1 : Toutes les lignes et colonnes
-- Niveau 2 : Uniquement les lignes et colonnes impaires
-- Niveau 3 : En gérant le passage d'un player éjecté au côté opposé de la ligne/colonne actuelle
-- Niveau 4 : En interdisant le déplacement inverse du précédent
-
-7 - La **détection d'un objectif atteint** par un player et le passage à l'objectif suivant
-
-8 - La **détection de la fin du tour d'un player**
-
-9 - La **détection de la fin de partie** lorsqu'un player a trouvé tous ses objectifs et est revenu à sa position de départ
-
-> ***Conseil** : Faites la conception UML qui tient en compte tous les niveaux mais implémentez d'abord le jeu en entier avec tous les niveaux 1 avant d'implémenter les autres niveaux.*
-
-L'interface graphique
----------------------
-
-Votre application doit proposer 2 écrans :
-
-- un **écran principal** qui permet de jouer une partie
-- un **écran de fin de partie**
-
-### Écran principal
-
-L'écran principal doit afficher :
-
-- le plateau de 7 par 7 avec les 49 tiles, les 24 objectifs et les pions de chaque player
-- La tile supplémentaire actuelle
-- Pour chaque player :
-  - son objectif actuel
-  - le nombre d'objectifs déjà récupérés
-  - le nombre d'objectifs restants
-
-À son tour, **un player doit pouvoir réaliser les actions suivantes** :
-
-- Pousser une ligne ou colonne avec la tile supplémentaire
-- Se déplacer de case en case sur les tiles voisines où le déplacement est possible.
-
-Vous avez à votre disposition le fichier [`ImageHelper.java`](src/helpers/ImageHelper.java) pour manipuler les images, notamment :
-
-- combiner plusieurs images en une seule
-- appliquer une rotation de 90 degrés à une image
-
-***Bonus 1***
-
-À son tour, le player peut faire **tourner la tile supplémentaire** par pas de 90 degrés dans le sens horaire ou anti-horaire avant de l'utiliser pour pousser une ligne ou colonne.
-
-### Écran de fin de partie
-
-L'écran de fin de partie doit annoncer le vainqueur.
-
-***Bonus 2***
-
-L'écran de fin de partie propose de commencer une nouvelle partie : tout doit petre réinitialisé pour recommencer.
-
-Les rendus
-----------
-
-### 1er rendu
-
-Date limite : le dimanche **1/12 à 23h59**
-
-Documents :
-
-- le **diagramme de classes** UML
-  - le package `model` doit être décris en anticipant tout le développement
-  - les packages `controller` et `view` doivent proposer une version de base mais peuvent être incomplets
-- le **code source**
-- un **rapport** pour expliquer vos choix de conception
-
-Le rendu est à faire sur votre dépôt Git **sur une branche nommée `rendu1`**.
-
-### 2ème rendu
-
-Date limite : le dimanche **22/12 à 23h59**
-
-Documents :
-
-- le **diagramme de classes** UML qui doit :
-  - représenter l'intégralité de votre application
-  - être entièrement cohérent avec le code
-- le **code source**
-- un **mode d'emploi** nommé `INSTALL.md` à la racine de votre projet, qui explique comment compiler, installer et lancer votre application
-- un **rapport** pour présenter vos nouveaux choix de conception depuis le 1er rendu et expliquer les raisons des évolutions des choix de conception qui avaient été annoncés au 1er rendu.
-
-Le rendu est à faire sur votre dépôt Git **sur une branche nommé `rendu2`**.
-
-### Précisions
-
-- Vos diagrammes UML doivent être au format PlantUML,
-- À la fin du projet, votre dépôt devra contenir au minimum une branche `rendu1` et une branche `rendu2`. Ce seront les seules branches évaluées. Vous êtes libre de gérer le reste de votre dépôt comme vous le souhaitez.
+Une fois tous vos trésors récupérés, retournez sur votre case départ pour remporter la partie.
